@@ -269,6 +269,6 @@ systemctl enable nmbd.service
 echo ""
 
 echo "***************************************************************"
-echo "* Arch --> Installation Basic --> [Drivers] --> Xbmc --> Check "
+echo "* Arch --> Installation Basique --> [Xbmc] --> Drivers --> Check "
 echo "***************************************************************"
-sh _driver_install.sh
+sh archbox_2xbmc.sh
