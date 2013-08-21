@@ -198,6 +198,6 @@ echo -e "$white Installation :$green terminé !$nc tapez $white exit $nc "
 echo -e "$puis $white umount /mnt $nc et pour finir "
 echo -e "$white reboot $nc pour redémarrer :D"
 echo "***************************************************************"
-echo "* Arch --> Installation Basic --> Drivers --> Xbmc --> [Check] "
+echo "* Arch --> Installation Basic --> Xbmc --> [Drivers]  --> Check "
 echo "***************************************************************"
 sh _end_check.sh
