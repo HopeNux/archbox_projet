@@ -56,7 +56,3 @@ echo "* ALL drivers vidéos sans acceleration 3D"
 echo "*  pacman -Su --noconfirm xf86-video-vesa"
 echo "***************************************************************"
 echo ""
-echo "***************************************************************"
-echo "* Arch --> Installation Basic --> Drivers --> [Xbmc] --> Check "
-echo "***************************************************************"
-sh _xbmc_install.sh
