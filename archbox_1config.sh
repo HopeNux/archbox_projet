@@ -1,6 +1,6 @@
 #!/bin/sh
 echo "***************************************************************"
-echo "* Installation des programmes nÃ©cessaires aux"
+echo "* Installation des programmes nécessaires aux"
 echo "* bon fonctionnement d'ARCH"
 echo "***************************************************************"
 echo "* "
@@ -16,7 +16,7 @@ cp configuration/smb.conf /etc/samba/
 echo ""
 echo "***************************************************************"
 echo "* (1) -> Ajout d'un utilisateur 'touriste'" 
-echo "         pour le partage public rÃ©seau"
+echo "         pour le partage public réseau"
 useradd -m -g users -G audio,lp,optical,storage,video,wheel,games,power -s /bin/bash touriste
 echo "* (1.1) -> $white Ajout du mot de passe 'touriste'" 
 echo "         pour la connexion SSH :$nc"
@@ -85,11 +85,11 @@ echo -n "* Oui ? Non ? [Non] : "
 read REP
 case $REP in
 	"o"|"oui"|"O"|"Oui"|"OUI"|"y"|"yes"|"Y"|"Yes"|"YES")
-	echo "* Veuillez saisir l'adresse IP souhaitÃ©"
+	echo "* Veuillez saisir l'adresse IP souhaité"
 	read ip
 	echo "* Veuillez saisir l'adresse du masque de sous reseau"
 	read mask
-	echo "* Veuillez saisir l'adresse de la passerelle par dÃ©faut"
+	echo "* Veuillez saisir l'adresse de la passerelle par défaut"
     read gateway ;;
 	*)
 	echo ;;
@@ -155,7 +155,7 @@ touch /etc/vconsole.conf
 # Config /etc/localtime
 # ln -s /usr/share/zoneinfo/Europe/Paris /etc/localtime
 # echo "* /etc/localtime [OK]"
-# Configurez /etc/mkinitcpio.conf et crÃ©ez les ramdisk avec 
+# Configurez /etc/mkinitcpio.conf et créez les ramdisk avec 
 mkinitcpio -p linux
 echo "* mkinitcpio [OK]"
 echo ""
@@ -191,7 +191,7 @@ echo "***************************************************************"
 # sed -i 7i'Server = http://mir.archlinux.fr/$repo/os/$arch' /etc/pacman.d/mirrorlist
 # sed -i 8i"" /etc/pacman.d/mirrorlist
 echo ""
-# Ajout dÃ©pots
+# Ajout dépots
 #sed -i 's/^SyncFirst   = pacman/SyncFirst = pacman yaourt package-query pacman-color pyalpm namcap/' /etc/pacman.conf
 #sed -i 's/^#SigLevel = Optional TrustedOnly/SigLevel = Optional TrustedOnly/' /etc/pacman.conf
 #echo '[multilib]' >> /etc/pacman.conf
@@ -225,13 +225,13 @@ echo "* Outils de base (2) [OK]"
 pacman -Su --noconfirm xorg-fonts-type1 ttf-dejavu artwiz-fonts font-bh-ttf font-bitstream-speedo gsfonts sdl_ttf ttf-bitstream-vera ttf-cheapskate ttf-liberation
 echo "* Outils de base (3) - lissage des polices [OK]"
 pacman -Su --noconfirm sshguard iptables
-echo "* Outils de base (4) - SÃ©curitÃ© sshguard + iptables [OK]"
+echo "* Outils de base (4) - Sécurité sshguard + iptables [OK]"
 pacman -Su --noconfirm xorg-server xorg-xinit xorg-utils xorg-server-utils xterm
 echo "* Outils de base (5) Xorg [OK]"
 echo ""
 
 echo "***************************************************************"
-echo "* Configuration du rÃ©seau"
+echo "* Configuration du réseau"
 echo "* Utilisateur touriste sur /link/"
 echo "* SAMBA /link/Partage"
 echo "* SAMBA /link/Usb"
@@ -251,14 +251,14 @@ echo "***************************************************************"
 echo "* Configuration SSH "
 echo "*  Port : 443 "
 echo "*  Connection unique : touriste"
-echo "*  Connection root : dÃ©sactivÃ©"
+echo "*  Connection root : désactivé"
 echo "*  Config /etc/ssh/sshd_config"
 echo "***************************************************************"
 cp configuration/sshd_config /etc/ssh/
 echo ""
 
 echo "***************************************************************"
-echo "* Activation des services au dÃ©marrage ..."
+echo "* Activation des services au démarrage ..."
 echo "***************************************************************"
 systemctl enable network.service
 systemctl enable sshd.service
@@ -269,6 +269,6 @@ systemctl enable nmbd.service
 echo ""
 
 echo "***************************************************************"
-echo "* Arch --> Installation Basique --> [Xbmc] --> Drivers --> Check "
+echo "* Arch --> Installation Basic --> [Drivers] --> Xbmc --> Check "
 echo "***************************************************************"
-sh archbox_2xbmc.sh
+sh _driver_install.sh
