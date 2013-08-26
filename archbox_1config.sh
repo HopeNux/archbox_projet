@@ -1,4 +1,12 @@
 #!/bin/sh
+clear
+echo "***************************************************************"
+echo "*# 														   #*"
+echo "*# [ ARCHBOX ]											   #*"
+echo "*# Votre console multimédia de salon 						   #*"
+echo "*# 														   #*"
+echo "***************************************************************"
+echo ""
 echo "***************************************************************"
 echo "* Installation des programmes nécessaires aux"
 echo "* bon fonctionnement d'ARCH"
@@ -101,7 +109,6 @@ echo "address="$ip"" >> /etc/conf.d/network
 echo "netmask=255.255.255.0" >> /etc/conf.d/network
 echo "broadcast=192.168.1.255" >> /etc/conf.d/network
 echo "gateway=192.168.1.1" >> /etc/conf.d/network
-cp configuration/network.service /etc/systemd/system/
 echo "* Config DNS [1:8.8.8.8 / 2:8.8.4.4]" >> /etc/resolv.conf
 echo "nameserver 8.8.8.8" >> /etc/resolv.conf
 echo "nameserver 8.8.4.4" >> /etc/resolv.conf

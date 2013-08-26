@@ -1,6 +1,13 @@
 #!/bin/sh
 clear
 echo "***************************************************************"
+echo "*# 														   #*"
+echo "*# [ ARCHBOX ]											   #*"
+echo "*# Votre console multimédia de salon 						   #*"
+echo "*# 														   #*"
+echo "***************************************************************"
+echo ""
+echo "***************************************************************"
 echo "* Installation des drivers"
 echo "* Votre carte graphique :"
 lspci -k | grep -A 2 -i "VGA"
@@ -15,17 +22,14 @@ echo ""
 
 echo "***************************************************************"
 echo "* Nvidia drivers vidéos"
-#----------------------------------------------------------------
-# Drivers NVIDIA --> Config /etc/X11/xorg.conf.d/10-keyboard-layout.conf
-#----------------------------------------------------------------
-# touch /etc/X11/xorg.conf.d/10-keyboard-layout.conf
-# echo "Section \"InputClass\"" >> /etc/X11/xorg.conf.d/10-keyboard-layout.conf
-# echo "	Identifier	\"Keyboard Layout\"" >> /etc/X11/xorg.conf.d/10-keyboard-layout.conf
-# echo "	MatchIsKeyboard	\"yes\"" >> /etc/X11/xorg.conf.d/10-keyboard-layout.conf
-# echo "	MatchDevicePath	\"/dev/input/event*\"" >> /etc/X11/xorg.conf.d/10-keyboard-layout.conf
-# echo "	Option	\"XkbLayout\"	\"fr\"" >> /etc/X11/xorg.conf.d/10-keyboard-layout.conf
-# echo "	Option	\"XkbVariant\"	\"latin9\"" >> /etc/X11/xorg.conf.d/10-keyboard-layout.conf
-# echo "EndSection" >> /etc/X11/xorg.conf.d/10-keyboard-layout.conf
+echo "* touch /etc/X11/xorg.conf.d/10-keyboard-layout.conf"
+echo '*  Section \"InputClass\"" >> /etc/X11/xorg.conf.d/10-keyboard-layout.conf'
+echo '*  	Identifier	\"Keyboard Layout\"" >> /etc/X11/xorg.conf.d/10-keyboard-layout.conf'
+echo '*  	MatchIsKeyboard	\"yes\"" >> /etc/X11/xorg.conf.d/10-keyboard-layout.conf'
+echo '*  	MatchDevicePath	\"/dev/input/event*\"" >> /etc/X11/xorg.conf.d/10-keyboard-layout.conf'
+echo '*  	Option	\"XkbLayout\"	\"fr\"" >> /etc/X11/xorg.conf.d/10-keyboard-layout.conf'
+echo '*  	Option	\"XkbVariant\"	\"latin9\"" >> /etc/X11/xorg.conf.d/10-keyboard-layout.conf'
+echo "*  EndSection >> /etc/X11/xorg.conf.d/10-keyboard-layout.conf"
 echo "*  pacman -Su --noconfirm nvidia nvidia-utils lib32-nvidia-utils"
 echo "*  Si conflit libgl avec paquets nvidia utils pacman -Rdd libgl"
 echo "***************************************************************"
@@ -56,7 +60,3 @@ echo "* ALL drivers vidéos sans acceleration 3D"
 echo "*  pacman -Su --noconfirm xf86-video-vesa"
 echo "***************************************************************"
 echo ""
-echo "***************************************************************"
-echo "* Arch --> Installation Basic --> Drivers --> [Xbmc] --> Check "
-echo "***************************************************************"
-sh _xbmc_install.sh

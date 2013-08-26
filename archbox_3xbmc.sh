@@ -1,4 +1,12 @@
 #!/bin/sh
+clear
+echo "***************************************************************"
+echo "*# 														   #*"
+echo "*# [ ARCHBOX ]											   #*"
+echo "*# Votre console multimédia de salon 						   #*"
+echo "*# 														   #*"
+echo "***************************************************************"
+echo ""autologin
 echo "***************************************************************"
 echo "* Installation et configuration de XBMC"
 echo "***************************************************************"
@@ -172,7 +180,6 @@ echo "***************************************************************"
 #nano /etc/systemd/system/autologin@.service
 #systemctl enable autologin@tty1
 systemctl disable getty@tty1
-cp configuration/autologin@.service /etc/systemd/system/autologin@.service
 systemctl daemon-reload
 systemctl enable autologin@xbmc.service
 #rm /etc/systemd/system/autologin@.service

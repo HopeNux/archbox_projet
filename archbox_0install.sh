@@ -1,10 +1,14 @@
 #!/bin/sh
 clear
 echo "***************************************************************"
+echo "*# 														   #*"
+echo "*# [ ARCHBOX ]											   #*"
+echo "*# Votre console multimédia de salon 						   #*"
+echo "*# 														   #*"
+echo "***************************************************************"
+echo ""
+echo "***************************************************************"
 echo "* Bienvenue dans l'installation d'ARCH LINUX"
-echo "***************************************************************"
-echo "***************************************************************"
-echo "* [Arch] --> Installation Basic --> Drivers --> Xbmc --> Check "
 echo "***************************************************************"
 loadkeys fr-pc
 echo "* Clavier français [OK]"
@@ -44,10 +48,8 @@ echo "* Installation du paquet BASE-DEVEL et SYSLINUX [OK]"
 genfstab -U -p /mnt >> /mnt/etc/fstab
 echo "* Génération du fstab sur /mnt/etc/fstab [OK]"
 echo ""
-
 echo "***************************************************************"
-echo "* Arch --> [Installation Basic] --> Drivers --> Xbmc --> Check "
-echo "* Installation Effectuée, lancer le script _basic_install.sh"
+echo "* Installation Effectuée, lancer le script archbox_1config.sh"
 echo "***************************************************************"
 echo ""
 arch-chroot /mnt
