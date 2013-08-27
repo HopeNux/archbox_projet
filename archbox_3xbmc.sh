@@ -6,16 +6,33 @@ echo "*# [ ARCHBOX ]											   #*"
 echo "*# Votre console multimédia de salon 						   #*"
 echo "*# 														   #*"
 echo "***************************************************************"
-echo ""autologin
+echo ""
+rep=`(cd $(dirname "$0"); pwd)`
+echo "* Définition du répertoire source $rep "
+echo "******************************************************************************"
+echo "* Architecture (i386 - i686 - x86_64 - armv6l)"
+echo "******************************************************************************"sh _bas
+archi=`uname -m`
+ if [ "$archi" = "armv6l" ]
+ then
+	echo "* Votre machine est elle un Raspberry Pi " ?
+	echo -n "* Oui ? Non ? [Non] : "
+	read rpi
+	case $rpi in
+		"o"|"oui"|"O"|"Oui"|"OUI"|"y"|"yes"|"Y"|"Yes"|"YES")
+		archi="rpi" ;;
+ 
+		*)
+		echo ;;
+	esac
+fi
 echo "***************************************************************"
 echo "* Installation et configuration de XBMC"
 echo "***************************************************************"
 export HOME=/home/xbmc
 gpasswd -a xbmc users
 gpasswd -a touriste xbmc
-smbpasswd -a touriste
 echo ""
-
 echo "***************************************************************"
 echo "* Config /etc/sudoers"
 echo "***************************************************************"
@@ -26,15 +43,7 @@ echo ""
 echo "***************************************************************"
 echo "* Config /home/xbmc/.bashrc"
 echo "***************************************************************"
-touch $HOME/.bashrc
-echo "" >> $HOME/.bashrc
-echo "#Alias xbmc" >> $HOME/.bashrc
-echo "alias ll='ls -l'" >> $HOME/.bashrc
-echo "alias la='ls -A'" >> $HOME/.bashrc
-echo "alias l='ls -CF'" >> $HOME/.bashrc
-echo "" >> $HOME/.bashrc
-sed -i "s|^PS1='[\u@\h \W]\$ '|PS1='\[\e[1;32m\][\u@\h \W]\$\[\e[0m\] '|" $HOME/.bashrc
-echo "PS1='\[\e[1;32m\][\u@\h \W]\$\[\e[0m\] '" >> $HOME/.bashrc
+cp $rep/tools/archbox-theme/.bashrc /home/xbmc/.bashrc
 chown xbmc:users $HOME/.bashrc
 echo ""
 
@@ -66,9 +75,8 @@ mkdir $HOME/Musique
 mkdir $HOME/Image
 
 chown xbmc:users $HOME/Bureau
-chown xbmc:users $HOME/Travail
-chown xbmc:users $HOME/Public
-chown xbmc:users $HOME/Document
+chown xbmc:users $HOME/Films
+chown xbmc:users $HOME/Temporaire
 chown xbmc:users $HOME/Musique
 chown xbmc:users $HOME/Image
 chown xbmc:users $HOME/.config/user-dirs.dirs
@@ -135,7 +143,6 @@ case $REPLY in
 done
 echo ""
 
-
 echo "***************************************************************"
 echo "* Config /lib/systemd/system/xbmc.service"
 echo "***************************************************************"
@@ -148,12 +155,11 @@ echo "User=xbmc" >> /usr/lib/systemd/system/xbmc.service
 echo "WorkingDirectory=/home/xbmc/" >> /usr/lib/systemd/system/xbmc.service
 echo "PAMName=xbmc" >> /usr/lib/systemd/system/xbmc.service
 echo "Type=simple" >> /usr/lib/systemd/system/xbmc.service
-# Lancement Normal
-#echo "ExecStart = /usr/bin/startx /usr/bin/xbmc-standalone -- :0 -nolisten tcp" >> /usr/lib/systemd/system/xbmc.service
-# Lancement RPI
-echo "ExecStart = /usr/bin/xinit /usr/bin/xbmc-standalone -- :0 -nolisten tcp" >> /usr/lib/systemd/system/xbmc.service
-#echo "ExecStart=/bin/bash -l -c startx /usr/bin/xbmc-standalone -- :0" >> /usr/lib/systemd/system/xbmc.service
-#echo "ExecStart = /usr/bin/setxkbmap -display :0" >> /usr/lib/systemd/system/xbmc.service
+if [ "$archi" = "rpi" ] || [ "$archi" = "armv6l" ] ; then
+	echo "ExecStart = /usr/bin/xinit /usr/bin/xbmc-standalone -- :0 -nolisten tcp" >> /usr/lib/systemd/system/xbmc.service
+else
+	echo "ExecStart = /usr/bin/startx /usr/bin/xbmc-standalone -- :0 -nolisten tcp" >> /usr/lib/systemd/system/xbmc.service
+fi
 echo "Restart=no" >> /usr/lib/systemd/system/xbmc.service
 echo "" >> /usr/lib/systemd/system/xbmc.service
 echo "[Install]" >> /usr/lib/systemd/system/xbmc.service
@@ -176,14 +182,12 @@ echo ""
 echo "***************************************************************"
 echo "*  Enable SystemD Services"
 echo "***************************************************************"
-#cp /usr/lib/systemd/system/getty@.service /etc/systemd/system/autologin@.service
-#nano /etc/systemd/system/autologin@.service
-#systemctl enable autologin@tty1
 systemctl disable getty@tty1
+cp tools/archbox-boot/autologin@.service /usr/lib/systemd/system/getty@.service
 systemctl daemon-reload
 systemctl enable autologin@xbmc.service
-#rm /etc/systemd/system/autologin@.service
 systemctl enable xbmc.service
+systemctl enable devmon@xbmc
 echo ""
 
 # echo "***************************************************************"
@@ -196,15 +200,3 @@ echo ""
 # echo "ResultAny=yes" >> /var/lib/polkit-1/localauthority/50-local.d/xbmc.pkla
 # echo "ResultInactive=no" >> /var/lib/polkit-1/localauthority/50-local.d/xbmc.pkla
 # echo ""
-
-clear
-echo "***************************************************************"
-echo "* BRAVO !!!!! "
-echo "***************************************************************"
-echo -e "$white Installation :$green terminé !$nc tapez $white exit $nc "
-echo -e "$puis $white umount /mnt $nc et pour finir "
-echo -e "$white reboot $nc pour redémarrer :D"
-echo "***************************************************************"
-echo "* Arch --> Installation Basic --> Drivers --> Xbmc --> [Check] "
-echo "***************************************************************"
-sh _end_check.sh
