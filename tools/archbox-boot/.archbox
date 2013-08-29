@@ -1,35 +1,36 @@
-#!usrbinbash
+#!/usr/bin/sh
 ###############################################
 # [ARCHBOX]
 ###############################################
+
 while true; do
 
    export xbmc=false
    export xfce=false
    export emu=false
-   
-   echo -e 033[1;37;44mttBienvenue dans ArchBox ! Veuillez faire votre choix 033[0mn
-   echo -e 033[33mttt1  XBMCnttt2  Bureau (Xfce)nttt3  Émulateur033[0m
-   echo -e 033[34mVotre choix 033[0m
+
+   echo -e "\033[1;37;44m\t\tBienvenue dans ArchBox ! Veuillez faire votre choix :\033[0m\n"
+   echo -e "\033[33m\t\t\t1 : XBMC\n\t\t\t2 : Bureau (Xfce)\n\t\t\t3 : Émulateur\033[0m"
+   echo -e "\033[34mVotre choix :\033[0m"
    read -n 1 choix
 
-   if [[ $choix == 1 ]]; then
-      echo -e 033[32mnVous avez choisi de démarrer 033[1mXBMC033[0;32m.033[0m
+   if [[ $choix == "1" ]]; then
+      echo -e "\033[32m\nVous avez choisi de démarrer \033[1mXBMC\033[0;32m.\033[0m"
       sleep 1
       export xbmc=true; startx
-   elif [[ $choix == 2 ]]; then
-      echo -e 033[32mnVous avez choisi de démarrer le 033[1mbureau (Xfce)033[0;32m.033[0m
+   elif [[ $choix == "2" ]]; then
+      echo -e "\033[32m\nVous avez choisi de démarrer le \033[1mbureau (Xfce)\033[0;32m.\033[0m"
       sleep 1
       export xfce=true; startx
-   elif [[ $choix == 3 ]]; then
-      echo -e 033[32mnVous avez choisi de démarrer l'033[1mémulateur033[0;32m.033[0m
+   elif [[ $choix == "3" ]]; then
+      echo -e "\033[32m\nVous avez choisi de démarrer l'\033[1mémulateur\033[0;32m.\033[0m"
       sleep 1
       export emu=true; startx
    else
-      echo -e 033[1;31mnMauvais choix. Veuillez réessayer.033[0m
+      echo -e "\033[1;31m\nMauvais choix. Veuillez réessayer.\033[0m"
       sleep 1
    fi
-   
+
    clear
-   
+
 done
