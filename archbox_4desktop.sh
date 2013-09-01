@@ -7,5 +7,10 @@ echo "*# Votre console multimédia de salon 						   #*"
 echo "*# 														   #*"
 echo "***************************************************************"
 echo ""
-pacman -Su --noconfirm xfce4 xfce4-goodies gstreamer0.10-base-plugins faenza-icon-theme elementary-gtk-theme wget
-mkdir /tmp/archbox && cd /tmp/archbox && wget https://raw.github.com/HopeNux/archbox_projet/master/tools/archbox-theme/PKGBUILD && wget https://raw.github.com/HopeNux/archbox_projet/master/tools/archbox-theme/archbox-theme.tar.xz && makepkg -si
+pacman -Su --noconfirm xfce4 xfce4-goodies gstreamer0.10-base-plugins faenza-icon-theme
+yaourt -S --noconfirm elementary-gtk-theme
+cp -Rv "tools/archbox-theme/xfce4/" "/home/xbmc/.config/"
+cp -Rv "tools/archbox-theme/archbox/" "/usr/share/"
+cp -v "tools/archbox-theme/bashrc" "/home/xbmc/.bashrc"
+cp -v "tools/archbox-theme/gtkrc-2.0" "/home/xbmc/.gtkrc-2.0"
+chown -Rv xbmc:xbmc /home/xbmc

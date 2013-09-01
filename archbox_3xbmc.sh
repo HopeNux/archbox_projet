@@ -18,13 +18,9 @@ archi=`uname -m`
 	echo "* Votre machine est elle un Raspberry Pi " ?
 	echo -n "* Oui ? Non ? [Non] : "
 	read rpi
-	case $rpi in
-		"o"|"oui"|"O"|"Oui"|"OUI"|"y"|"yes"|"Y"|"Yes"|"YES")
-		archi="rpi" ;;
- 
-		*)
-		echo ;;
-	esac
+	if [[ ! $rpi == n* ]];then
+		archi="rpi"
+	fi
 fi
 echo "***************************************************************"
 echo "* Installation et configuration de XBMC"
