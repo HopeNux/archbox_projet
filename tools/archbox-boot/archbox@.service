@@ -6,8 +6,8 @@ After=syslog.target
 User=%i
 Groupe=Users
 WorkingDirectory=/home/xbmc/
-#ExecStart = /usr/bin/archboxboot
-ExecStart = /usr/bin/xinit /usr/bin/xbmc-standalone -- :0 -nolisten tcp
+ExecStart = /usr/bin/archboxboot
+#ExecStart = /usr/bin/xinit /usr/bin/xbmc-standalone -- :0 -nolisten tcp
 Restart=yes
 
 [Install]

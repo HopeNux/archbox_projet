@@ -64,7 +64,7 @@ echo " "
 ###############################################################################################
 echo -e "$white ******************************************************************************"
 echo -e "$white * IP Fixe de l'ordinateur $cyan"
-ifconfig 
+ifconfig -a | more
 echo -e " * $red" 
 read -p " * Veuillez saisir le nom de votre carte réseau (eth0) : " cartereseau
 read -p " * Souhaitez-vous definir une adresse IP fixe  Oui ? Non ? [Non] : " REP
@@ -90,8 +90,9 @@ case $REP in
 		systemctl disable dhcpcd@$cartereseau.service
 		systemctl enable network.service ;;
 	*)
-		echo -e "$white * Configuration dhcp$yellow [OK] $white"
-		systemctl enable dhcpcd@$cartereseau.service ;;
+		echo -e "$white * Configuration dhcpd$yellow [OK] $white"
+		systemctl enable dhcpcd@$cartereseau.service
+		systemctl start dhcpcd@$cartereseau.service;;
 esac
 echo -e "$white * Configuration réseau$yellow [OK]"
 echo -e "$white ******************************************************************************"
