@@ -1,0 +1,49 @@
+#!/usr/bin/sh
+###############################################################################################
+export LANG=fr_FR.UTF-8
+export blue="\\033[1;34m"
+export cyan="\\033[1;36m"
+export green="\\033[1;32m"
+export nc="\\033[0;39m"
+export red="\\033[1;31m"
+export white="\\033[1;37m"
+export yellow="\\033[1;33m"
+export ip="192.168.1.44"
+###############################################################################################
+echo -e "$green ******************************************************************************"
+echo -e "$green * "
+echo -e "$green * [$red ARCHBOX$green ]"									   				  
+echo -e "$green * Votre console multimedia de salon" 
+echo -e "$green * $yellow [BOOT]"
+echo -e "$green * "
+echo -e "$green ******************************************************************************"
+###############################################################################################
+
+
+echo " "
+echo " "
+
+
+###############################################################################################
+echo -e "$white ******************************************************************************"
+LISTE=(" XBMC (defaut 3sc)" " BUREAU XFCE" " EMULATEURS")
+select CHOIX in "${LISTE[@]}" ; do
+case $REPLY in
+	1)
+		echo -e "$white" "Lancement :" "$nc" " XBMC..."
+		#/usr/bin/xinit /usr/bin/xbmc-standalone -- :0 -nolisten tcp
+	break
+	;;
+	2)
+		echo -e "$white" "Lancement :" "$nc" " Bureau XFCE..."
+		#/usr/bin/startxfce4
+	break
+	;;
+	3)
+		echo -e "$white" "Lancement :" "$nc" " Emulateurs..."
+	break
+	;;
+	esac
+done
+echo -e "$white ******************************************************************************"
+###############################################################################################

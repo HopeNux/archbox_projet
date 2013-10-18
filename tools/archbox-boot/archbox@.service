@@ -1,0 +1,14 @@
+[Unit]
+Description=log automatique de l'utilisateur xbmc sur le sript de demarrage
+After=syslog.target
+
+[Service]
+User=%i
+Groupe=Users
+WorkingDirectory=/home/xbmc/
+#ExecStart = /usr/bin/archboxboot
+ExecStart = /usr/bin/xinit /usr/bin/xbmc-standalone -- :0 -nolisten tcp
+Restart=yes
+
+[Install]
+WantedBy=multi-user.target 
