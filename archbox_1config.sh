@@ -101,6 +101,9 @@ echo -e "$white * Mise à jour arch ..."
 echo -e " * $cyan"
 pacman -Suy --noconfirm
 echo -e "$white * Mise à jour$yellow [OK]"
+echo -e "$white * Installation : net-tools / openssh / samba / smbclient / vim / ntp"
+echo -e " * $cyan"
+pacman -S --noconfirm net-tools openssh samba smbclient vim ntp
 echo -e "$white ******************************************************************************"
 ###############################################################################################
 
@@ -222,9 +225,6 @@ echo ""
 
 ###############################################################################################
 echo -e "$white ******************************************************************************"
-echo -e "$white * Installation : net-tools / openssh / samba / smbclient / vim / ntp"
-echo -e " * $cyan"
-pacman -S --noconfirm net-tools openssh samba smbclient vim ntp
 #----------------------------------------------------------------
 # Serveur de temps FR
 #----------------------------------------------------------------
