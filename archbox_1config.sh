@@ -126,8 +126,10 @@ echo -e "$green * (1) -> Ajout utilisateur 'touriste' pour le partage réseau"
 useradd -m -g users -G audio,lp,optical,storage,video,wheel,games,power -s /bin/bash touriste
 echo -e "$green * (1.1) ->$red Mot de passe 'touriste' SSH : $nc"
 passwd touriste
+echo -e "$green *"
 echo -e "$green * (1.2) ->$red Mot de passe 'touriste' SAMBA : $nc"
 smbpasswd -a touriste
+echo -e "$green *"
 echo -e "$green * (1.3) -> Ajout du 'touriste' dans le groupe $white USERS : $nc"
 gpasswd -a touriste users
 #----------------------------------------------------------------
@@ -141,6 +143,7 @@ echo -e "$green * "
 echo -e "$green * (2) -> Configuration utilisateur 'root'" 
 echo -e "$green * (2.1) -> $red Mot de passe 'root' (pas de connection SSH) : $nc"
 passwd
+echo -e "$green *"
 #----------------------------------------------------------------
 # Config /root/.bashrc
 #----------------------------------------------------------------
