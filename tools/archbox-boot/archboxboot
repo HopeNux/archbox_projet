@@ -27,26 +27,26 @@ echo " "
 
 ###############################################################################################
 echo -e "$white ******************************************************************************"
-LISTE=(" XBMC (defaut 3sc)" " BUREAU XFCE" " EMULATEURS" " Eteindre")
+LISTE=(" XBMC (defaut 3sc)" " BUREAU XFCE" " EMULATEURS" " ETEINDRE")
 select CHOIX in "${LISTE[@]}" ; do
 case $REPLY in
         1|'&')
-                echo -e "$white" "Lancement :" "$nc" " XBMC..."
+                echo -e "$yellow" "Lancement :" "$red" " XBMC... $nc"
                 /usr/bin/xinit /usr/bin/xbmc-standalone -- :0 -nolisten tcp
         break
         ;;
         2|"é")
-                echo -e "$white" "Lancement :" "$nc" " Bureau XFCE..."
+                echo -e "$yellow" "Lancement :" "$red" " Bureau XFCE... $nc"
                 /usr/bin/startxfce4
         break
         ;;
         3|'"')
-                echo -e "$white" "Lancement :" "$nc" " Emulateurs..."
+                echo -e "$yellow" "Lancement :" "$red" " Emulateurs... $nc"
         break
         ;;
         *|"'")
-                echo -e "$white" "Eteindre "
-                exit
+                echo -e "$yellow" "Extinction de l'ordinateur multimedia... $nc"
+                shutdown
         break
         ;;
         esac
