@@ -27,28 +27,30 @@ echo " "
 
 ###############################################################################################
 echo -e "$white ******************************************************************************"
-LISTE=(" XBMC (defaut 3sc)" " BUREAU XFCE" " EMULATEURS" " Quitter")
+LISTE=(" XBMC (defaut 3sc)" " BUREAU XFCE" " EMULATEURS" " Eteindre")
 select CHOIX in "${LISTE[@]}" ; do
 case $REPLY in
-	1)
-		echo -e "$white" "Lancement :" "$nc" " XBMC..."
-		/usr/bin/xinit /usr/bin/xbmc-standalone -- :0 -nolisten tcp
-	break
-	;;
-	2)
-		echo -e "$white" "Lancement :" "$nc" " Bureau XFCE..."
-		/usr/bin/startxfce4
-	break
-	;;
-	3)
-		echo -e "$white" "Lancement :" "$nc" " Emulateurs..."
-	break
-	;;
-	*)	
-		echo -e "$white" "Quitter "
-	break
-	;;
-	esac
+        1|'&')
+                echo -e "$white" "Lancement :" "$nc" " XBMC..."
+                /usr/bin/xinit /usr/bin/xbmc-standalone -- :0 -nolisten tcp
+        break
+        ;;
+        2|"é")
+                echo -e "$white" "Lancement :" "$nc" " Bureau XFCE..."
+                /usr/bin/startxfce4
+        break
+        ;;
+        3|'"')
+                echo -e "$white" "Lancement :" "$nc" " Emulateurs..."
+        break
+        ;;
+        *|"'")
+                echo -e "$white" "Eteindre "
+                exit
+        break
+        ;;
+        esac
 done
 echo -e "$white ******************************************************************************"
+
 ###############################################################################################
