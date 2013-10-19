@@ -139,7 +139,7 @@ chown xbmc:users $HOME/Musique
 chown xbmc:users $HOME/Image
 chown xbmc:users $HOME/.config/user-dirs.dirs
 echo "" >> $HOME/.bash_profile
-echo "exec /usr/bin/archboxboot" >> $HOME/.bash_profile
+echo "sh /usr/bin/archboxboot" >> $HOME/.bash_profile
 ll -r $HOME
 echo -e "$white * Création repertoire sur $HOME $yellow [OK]"
 #----------------------------------------------------------------
