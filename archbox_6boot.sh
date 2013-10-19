@@ -179,7 +179,7 @@ echo -e "$white * Activation des services au démarrage ..."
 systemctl enable upower
 systemctl disable getty@tty1
 systemctl daemon-reload
-systemctl enable archbox@xbmc.service
+#systemctl enable archbox@xbmc.service
 systemctl enable autologin@xbmc.service
 systemctl enable multi-user.target
 systemctl enable devmon@xbmc
