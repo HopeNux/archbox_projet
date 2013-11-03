@@ -64,7 +64,7 @@ echo -e "$white * $cyan"
 pacman -S --noconfirm xfce4 
 pacman -S --noconfirm xfce4-goodies gstreamer0.10-base-plugins faenza-icon-theme
 pacman -Syy
-yaourt -S gtk-theme-elementary
+yaourt -S --noconfirm gtk-theme-elementary
 echo -e "$white * "
 cp -Rv "$rep/tools/archbox-theme/xfce4/" "/home/xbmc/.config/"
 cp -Rv "$rep/tools/archbox-theme/archbox/" "/usr/share/"
