@@ -11,8 +11,8 @@
 if [ -s $2 ] ; then
 	case $1 in
 		"log")
-			echo -e "$yellow Attention il existe déjà un fichier log ($2)"
-			echo -e "$yellow pour ce script est vous sur de vouloir continuer ? $red"
+			echo -e "$yellow Attention un log existe déjà pour se script ($2)"
+			echo -e "$yellow est vous sur de vouloir continuer ? $red"
 			read -p " Appuyer sur une touche pour continuer (sinon quitter)..." ;; 
 		*)
 			echo "" ;;

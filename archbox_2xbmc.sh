@@ -4,8 +4,9 @@
 # ARCHBOX_2XBMC.SH --> DEBUT
 #----------------------------------------------------------------
 rep=`(cd $(dirname "$0"); pwd)`
+
 #----------------------------------------------------------------
-# Script des paramètres par défauts
+# Paramètres par défauts
 #----------------------------------------------------------------
 export LANG=fr_FR.UTF-8
 export blue="\\033[1;34m"
@@ -16,6 +17,11 @@ export red="\\033[1;31m"
 export white="\\033[1;37m"
 export yellow="\\033[1;33m"
 export HOME=/home/xbmc
+
+if [[ ! "$1" = "ko" ]] ; then
+	ixbmc="ok"
+fi
+
 #----------------------------------------------------------------
 # Vérification / Creation fichier LOG
 #----------------------------------------------------------------
@@ -45,12 +51,7 @@ echo " "
 
 
 ###############################################################################################
-echo -e "$white ******************************************************************************"
-echo -e "$white * Mise à jour arch ..."
-echo -e " * $cyan"
-pacman -Suy --noconfirm
-echo -e "$white * Mise à jour$yellow [OK]"
-echo -e "$white ******************************************************************************"
+sh $rep/tools/archbox-opt/archbox_maj.sh
 ###############################################################################################
 
 
@@ -83,10 +84,8 @@ echo "USER XBMC : Pas de connection SSH autorisé " >> $rep/archbox_2xbmc.log
 echo "CONFIG UTILISATEUR XBMC OK " >> $rep/archbox_2xbmc.log
 ###############################################################################################
 
-
 echo " "
 echo " "
-
 
 ###############################################################################################
 echo -e "$white ******************************************************************************"
@@ -94,6 +93,7 @@ echo -e "$white * Config /etc/sudoers"
 if [[ ! $archi == "rpi" ]];then
 	sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
 fi
+
 #----------------------------------------------------------------
 # Config /home/xbmc/.bashrc
 #----------------------------------------------------------------
@@ -104,6 +104,7 @@ echo -e "$white * Ajout .bashrc $yellow [OK]"
 echo -e "$white * Config /home/xbmc/.gtkrc-2.0"
 touch $HOME/.gtkrc-2.0
 echo 'gtk-icon-theme-name = "gnome"' >> $HOME/.gtkrc-2.0
+
 #----------------------------------------------------------------
 # Config /home/xbmc/.config/user-dirs.dirs
 #----------------------------------------------------------------
@@ -117,6 +118,7 @@ echo 'XDG_PUBLICSHARE_DIR="'$HOME'/Partage"' >> $HOME/.config/user-dirs.dirs
 echo 'XDG_DOCUMENTS_DIR="'$HOME'/Media"' >> $HOME/.config/user-dirs.dirs
 echo 'XDG_MUSIC_DIR="'$HOME'/Musique"' >> $HOME/.config/user-dirs.dirs
 echo 'XDG_PICTURES_DIR="'$HOME'/Image"' >> $HOME/.config/user-dirs.dirs
+
 #----------------------------------------------------------------
 # Creation repertoire sur /home/xbmc/
 #----------------------------------------------------------------
@@ -129,19 +131,9 @@ ln -s /link/Partage $HOME/Partage
 ln -s /link/Usb $HOME/Usb
 ln -s /link/Usb2 $HOME/Usb2
 ln -s /media $HOME/Media
-chown xbmc:users $HOME/Bureau
-chown xbmc:users $HOME/Videos
-chown xbmc:users $HOME/Partage
-chown xbmc:users $HOME/Usb
-chown xbmc:users $HOME/Usb2
-chown xbmc:users $HOME/Media
-chown xbmc:users $HOME/Musique
-chown xbmc:users $HOME/Image
-chown xbmc:users $HOME/.config/user-dirs.dirs
-echo "" >> $HOME/.bash_profile
-echo "exec /usr/bin/archboxboot" >> $HOME/.bash_profile
-ll -r $HOME
+chown xbmc:users $HOME/*
 echo -e "$white * Création repertoire sur $HOME $yellow [OK]"
+
 #----------------------------------------------------------------
 # Config xsession
 #----------------------------------------------------------------
@@ -152,6 +144,7 @@ echo "# ~/.xsession" >> $HOME/.xsession
 echo "# Executed by xdm/gdm/kdm at login" >> $HOME/.xsession
 echo "/bin/bash --login -i ~/.xinitrc" >> $HOME/.xsession
 echo -e "$white * Config xsession $yellow [OK]$white"
+
 #----------------------------------------------------------------
 # Config xinitrc
 #----------------------------------------------------------------
@@ -169,6 +162,7 @@ echo "fi" >> $HOME/.xinitrc
 echo "# exec startxfce4" >> $HOME/.xinitrc
 echo "# exec xbmc" >> $HOME/.xinitrc
 echo -e "$white * Config xinitrc $yellow [OK]$white"
+
 #----------------------------------------------------------------
 # Config bash_profile
 #----------------------------------------------------------------
@@ -179,6 +173,7 @@ echo "#[[ -f ~/.bashrc ]] && . ~/.bashrc" >> $HOME/.bash_profile
 echo "#[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx" >> $HOME/.bash_profile
 echo -e "$white * Config bash_profile $yellow [OK]"
 echo -e "$white ******************************************************************************"
+
 #----------------------------------------------------------------
 # Ajout LOG
 #----------------------------------------------------------------
@@ -194,34 +189,36 @@ echo "CONFIG bash_profile voir : $HOME/.bash_profile" >> $rep/archbox_2xbmc.log
 echo "XBMC2 [OK]" >> $rep/archbox_2xbmc.log
 ###############################################################################################
 
-
 echo " "
 echo " "
-
 
 ###############################################################################################
 echo -e "$white ******************************************************************************"
 echo -e "$white * Install XBMC"
 echo -e "$white ******************************************************************************"
-echo -e "$red * Information : XBMC classique ou PVR(tuner tv) ?"
-LISTE=(" * Classique" " * PVR")
-select CHOIX in "${LISTE[@]}" ; do
-case $REPLY in
-	1|c)
-		echo -e "$white * Installation : XBMC $cyan"
-		pacman -Su --noconfirm xbmc 
-	break
-	;;
-	2|p)
-		echo -e "$white * Installation :" "$nc" " XBMC PVR $cyan"
-		yaourt -S --noconfirm xbmc-eden-pvr-git tvheadend-git linuxtv-dvb-apps w_scan
-		systemctl enable tvheadend.service
-	break
-	;;
-	esac
-done
-echo -e "$white * "
-echo -e "$white * Installation XBMC $yellow [OK]"
+if [ "$ixbmc" == "ok" ] ; then
+	echo -e "$red * Information : XBMC classique ou PVR(tuner tv) ?"
+	LISTE=(" * Classique" " * PVR")
+	select CHOIX in "${LISTE[@]}" ; do
+	case $REPLY in
+		1|c)
+			echo -e "$white * Installation : XBMC $cyan"
+			pacman -Su --noconfirm xbmc 
+		break
+		;;
+		2|p)
+			echo -e "$white * Installation :" "$nc" " XBMC PVR $cyan"
+			yaourt -S --noconfirm xbmc-eden-pvr-git tvheadend-git linuxtv-dvb-apps w_scan
+			systemctl enable tvheadend.service
+		break
+		;;
+		esac
+	done
+	echo -e "$white * "
+	echo -e "$white * Installation XBMC $yellow [OK]"
+else
+	echo -e "$white * Pas d'installation XBMC $yellow [NOK]"
+fi
 echo -e "$white ******************************************************************************"
 #----------------------------------------------------------------
 # Ajout LOG
@@ -230,9 +227,12 @@ echo "" >> $rep/archbox_2xbmc.log
 echo "#----------------------------------------------------------------" >> $rep/archbox_2xbmc.log
 echo "# LOG INSTALLATION XBMC" >> $rep/archbox_2xbmc.log
 echo "#----------------------------------------------------------------" >> $rep/archbox_2xbmc.log
-echo "LOGICIEL XBMC (choix 1=classique 2=tunertv)--> $REPLY [OK]" >> $rep/archbox_2xbmc.log
+if [ "$ixbmc" == "ok" ] ; then
+	echo "LOGICIEL XBMC (choix 1=classique 2=tunertv)--> $REPLY [OK]" >> $rep/archbox_2xbmc.log
+else
+	echo "LOGICIEL XBMC [NOK]" >> $rep/archbox_2xbmc.log
+fi
 ###############################################################################################
-
 
 echo " "
 echo " "
@@ -266,10 +266,8 @@ echo "EXTINCTION voir : /var/lib/polkit-1/localauthority/50-local.d/xbmc.pkla " 
 echo "CONFIG [OK]" >> $rep/archbox_2xbmc.log
 ###############################################################################################
 
-
 echo " "
 echo " "
-
 
 ###############################################################################################
 #----------------------------------------------------------------

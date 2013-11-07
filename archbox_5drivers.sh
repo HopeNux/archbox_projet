@@ -39,23 +39,15 @@ echo -e "$green * "
 echo -e "$green ******************************************************************************"
 ###############################################################################################
 
-
 echo " "
 echo " "
-
 
 ###############################################################################################
-echo -e "$white ******************************************************************************"
-echo -e "$white * Mise à jour arch ..."
-echo -e " * $cyan"
-pacman -Suy --noconfirm
-echo -e "$white * Mise à jour$yellow [OK]"
-echo -e "$white ******************************************************************************"
+sh $rep/tools/archbox-opt/archbox_maj.sh
 ###############################################################################################
 
 echo " "
 echo " "
-
 
 ###############################################################################################
 echo -e "$white ******************************************************************************"
@@ -81,10 +73,11 @@ if [ "$archi" = "rpi" ] ; then
 	echo -e "$white * Raspberry PI drivers vidéos "
 	echo -e " * $cyan"
 	pacman -S --noconfirm xf86-video-fbdev
+	amixer cset numid=0
 else
 	echo -e "$white * Installation des drivers vidéos par défaut"
 	echo -e " * $cyan"
-	pacman -S --noconfirm xf86-video-intel xf86-video-nouveau nouveau-dri xf86-video-ati xf86-video-vesa
+	pacman -S xf86-video-intel xf86-video-nouveau nouveau-dri xf86-video-ati xf86-video-vesa
 	echo " "
 	echo " "
 	# A FAIRE ATI

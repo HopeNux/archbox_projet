@@ -4,6 +4,8 @@
 # ARCHBOX_6BOOT.SH --> DEBUT
 #----------------------------------------------------------------
 rep=`(cd $(dirname "$0"); pwd)`
+user="xbmc"
+
 #----------------------------------------------------------------
 # Script des paramètres par défauts
 #----------------------------------------------------------------
@@ -27,10 +29,8 @@ echo "# ARCHBOX_5DRIVERS.SH --> DEBUT" >> $rep/archbox_6boot.log
 echo "#----------------------------------------------------------------" >> $rep/archbox_6boot.log
 ###############################################################################################
 
-
 echo " "
 echo " "
-
 
 ###############################################################################################
 echo -e "$green ******************************************************************************"
@@ -42,24 +42,15 @@ echo -e "$green * "
 echo -e "$green ******************************************************************************"
 ###############################################################################################
 
-
 echo " "
 echo " "
-
 
 ###############################################################################################
-echo -e "$white ******************************************************************************"
-echo -e "$white * Mise à jour arch ..."
-echo -e " * $cyan"
-pacman -Suy --noconfirm
-echo -e "$white * Mise à jour$yellow [OK]"
-echo -e "$white ******************************************************************************"
+sh $rep/tools/archbox-opt/archbox_maj.sh
 ###############################################################################################
 
-
 echo " "
 echo " "
-
 
 ###############################################################################################
 echo -e "$white ******************************************************************************"
@@ -70,9 +61,9 @@ read -p " * Veuillez saisir le nom de votre carte réseau (eth0) : " cartereseau
 read -p " * Souhaitez-vous definir une adresse IP fixe  Oui ? Non ? [Non] : " REP
 case $REP in
 	"o"|"oui"|"O"|"Oui"|"OUI"|"y"|"yes"|"Y"|"Yes"|"YES")
-		read -p " * Adresse IP souhaité" ip
-		read -p " * Adresse du masque de sous réseau" mask
-		read -p " * Adresse de la passerelle par défaut" gateway		
+		read -p " * Adresse IP souhaité : " ip
+		read -p " * Adresse du masque de sous réseau : " mask
+		read -p " * Adresse de la passerelle par défaut : " gateway		
 		export ip=$ip
 		echo "$white * Votre ip : "$ip
 		echo "interface="$cartereseau"" > /etc/conf.d/network
@@ -81,23 +72,28 @@ case $REP in
 		echo "broadcast=192.168.1.255" >> /etc/conf.d/network
 		echo "gateway="$gateway"" >> /etc/conf.d/network
 		cp $rep/tools/archbox-network/network.service /etc/systemd/system/	
-		echo "# ARCHBOX " > /etc/resolv.conf
-		echo "# Configuration DNS [1-8.8.8.8 / 2-8.8.4.4]" >> /etc/resolv.conf
-		echo "nameserver 8.8.8.8" >> /etc/resolv.conf
-		echo "nameserver 8.8.4.4" >> /etc/resolv.conf
-		echo "nameserver "$gateway"" >> /etc/resolv.conf
 		echo -e "$white * Configuration ip fixe$yellow [OK] $white"
 		systemctl disable dhcpcd@$cartereseau.service
 		systemctl enable network.service ;;
-	*)
-		echo -e "$white * Configuration dhcpd$yellow [OK] $white"
-		systemctl enable dhcpcd@$cartereseau.service
-		systemctl start dhcpcd@$cartereseau.service;;
+	*)		
+		if [ "$cartereseau" ] ; then
+			systemctl enable dhcpcd@$cartereseau.service
+		else
+			systemctl enable dhcpcd.service
+		fi
+		echo -e "$white * Configuration dhcpd$yellow [OK] $white";;
 esac
+echo "# ARCHBOX " > /etc/resolv.conf
+echo "# Configuration DNS [1-8.8.8.8 / 2-8.8.4.4]" >> /etc/resolv.conf
+echo "nameserver 8.8.8.8" >> /etc/resolv.conf
+echo "nameserver 8.8.4.4" >> /etc/resolv.conf
+echo "nameserver "$gateway"" >> /etc/resolv.conf
 echo -e "$white * Configuration réseau$yellow [OK]"
 echo -e "$white ******************************************************************************"
 ###############################################################################################
 
+echo " "
+echo " "
 
 ###############################################################################################
 echo -e "$white ******************************************************************************"
@@ -149,13 +145,14 @@ echo "" >> $rep/archbox_6boot.log
 echo "" >> $rep/archbox_6boot.log
 echo -e "$white * LOGS générés$yellow [OK]"
 echo -e "$white ******************************************************************************"
+###############################################################################################
 
 echo " "
 echo " "
-
 
 ###############################################################################################
 echo -e "$white ******************************************************************************"
+# RPI ln -s /usr/lib/systemd/system/serial-getty@.service /etc/systemd/system/getty.target.wants/serial-getty@ttyAMA0.service
 echo -e "$white * Copie /etc/systemd/system/archbox.service"
 cp $rep/tools/archbox-boot/archbox@.service /lib/systemd/system/
 echo -e "$white * Copie /usr/lib/systemd/system/autologin.service"
@@ -168,10 +165,8 @@ echo -e "$white * ARCHBOX Service$yellow [OK]"
 echo -e "$white ******************************************************************************"
 ###############################################################################################
 
-
 echo " "
 echo " "
-
 
 ###############################################################################################
 echo -e "$white ******************************************************************************"
@@ -179,18 +174,18 @@ echo -e "$white * Activation des services au démarrage ..."
 systemctl enable upower
 systemctl disable getty@tty1
 systemctl daemon-reload
-#systemctl enable archbox@xbmc.service
-systemctl enable autologin@xbmc.service
+# PAS DE ARCHBOXBOOT --> systemctl enable archbox@xbmc.service
+systemctl enable autologin@$user.service
 systemctl enable multi-user.target
-systemctl enable devmon@xbmc
+systemctl enable devmon@$user
+# RPI systemctl enable getty@ttyAMA0.service	
+echo "exec /usr/bin/archboxboot" >> /home/xbmc/.bash_profile
 echo -e "$white * Activation des services $yellow [OK]"
 echo -e "$white ******************************************************************************"
 ###############################################################################################
 
-
 echo " "
 echo " "
-
 
 ###############################################################################################
 #----------------------------------------------------------------

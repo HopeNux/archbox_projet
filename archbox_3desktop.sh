@@ -4,8 +4,10 @@
 # ARCHBOX_3DESKTOP.SH --> DEBUT
 #----------------------------------------------------------------
 rep=`(cd $(dirname "$0"); pwd)`
+user="xbmc"
+
 #----------------------------------------------------------------
-# Script des paramètres par défauts
+# Paramètres par défauts
 #----------------------------------------------------------------
 export LANG=fr_FR.UTF-8
 export blue="\\033[1;34m"
@@ -15,7 +17,8 @@ export nc="\\033[0;39m"
 export red="\\033[1;31m"
 export white="\\033[1;37m"
 export yellow="\\033[1;33m"
-export HOME=/home/xbmc
+export HOME=/home/$user
+
 #----------------------------------------------------------------
 # Vérification / Creation fichier LOG
 #----------------------------------------------------------------
@@ -39,23 +42,15 @@ echo -e "$green * "
 echo -e "$green ******************************************************************************"
 ###############################################################################################
 
-
 echo " "
 echo " "
-
 
 ###############################################################################################
-echo -e "$white ******************************************************************************"
-echo -e "$white * Mise à jour arch ..."
-echo -e " * $cyan"
-pacman -Suy --noconfirm
-echo -e "$white * Mise à jour$yellow [OK]"
-echo -e "$white ******************************************************************************"
+$rep/tools/archbox-opt/archbox_maj.sh $rep/tools/archbox-opt/archbox_maj.sh
 ###############################################################################################
 
 echo " "
 echo " "
-
 
 ###############################################################################################
 echo -e "$white ******************************************************************************"
@@ -64,15 +59,16 @@ echo -e "$white * $cyan"
 pacman -S --noconfirm xfce4 
 pacman -S --noconfirm xfce4-goodies gstreamer0.10-base-plugins faenza-icon-theme
 pacman -Syy
-yaourt -S gtk-theme-elementary
+yaourt -S --noconfirm gtk-theme-elementary gtk-theme-numix-git numix-icon-theme-git
 echo -e "$white * "
-cp -Rv "$rep/tools/archbox-theme/xfce4/" "/home/xbmc/.config/"
+cp -Rv "$rep/tools/archbox-theme/xfce4/" "/home/$user/.config/"
 cp -Rv "$rep/tools/archbox-theme/archbox/" "/usr/share/"
-cp -v "$rep/tools/archbox-theme/bashrc" "/home/xbmc/.bashrc"
-cp -v "$rep/tools/archbox-theme/gtkrc-2.0" "/home/xbmc/.gtkrc-2.0"
-chown -Rv xbmc:users /home/xbmc
-echo -e "$white * Utilisateur xbmc $yellow [OK]"
+cp -v "$rep/tools/archbox-theme/bashrc" "/home/$user/.bashrc"
+cp -v "$rep/tools/archbox-theme/gtkrc-2.0" "/home/$user/.gtkrc-2.0"
+chown -R $user:users /home/$user
+echo -e "$white * Interface sur l'utilisateur $user $yellow [OK]"
 echo -e "$white ******************************************************************************"
+
 #----------------------------------------------------------------
 # Ajout LOG
 #----------------------------------------------------------------
@@ -80,17 +76,15 @@ echo "" >> $rep/archbox_3desktop.log
 echo "#----------------------------------------------------------------" >> $rep/archbox_3desktop.log
 echo "# LOG CONFIG XFCE" >> $rep/archbox_3desktop.log
 echo "#----------------------------------------------------------------" >> $rep/archbox_3desktop.log
-echo "CONFIG Theme : /home/xbmc/.config/xfce4 " >> $rep/archbox_3desktop.log
+echo "CONFIG Theme : /home/$user/.config/xfce4 " >> $rep/archbox_3desktop.log
 echo "CONFIG Theme : /usr/share/archbox " >> $rep/archbox_3desktop.log
-echo "CONFIG Theme : /home/xbmc/.bashrc " >> $rep/archbox_3desktop.log
-echo "CONFIG Theme : /home/xbmc/.gtkrc-2.0 " >> $rep/archbox_3desktop.log
+echo "CONFIG Theme : /home/$user/.bashrc " >> $rep/archbox_3desktop.log
+echo "CONFIG Theme : /home/$user/.gtkrc-2.0 " >> $rep/archbox_3desktop.log
 echo "CONFIG XFCE OK " >> $rep/archbox_3desktop.log
 ###############################################################################################
 
-
 echo " "
 echo " "
-
 
 ###############################################################################################
 #----------------------------------------------------------------
