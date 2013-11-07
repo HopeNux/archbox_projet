@@ -21,6 +21,7 @@ echo " "
 echo " "
 echo -e "$white ******************************************************************************"
 echo -e "$cyan * Installation de GitHub "
+pacman -Sy
 pacman -S git --noconfirm
 echo -e "$yellow * Téléchargement du projet ARCHBOX via GitHub "
 git clone https://github.com/HopeNux/archbox_projet.git
@@ -34,7 +35,11 @@ case $iarchbox in
 esac
 if [ "$iarchbox" = "ok" ] ; then
 	cd archbox_projet/
-	sh archbox_1config.sh
+	if [ -f "archbox_1config.sh" ] ; then
+		sh archbox_1config.sh
+	else
+		echo -e "$white * Script non présent"
+	fi
 fi
 echo -e "$white *"
 echo -e "$white ******************************************************************************"

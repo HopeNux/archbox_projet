@@ -57,9 +57,12 @@ echo -e "$white ****************************************************************
 echo -e "$white * Installation et configuration de XFCE"
 echo -e "$white * $cyan"
 pacman -S --noconfirm xfce4 
-pacman -S --noconfirm xfce4-goodies gstreamer0.10-base-plugins faenza-icon-theme
+pacman -S --noconfirm xfce4-goodies gstreamer0.10-base-plugins faenza-icon-theme 
+pacman -S --noconfirm p7zip wget unrar xdg-user-dirs lftp thunar thunar-archive-plugin file-roller lrzip unace
+pacman -S --noconfirm acpi acpid # gestionnaire d'energie
+pacman -S --noconfirm kde-l10n-fr
 pacman -Syy
-yaourt -S --noconfirm gtk-theme-elementary gtk-theme-numix-git numix-icon-theme-git
+yaourt -S --noconfirm gtk-theme-elementary gtk-theme-numix-git numix-icon-theme-git gtk-theme-numix-blue
 echo -e "$white * "
 cp -Rv "$rep/tools/archbox-theme/xfce4/" "/home/$user/.config/"
 cp -Rv "$rep/tools/archbox-theme/archbox/" "/usr/share/"

@@ -10,8 +10,8 @@
 #----------------------------------------------------------------
 if [ -s $2 ] ; then
 	case $1 in
-		"log")
-			echo -e "$yellow Attention un log existe déjà pour se script ($2)"
+		"lck")
+			echo -e "$yellow Attention un fichier lock existe déjà pour le script archbox_($2)"
 			echo -e "$yellow est vous sur de vouloir continuer ? $red"
 			read -p " Appuyer sur une touche pour continuer (sinon quitter)..." ;; 
 		*)
