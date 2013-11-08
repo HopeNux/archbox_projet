@@ -25,7 +25,7 @@ echo -e "$green * Votre console multimedia de salon"
 echo -e "$green * Installation $yellow [XBMC]$cyan [En cour...]"
 echo -e "$green * "
 echo -e "$green ******************************************************************************"
-echo -e "$white * "
+echo -e "$green * "
 #----------------------------------------------------------------
 # Vérification fichier lck
 #----------------------------------------------------------------
@@ -38,8 +38,8 @@ fi
 # Mise à jour + Installation
 #----------------------------------------------------------------
 sh $rep/tools/archbox-opt/archbox_maj.sh
-echo -e "$white * "
-echo -e "$white ******************************************************************************"
+echo -e "$green * "
+echo -e "$green ******************************************************************************"
 ###############################################################################################
 
 echo " "
@@ -59,6 +59,22 @@ else
 	fi
 fi
 export HOME="/home/$user"
+
+#----------------------------------------------------------------
+# Architecture (i386 - i686 - x86_64 - armv6l)
+#----------------------------------------------------------------
+archi=`uname -m`
+echo -e "$green * Votre architecture$yellow $archi"
+if [ "$archi" = "armv6l" ] ; then
+	echo -e " * $red"
+	read -p " * Votre machine est elle un Raspberry Pi Oui ? Non ? [def:Non] : " rpi
+	case $rpi in
+		"o"|"oui"|"O"|"Oui"|"OUI"|"y"|"yes"|"Y"|"Yes"|"YES")
+			archi="rpi" ;; 
+		*)
+			echo "$green * " ;;
+	esac
+fi
 echo -e "$white * Config /etc/sudoers"
 if [[ ! $archi == "rpi" ]];then
 	sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers

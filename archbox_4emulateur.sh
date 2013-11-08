@@ -3,11 +3,7 @@
 #----------------------------------------------------------------
 # ARCHBOX_4EMULATEUR.SH --> DEBUT
 #----------------------------------------------------------------
-rep=`(cd $(dirname "$0"); pwd)`
-
-#----------------------------------------------------------------
-# Paramètres par défauts
-#----------------------------------------------------------------
+rep=`(cd $(dirname "$0"); pwd)` 2>/dev/null
 export LANG=fr_FR.UTF-8
 export blue="\\033[1;34m"
 export cyan="\\033[1;36m"
@@ -16,16 +12,6 @@ export nc="\\033[0;39m"
 export red="\\033[1;31m"
 export white="\\033[1;37m"
 export yellow="\\033[1;33m"
-export HOME=/home/xbmc
-
-#----------------------------------------------------------------
-# Vérification / Creation fichier LOG
-#----------------------------------------------------------------
-sh $rep/tools/archbox-opt/archbox_error.sh "log" "$rep/archbox_4emulateur.log"
-echo "" > $rep/archbox_4emulateur.log
-echo "#----------------------------------------------------------------" >> $rep/archbox_4emulateur.log
-echo "# ARCHBOX_4EMULATEUR.SH --> DEBUT" >> $rep/archbox_4emulateur.log
-echo "#----------------------------------------------------------------" >> $rep/archbox_4emulateur.log
 ###############################################################################################
 
 echo " "
@@ -39,13 +25,21 @@ echo -e "$green * Votre console multimédia de salon"
 echo -e "$green * Installation $yellow [EMULATEUR]$cyan [En cour...]"
 echo -e "$green * "
 echo -e "$green ******************************************************************************"
-###############################################################################################
+echo -e "$green * "
+#----------------------------------------------------------------
+# Vérification fichier lck
+#----------------------------------------------------------------
+sh $rep/tools/archbox-opt/archbox_error.sh "lck" "$rep/4emulateur.lck"
+if [ -f "$rep/4emulateur.lck" ] ; then
+	rm $rep/4emulateur.lck
+fi
 
-echo " "
-echo " "
-
-###############################################################################################
+#----------------------------------------------------------------
+# Mise à jour + Installation
+#----------------------------------------------------------------
 sh $rep/tools/archbox-opt/archbox_maj.sh
+echo -e "$green * "
+echo -e "$green ******************************************************************************"
 ###############################################################################################
 
 echo " "
@@ -53,24 +47,44 @@ echo " "
 
 ###############################################################################################
 echo -e "$white ******************************************************************************"
-echo -e "$white * Installation et configuration de l'émulateur"
+echo -e "$white * Installation et configuration de l'émulateur $red"
+#----------------------------------------------------------------
+# Nouveau utilisateur
+#----------------------------------------------------------------
+if [ -z "$1" ] ; then
+	user=$1
+else
+	read -p " * (2) Nouveau utilisateur : (défaut xbmc) " user
+	if [ -z "$user" ] ; then
+		user="xbmc"
+	fi
+fi
+export HOME="/home/$user"
+
+#----------------------------------------------------------------
+# Architecture (i386 - i686 - x86_64 - armv6l)
+#----------------------------------------------------------------
+archi=`uname -m`
+echo -e "$green * Votre architecture$yellow $archi"
+if [ "$archi" = "armv6l" ] ; then
+	echo -e " * $red"
+	read -p " * Votre machine est elle un Raspberry Pi Oui ? Non ? [def:Non] : " rpi
+	case $rpi in
+		"o"|"oui"|"O"|"Oui"|"OUI"|"y"|"yes"|"Y"|"Yes"|"YES")
+			archi="rpi" ;; 
+		*)
+			echo "$green * " ;;
+	esac
+fi
+
+#----------------------------------------------------------------
+# Installation EMULATEUR
+#----------------------------------------------------------------
 echo -e "$white * $cyan"
-# A FAIRE
-# A FAIRE
-# A FAIRE
-# A FAIRE
 # A FAIRE
 # A FAIRE
 echo -e "$white * Emulateur $yellow [OK]"
 echo -e "$white ******************************************************************************"
-#----------------------------------------------------------------
-# Ajout LOG
-#----------------------------------------------------------------
-echo "" >> $rep/archbox_4emulateur.log
-echo "#----------------------------------------------------------------" >> $rep/archbox_4emulateur.log
-echo "# LOG INSTALLATION EMULATEUR" >> $rep/archbox_4emulateur.log
-echo "#----------------------------------------------------------------" >> $rep/archbox_4emulateur.log
-echo "INSTALLATION EMULATEUR OK " >> $rep/archbox_4emulateur.log
 ###############################################################################################
 
 echo " "
@@ -85,5 +99,10 @@ echo -e "$green * "
 echo -e "$green * [$red ARCHBOX$green ]"	
 echo -e "$green * Installation $yellow [EMULATEUR]$red Terminé"								   				  
 echo -e "$green * "
-echo -e "$green ******************************************************************************"
+echo -e "$green ****************************************************************************** $nc"
+cat <<EOF > $rep/4emulateur.lck
+#----------------------------------------------------------------
+# ARCHBOX_4EMULATEUR.SH --> [OK]
+#----------------------------------------------------------------
+EOF
 ###############################################################################################
