@@ -20,7 +20,7 @@ echo " "
 ###############################################################################################
 echo -e "$green ******************************************************************************"
 echo -e "$green * "
-echo -e "$green * [$red ARCHBOX$green ]"									   				  
+echo -e "$green * [$red ARCHBOX $green ]"									   				  
 echo -e "$green * Votre console multimedia de salon" 
 echo -e "$green * Installation $yellow [XBMC]$cyan [En cour...]"
 echo -e "$green * "
@@ -58,18 +58,11 @@ else
 		user="xbmc"
 	fi
 fi
-export HOME=/home/$user
+export HOME="/home/$user"
 echo -e "$white * Config /etc/sudoers"
 if [[ ! $archi == "rpi" ]];then
 	sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
 fi
-
-#----------------------------------------------------------------
-# Config /home/$user
-#----------------------------------------------------------------
-echo -e "$white * Config /home/$user/.gtkrc-2.0"
-touch $HOME/.gtkrc-2.0
-echo 'gtk-icon-theme-name = "gnome"' >> $HOME/.gtkrc-2.0
 
 #----------------------------------------------------------------
 # Config /home/$user/.config/user-dirs.dirs
@@ -218,5 +211,10 @@ echo -e "$green * "
 echo -e "$green * [$red ARCHBOX$green ]"			
 echo -e "$green * Installation $yellow [XBMC]$red Terminé"						   				  
 echo -e "$green * "
-echo -e "$green ******************************************************************************"
+echo -e "$green ****************************************************************************** $nc"
+cat <<EOF > $rep/2xbmc.lck
+#----------------------------------------------------------------
+# ARCHBOX_2XBMC.SH --> [OK]
+#----------------------------------------------------------------
+EOF
 ###############################################################################################

@@ -78,7 +78,7 @@ sh $rep/tools/archbox-opt/archbox_maj.sh
 echo -e "$white * "
 echo -e "$white * Installation : net-tools - samba - smbclient"
 echo -e " * $cyan"
-pacman -S --noconfirm net-tools samba smbclient
+pacman -S --noconfirm net-tools samba smbclient smbnetfs
 cp $rep/tools/archbox-network/smb.conf /etc/samba/
 echo -e "$white ******************************************************************************"
 ###############################################################################################
@@ -126,6 +126,9 @@ smbpasswd -a touriste
 echo -e "$green *"
 echo -e "$green *  -> Ajout du 'touriste' dans le groupe $white USERS : $nc"
 gpasswd -a touriste users
+cp -Rv "$rep/tools/archbox-theme/xfce4/" "/home/$user/.config/"
+cp -Rv "$rep/tools/archbox-theme/archbox/" "/usr/share/"
+cp -v "$rep/tools/archbox-theme/gtkrc-2.0" "/home/$user/.gtkrc-2.0"
 echo -e "$green * $red"
 #----------------------------------------------------------------
 # Config new user (defaut xbmc)
@@ -163,6 +166,9 @@ rm /home/$user/.bashrc 2>/dev/null
 cp $rep/tools/archbox-theme/bashrc /home/$user/.bashrc
 chown $user:users /home/$user/.bashrc
 cp $rep/tools/archbox-theme/bashrc /root/.bashrc
+cp -Rv "$rep/tools/archbox-theme/xfce4/" "/home/$user/.config/" "/home/touriste/.config/"
+cp -Rv "$rep/tools/archbox-theme/archbox/" "/usr/share/"
+cp -v "$rep/tools/archbox-theme/gtkrc-2.0" "/home/$user/.gtkrc-2.0" "/home/touriste/.gtkrc-2.0"
 echo -e "$green * Ajout .bashrc$yellow [OK]"
 echo -e "$green * "
 
@@ -300,9 +306,12 @@ pacman -S --noconfirm xorg-server xorg-xinit xorg-utils xorg-server-utils xterm 
 pacman -S --noconfirm ttf-dejavu artwiz-fonts font-bh-ttf font-bitstream-speedo gsfonts sdl_ttf ttf-bitstream-vera ttf-cheapskate ttf-liberation
 pacman -S --noconfirm subversion dbus dbus-python python-cairo python2-cairo
 pacman -S --noconfirm vim ntp
-pacman -S --noconfirm openssl sshguard iptables
+pacman -S --noconfirm openssl sshguard iptables 
 iptables -A INPUT -p tcp --dport 443 -j sshguard
 pacman -S --noconfirm libxvmc upower polkit ntfs-3g nfs-utils udisks udevil mtools # mtools=acces msdos disks
+echo -e "$yellow *"
+cat /proc/asound/cards
+echo -e " * $cyan"
 pacman -S --noconfirm alsa-utils alsa-lib alsa-oss alsa-tools alsa-plugins alsa-firmware pulseaudio pulseaudio-alsa ossp paprefs pavucontrol lib32-libpulse flac vorbis-tools gstreamer0.10-base
 echo -e "$white * Outils de base $yellow [OK]"
 echo -e "$white ******************************************************************************"
@@ -407,7 +416,7 @@ systemctl enable dbus.service
 systemctl enable ntpd.service
 systemctl enable sshd.service
 systemctl enable acpid.service
-systemctl enable smbd.service nmbd.service
+systemctl enable smbd.service nmbd.service smbnetfs.service
 echo -e "$white * Activation des services $yellow [OK]"
 echo -e "$white ******************************************************************************"
 ###############################################################################################
