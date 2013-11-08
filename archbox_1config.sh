@@ -166,9 +166,9 @@ rm /home/$user/.bashrc 2>/dev/null
 cp $rep/tools/archbox-theme/bashrc /home/$user/.bashrc
 chown $user:users /home/$user/.bashrc
 cp $rep/tools/archbox-theme/bashrc /root/.bashrc
-cp -Rv "$rep/tools/archbox-theme/xfce4/" "/home/$user/.config/" "/home/touriste/.config/"
+cp -Rv "$rep/tools/archbox-theme/xfce4/" "/home/$user/.config/"
 cp -Rv "$rep/tools/archbox-theme/archbox/" "/usr/share/"
-cp -v "$rep/tools/archbox-theme/gtkrc-2.0" "/home/$user/.gtkrc-2.0" "/home/touriste/.gtkrc-2.0"
+cp -v "$rep/tools/archbox-theme/gtkrc-2.0" "/home/$user/.gtkrc-2.0"
 echo -e "$green * Ajout .bashrc$yellow [OK]"
 echo -e "$green * "
 

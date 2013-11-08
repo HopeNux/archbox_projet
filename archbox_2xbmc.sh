@@ -202,14 +202,14 @@ fi
 cat <<EOF >/etc/polkit-1/rules.d/10-xbmc.rules
 polkit.addRule(function(action, subject) {
 	if(action.id.match("org.freedesktop.login1.") && subject.isInGroup("power")) {
-			return polkit.Result.YES;
+		return polkit.Result.YES;
 	}
 });
-[Actions for $user user]
-Identity=unix-user:$user
 EOF
 
 cat <<EOF >/var/lib/polkit-1/localauthority/50-local.d/xbmc.pkla
+[Actions for $user user]
+Identity=unix-user:$user
 Action=org.freedesktop.devicekit.power.*;org.freedesktop.consolekit.system.*
 ResultActive=yes
 ResultAny=yes
