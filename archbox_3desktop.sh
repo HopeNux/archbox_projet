@@ -64,17 +64,21 @@ export HOME="/home/$user"
 #----------------------------------------------------------------
 # Architecture (i386 - i686 - x86_64 - armv6l)
 #----------------------------------------------------------------
-archi=`uname -m`
-echo -e "$green * Votre architecture$yellow $archi"
-if [ "$archi" = "armv6l" ] ; then
-	echo -e " * $red"
-	read -p " * Votre machine est elle un Raspberry Pi Oui ? Non ? [def:Non] : " rpi
-	case $rpi in
-		"o"|"oui"|"O"|"Oui"|"OUI"|"y"|"yes"|"Y"|"Yes"|"YES")
-			archi="rpi" ;; 
-		*)
-			echo "$green * " ;;
-	esac
+if [ -z "$2" ] ; then
+	archi=`uname -m`
+	echo -e "$green * Votre architecture$yellow $archi"
+	if [ "$archi" = "armv6l" ] ; then
+		echo -e " * $red"
+		read -p " * Votre machine est elle un Raspberry Pi Oui ? Non ? [def:Non] : " rpi
+		case $rpi in
+			"o"|"oui"|"O"|"Oui"|"OUI"|"y"|"yes"|"Y"|"Yes"|"YES")
+				archi="rpi" ;; 
+			*)
+				echo "$green * " ;;
+		esac
+	fi
+else
+	echo -e "$white * Tu es un RaspBerryPI"
 fi
 
 #----------------------------------------------------------------
@@ -98,11 +102,13 @@ pacman -S --noconfirm kdegraphics-kolourpaint # Soft très proche de MSpaint (kd
 pacman -S --noconfirm kaffeine vlc # Lecteurs multimedias
 pacman -S --noconfirm gnome-calculator # Calculatrice ( très important :p )
 pacman -S --noconfirm mupdf firestarter # Lecteur pdf simple + parfeu
-pacman -S --noconfirm gstreamer0.10-base-plugins faenza-icon-theme
+pacman -S --noconfirm faenza-icon-theme # Pack icones faenza / gstreamer0.10-base gstreamer0.10-base-plugins
 pacman -S --noconfirm firefox firefox-i18n-fr #Firefox en FR
+echo -e "$yellow * [Attention on passe au dessert(yaourt) ahah-ah...!] "
 pacman -Syy
-yaourt -S --noconfirm chromium chromium-pepper-flash-stable chromium-libpdf-stable # Chromium libre avec lecteur pdf et flash libre
-yaourt -S --noconfirm brocade-firmware # Résout l'erreur "WARNING: Possibly missing firmware for module: bfa" ---> AJOUTER COMMENTAIRE EN FIN MODULES="bna" /etc/mkcinit...conf
+yaourt -S --noconfirm chromium # Chromium libre
+yaourt -S --noconfirm chromium-pepper-flash-stable chromium-libpdf-stable # Chromium libre avec lecteur pdf et flash libre
+yaourt -S --noconfirm brocade-firmware # Résout l'erreur "WARNING: Possibly missing firmware for module: bfa" ---> AJOUTER COMMENTAIRE EN FIN MODULES="bna" /etc/mkcinit...conf Please add the 'bna' module to $MODULES in /etc/mkinitcpio.conf and rebuild your initcpio to complete the installation
 yaourt -S --noconfirm aic94xx-firmware # Résout l'erreur "WARNING: Possibly missing firmware for module: aic94xx"
 yaourt -S --noconfirm siano-tv-fw # Résout l'erreur "WARNING: Possibly missing firmware for module: smsmdtv"
 yaourt -S --noconfirm gtk-theme-elementary gtk-theme-numix-git numix-icon-theme-git gtk-theme-numix-blue # themes numix
@@ -125,6 +131,8 @@ echo -e "$green * "
 echo -e "$green * [$red ARCHBOX$green ]"			
 echo -e "$green * Installation $yellow [DESKTOP]$red Terminé"						   				  
 echo -e "$green * "
+echo -e "$red * Attention ajouter manuellement 'bna' dans $MODULES sur /etc/mkinitcpio.conf "
+echo -e "$red * et recharger mkinitcpio avec ==> mkinitcpio -p linux"
 echo -e "$green ****************************************************************************** $nc"
 cat <<EOF > $rep/3desktop.lck
 #----------------------------------------------------------------

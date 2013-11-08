@@ -63,17 +63,21 @@ export HOME="/home/$user"
 #----------------------------------------------------------------
 # Architecture (i386 - i686 - x86_64 - armv6l)
 #----------------------------------------------------------------
-archi=`uname -m`
-echo -e "$green * Votre architecture$yellow $archi"
-if [ "$archi" = "armv6l" ] ; then
-	echo -e " * $red"
-	read -p " * Votre machine est elle un Raspberry Pi Oui ? Non ? [def:Non] : " rpi
-	case $rpi in
-		"o"|"oui"|"O"|"Oui"|"OUI"|"y"|"yes"|"Y"|"Yes"|"YES")
-			archi="rpi" ;; 
-		*)
-			echo "$green * " ;;
-	esac
+if [ -z "$2" ] ; then
+	archi=`uname -m`
+	echo -e "$green * Votre architecture$yellow $archi"
+	if [ "$archi" = "armv6l" ] ; then
+		echo -e " * $red"
+		read -p " * Votre machine est elle un Raspberry Pi Oui ? Non ? [def:Non] : " rpi
+		case $rpi in
+			"o"|"oui"|"O"|"Oui"|"OUI"|"y"|"yes"|"Y"|"Yes"|"YES")
+				archi="rpi" ;; 
+			*)
+				echo "$green * " ;;
+		esac
+	fi
+else
+	echo -e "$white * Tu es un RaspBerryPI"
 fi
 echo -e "$white * Config /etc/sudoers"
 if [[ ! $archi == "rpi" ]];then
@@ -167,14 +171,14 @@ echo " "
 
 ###############################################################################################
 echo -e "$white ******************************************************************************"
-echo -e "$white * Install XBMC"
+echo -e "$white * Installation XBMC"
 echo -e "$white ******************************************************************************"
 echo -e "$red * Information : XBMC classique ou PVR(tuner tv) ?"
 LISTE=(" * Classique" " * PVR")
 select CHOIX in "${LISTE[@]}" ; do
 case $REPLY in
 	1|c)
-		echo -e "$white * Installation : XBMC $cyan"
+		echo -e "$white * Installation XBMC sans PVR $cyan"
 		pacman -Su --noconfirm xbmc 
 	break
 	;;
@@ -191,7 +195,7 @@ echo -e "$white * Installation XBMC $yellow [OK]"
 echo -e "$white * "
 echo -e "$white * Controle d'extinction"
 echo -e "$white * Ajout du éteindre, restart, veille, pause + télécommande $cyan"
-pacman -Su --noconfirm lirc lirc_utils # télécommande
+pacman -S --noconfirm lirc lirc-utils # télécommande
 if [ -f "/etc/polkit-1/rules.d/10-xbmc.rules" ] ; then
 	rm /etc/polkit-1/rules.d/10-xbmc.rules
 fi

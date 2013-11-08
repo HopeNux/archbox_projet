@@ -312,7 +312,7 @@ pacman -S --noconfirm libxvmc upower polkit ntfs-3g nfs-utils udisks udevil mtoo
 echo -e "$yellow *"
 cat /proc/asound/cards
 echo -e " * $cyan"
-pacman -S --noconfirm alsa-utils alsa-lib alsa-oss alsa-tools alsa-plugins alsa-firmware pulseaudio pulseaudio-alsa ossp paprefs pavucontrol lib32-libpulse flac vorbis-tools gstreamer0.10-base
+pacman -S --noconfirm alsa-utils alsa-lib alsa-oss alsa-tools alsa-plugins alsa-firmware pulseaudio pulseaudio-alsa ossp paprefs pavucontrol lib32-libpulse flac vorbis-tools
 echo -e "$white * Outils de base $yellow [OK]"
 echo -e "$white ******************************************************************************"
 ###############################################################################################
@@ -430,32 +430,32 @@ echo " "
 #----------------------------------------------------------------
 if [ "$ixbmc" = "ok" ] ; then
 	if [ -f $rep/archbox_2xbmc.sh ] ; then
-		sh $rep/archbox_2xbmc.sh "$user"
+		sh $rep/archbox_2xbmc.sh "$user" "$archi"
 	else
 		echo -e "$red * Le fichier archbox_2xbmc.sh n'est pas présent"
 	fi
 fi
 if [ "$ixfce" = "ok" ] ; then
 	if [ -f $rep/archbox_3desktop.sh ] ; then
-		sh $rep/archbox_3desktop.sh
+		sh $rep/archbox_3desktop.sh "$user" "$archi"
 	else
 		echo -e "$red * Le fichier archbox_3desktop.sh n'est pas présent"
 	fi
 fi
 if [ "$iemul" = "ok" ] ; then
 	if [ -f $rep/archbox_4emulateur.sh ] ; then
-		sh $rep/archbox_4emulateur.sh
+		sh $rep/archbox_4emulateur.sh "$user" "$archi"
 	else
 		echo -e "$red * Le fichier archbox_4emulateur.sh n'est pas présent"
 	fi
 fi
 if [ -f $rep/archbox_5drivers.sh ] ; then
-	sh $rep/archbox_5drivers.sh
+	sh $rep/archbox_5drivers.sh "$user" "$archi"
 else
 	echo -e "$red * Le fichier archbox_5drivers.sh n'est pas présent"
 fi
 if [ -f $rep/archbox_6boot.sh ] ; then
-	sh $rep/archbox_6boot.sh
+	sh $rep/archbox_6boot.sh "$user" "$archi"
 else
 	echo -e "$red * Le fichier archbox_6boot.sh n'est pas présent"
 fi

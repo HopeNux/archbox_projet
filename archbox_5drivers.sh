@@ -48,35 +48,40 @@ echo " "
 ###############################################################################################
 echo -e "$white ******************************************************************************"
 echo -e "$white * Votre carte graphique :"
-lspci -k | grep -A 2 -i "VGA"
+lspci | grep -A 2 -i "VGA"
 echo -e "$white * Installation et configuration de vos drivers"
 
 #----------------------------------------------------------------
 # Architecture (i386 - i686 - x86_64 - armv6l)
 #----------------------------------------------------------------
-archi=`uname -m`
-echo -e "$green * Votre architecture$yellow $archi"
-if [ "$archi" = "armv6l" ] ; then
-	echo -e " * $red"
-	read -p " * Votre machine est elle un Raspberry Pi Oui ? Non ? [def:Non] : " rpi
-	case $rpi in
-		"o"|"oui"|"O"|"Oui"|"OUI"|"y"|"yes"|"Y"|"Yes"|"YES")
-			archi="rpi" ;; 
-		*)
-			echo "$green * " ;;
-	esac
+if [ -z "$2" ] ; then
+	archi=`uname -m`
+	echo -e "$green * Votre architecture$yellow $archi"
+	if [ "$archi" = "armv6l" ] ; then
+		echo -e " * $red"
+		read -p " * Votre machine est elle un Raspberry Pi Oui ? Non ? [def:Non] : " rpi
+		case $rpi in
+			"o"|"oui"|"O"|"Oui"|"OUI"|"y"|"yes"|"Y"|"Yes"|"YES")
+				archi="rpi" ;; 
+			*)
+				echo "$green * " ;;
+		esac
+	fi
+else
+	echo -e "$white * Tu es un RaspBerryPI"
 fi
 
 #----------------------------------------------------------------
 # Liste des drivers (installation pour le rpi)
 #----------------------------------------------------------------
-if [ "$archi" = "rpi" ] ; then
+if [ "$archi" == "rpi" ] ; then
 	echo -e "$white * Raspberry PI drivers vidéos "
 	echo -e " * $cyan"
-	pacman -S --noconfirm xf86-video-fbdev
+	pacman -S xf86-video-fbdev
 	amixer cset numid=0
 else
-	LISTE=(" USB " " AMD/ATI " " NVIDIA " " INTEL " " MESA " " DEJA INSTALLE ")
+	echo -e "$white * Choisissez votre drivers "
+	LISTE=(" USB/VM " " AMD/ATI " " NVIDIA " " INTEL " " MESA " " DEJA INSTALLE ")
 	select CHOIX in "${LISTE[@]}" ; do
 	case $REPLY in
 			1|'a')
