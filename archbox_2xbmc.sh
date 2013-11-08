@@ -51,12 +51,12 @@ echo -e "$white ****************************************************************
 # Nouveau utilisateur
 #----------------------------------------------------------------
 if [ -z "$1" ] ; then
-	user=$1
-else
 	read -p " * (2) Nouveau utilisateur : (défaut xbmc) " user
 	if [ -z "$user" ] ; then
 		user="xbmc"
 	fi
+else
+	user="$1"
 fi
 export HOME="/home/$user"
 
