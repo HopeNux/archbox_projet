@@ -1,10 +1,10 @@
 ﻿#!/bin/bash
-clear
 ###############################################################################################
 #----------------------------------------------------------------
 # ARCHBOX_1CONFIG.SH --> DEBUT
 #----------------------------------------------------------------
-rep=`(cd $(dirname "$0"); pwd)` &>/dev/null
+clear
+rep=`(cd $(dirname "$0"); pwd)` 2>/dev/null
 loadkeys fr-pc
 export LANG=fr_FR.UTF-8
 export blue="\\033[1;34m"
@@ -37,13 +37,15 @@ echo -e "$white * Configuration de la langue [FR]"
 # Vérification fichier lck
 #----------------------------------------------------------------
 sh $rep/tools/archbox-opt/archbox_error.sh "lck" "$rep/1config.lck"
-rm $rep/1config.lck
+if [ -f "$rep/1config.lck" ] ; then
+	rm $rep/1config.lck
+fi
 echo -e "$white * "
 
 #----------------------------------------------------------------
 # Config /etc/localtime
 #----------------------------------------------------------------
-rm /etc/localtime &>/dev/null
+rm /etc/localtime 2>/dev/null
 ln -s /usr/share/zoneinfo/Europe/Paris /etc/localtime
 echo -e "$white * /etc/localtime $yellow [OK]"
 echo -e "$white * "
@@ -51,7 +53,7 @@ echo -e "$white * "
 #----------------------------------------------------------------
 # Config /etc/locale.conf
 #----------------------------------------------------------------
-echo "LANG=fr_FR.UTF-8" > /etc/locale.conf
+echo "LANG=$LANG" > /etc/locale.conf
 echo -e "$white * /etc/locale.conf $yellow [OK]"
 echo -e "$white *"
 
@@ -63,7 +65,7 @@ echo "Europe/Paris" > /etc/timezone
 #----------------------------------------------------------------
 # Config /etc/locale.gen
 #----------------------------------------------------------------
-sed -i 's/^#fr_FR.UTF-8 UTF-8/fr_FR.UTF-8 UTF-8/' /etc/locale.gen
+sed -i 's/^#$LANG UTF-8/$LANG UTF-8/' /etc/locale.gen
 sed -i 's/^#fr_FR ISO-8859-1/fr_FR ISO-8859-1/' /etc/locale.gen
 sed -i 's/^#fr_FR@euro ISO-8859-15/fr_FR@euro ISO-8859-15/' /etc/locale.gen
 locale-gen
@@ -113,36 +115,35 @@ echo -e "$green *"
 #----------------------------------------------------------------
 # Config touriste
 #----------------------------------------------------------------
-echo -e "$green * (1)  -> Installation et configuration de l'utilisateur 'touriste'"
-echo -e "$green *      -> avec le partage réseau"
+echo -e "$green * (1) Installation et configuration de l'utilisateur 'touriste'"
+echo -e "$green *  -> avec le partage réseau"
 useradd -m -g users -G audio,lp,optical,storage,video,wheel,games,power -s /bin/bash touriste
-echo -e "$green        ->$red Mot de passe 'touriste' SSH : $nc"
+echo -e "$green *  ->$red Mot de passe 'touriste' SSH : $nc"
 passwd touriste
 echo -e "$green *"
-echo -e "$green *      ->$red Mot de passe 'touriste' SAMBA (partage réseau) : $nc"
+echo -e "$green *  ->$red Mot de passe 'touriste' SAMBA (partage réseau) : $nc"
 smbpasswd -a touriste
 echo -e "$green *"
-echo -e "$green *      -> Ajout du 'touriste' dans le groupe $white USERS : $nc"
+echo -e "$green *  -> Ajout du 'touriste' dans le groupe $white USERS : $nc"
 gpasswd -a touriste users
-echo -e "$green * Ajout .bashrc touriste $yellow [OK]"
-echo -e "$green * "
+echo -e "$green * $red"
 #----------------------------------------------------------------
 # Config new user (defaut xbmc)
 #----------------------------------------------------------------
 groupadd xbmc
-read -p " * Nouveau utilisateur : (défaut xbmc) " user
+read -p " * (2) Nouveau utilisateur : (défaut xbmc) " user
 if [ -z "$user" ] ; then
 	user="xbmc"
 fi
-echo -e "$green * Installation et configuration de l'utilisateur $user"
-echo -e "$white * (2)  -> Ajout utilisateur '$user' "
+echo -e "$green *  ->Installation et configuration de l'utilisateur $user"
+echo -e "$green *  -> Ajout utilisateur '$user' "
 useradd -m -g users -G audio,lp,optical,storage,video,wheel,games,power,xbmc $user
-echo -e "$white *      -> Ajout du mot de passe 'xbmc' (pas de connection SSH) : $nc "
+echo -e "$green *  -> Ajout du mot de passe 'xbmc' (pas de connection SSH) : $nc "
 passwd $user
-echo -e "$white * "
+echo -e "$green * "
 gpasswd -a $user users
 gpasswd -a touriste xbmc
-echo -e "$white * Utilisateur $user $yellow [OK]"
+echo -e "$green * Utilisateur $user $yellow [OK]"
 
 #----------------------------------------------------------------
 # Config root
@@ -155,10 +156,10 @@ echo -e "$green *"
 #----------------------------------------------------------------
 # Config root / touriste / user .bashrc
 #----------------------------------------------------------------
-rm /home/touriste/.bashrc &>/dev/null
+rm /home/touriste/.bashrc 2>/dev/null
 cp $rep/tools/archbox-theme/bashrc /home/touriste/.bashrc
 chown touriste:users /home/touriste/.bashrc
-rm /home/$user/.bashrc &>/dev/null
+rm /home/$user/.bashrc 2>/dev/null
 cp $rep/tools/archbox-theme/bashrc /home/$user/.bashrc
 chown $user:users /home/$user/.bashrc
 cp $rep/tools/archbox-theme/bashrc /root/.bashrc
@@ -300,6 +301,7 @@ pacman -S --noconfirm ttf-dejavu artwiz-fonts font-bh-ttf font-bitstream-speedo 
 pacman -S --noconfirm subversion dbus dbus-python python-cairo python2-cairo
 pacman -S --noconfirm vim ntp
 pacman -S --noconfirm openssl sshguard iptables
+iptables -A INPUT -p tcp --dport 443 -j sshguard
 pacman -S --noconfirm libxvmc upower polkit ntfs-3g nfs-utils udisks udevil mtools # mtools=acces msdos disks
 pacman -S --noconfirm alsa-utils alsa-lib alsa-oss alsa-tools alsa-plugins alsa-firmware pulseaudio pulseaudio-alsa ossp paprefs pavucontrol lib32-libpulse flac vorbis-tools gstreamer0.10-base
 echo -e "$white * Outils de base $yellow [OK]"
@@ -332,7 +334,7 @@ echo -e "$white * Configuration XORG KEYBOARD LAYOUT $yellow [OK]"
 # Serveur de temps FR
 #----------------------------------------------------------------
 if [ ! "$archi" = "rpi" ]  ; then
-	rm /etc/ntp.conf &>/dev/null
+	rm /etc/ntp.conf 2>/dev/null
 	cat <<EOF >/etc/ntp.conf
 server 0.fr.pool.ntp.org iburst
 server 1.fr.pool.ntp.org iburst
@@ -414,7 +416,6 @@ echo " "
 echo " "
 
 ###############################################################################################
-echo -e "$white ******************************************************************************"
 #----------------------------------------------------------------
 # ARCHBOX_1CONFIG.SH --> LANCEMENT DES AUTRES SCRIPTS
 #----------------------------------------------------------------
@@ -453,8 +454,8 @@ echo -e " * $white "
 echo -e "$green **********************************************************************************************************"
 echo -e "$green * "
 echo -e "$green * [$red ARCHBOX$green ]"									   				  
-echo -e "$green * Votre console multimédia de salon" 
-echo -e "$green *$yellow Installation terminé voir les logs"
+echo -e "$green * Votre console multimédia de salon"
+echo -e "$green * Installation $yellow [ARCHBOX]$red Terminé"	
 echo -e "$green * "
 echo -e "$green ********************************************************************************************************** $nc"
 cat <<EOF > $rep/1config.lck

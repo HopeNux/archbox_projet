@@ -13,7 +13,7 @@ if [ -s $2 ] ; then
 		"lck")
 			echo -e "$yellow Attention un fichier lock existe déjà pour le script archbox_($2)"
 			echo -e "$yellow est vous sur de vouloir continuer ? $red"
-			read -p " Appuyer sur une touche pour continuer (sinon quitter)..." ;; 
+			read -p " Appuyer sur une touche pour continuer (sinon quitter [CTRL+C])..." ;; 
 		*)
 			echo "" ;;
 	esac
