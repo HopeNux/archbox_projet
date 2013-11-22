@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+#!/bin/bash
 ###############################################################################################
 #----------------------------------------------------------------
 # ARCHBOX_1CONFIG.SH --> DEBUT
@@ -76,9 +76,9 @@ echo -e "$white * "
 #----------------------------------------------------------------
 sh $rep/tools/archbox-opt/archbox_maj.sh
 echo -e "$white * "
-echo -e "$white * Installation : net-tools - samba - smbclient"
+echo -e "$white * Installation : net-tools - samba - smbclient - linux-headers"
 echo -e " * $cyan"
-pacman -S --noconfirm net-tools samba smbclient smbnetfs
+pacman -S --noconfirm net-tools samba smbclient smbnetfs linux-headers
 cp $rep/tools/archbox-network/smb.conf /etc/samba/
 echo -e "$white ******************************************************************************"
 ###############################################################################################
@@ -126,9 +126,7 @@ smbpasswd -a touriste
 echo -e "$green *"
 echo -e "$green *  -> Ajout du 'touriste' dans le groupe $white USERS : $nc"
 gpasswd -a touriste users
-cp -Rv "$rep/tools/archbox-theme/xfce4/" "/home/$user/.config/"
-cp -Rv "$rep/tools/archbox-theme/archbox/" "/usr/share/"
-cp -v "$rep/tools/archbox-theme/gtkrc-2.0" "/home/$user/.gtkrc-2.0"
+echo -e "$green * "
 echo -e "$green * $red"
 #----------------------------------------------------------------
 # Config new user (defaut xbmc)
@@ -141,18 +139,18 @@ fi
 echo -e "$green *  ->Installation et configuration de l'utilisateur $user"
 echo -e "$green *  -> Ajout utilisateur '$user' "
 useradd -m -g users -G audio,lp,optical,storage,video,wheel,games,power,xbmc $user
-echo -e "$green *  -> Ajout du mot de passe 'xbmc' (pas de connection SSH) : $nc "
+echo -e "$green *  ->$red Ajout du mot de passe '$user' (pas de connection SSH) : $nc "
 passwd $user
-echo -e "$green * "
 gpasswd -a $user users
 gpasswd -a touriste xbmc
 echo -e "$green * Utilisateur $user $yellow [OK]"
-
+echo -e "$green * "
+echo -e "$green * "
 #----------------------------------------------------------------
 # Config root
 #----------------------------------------------------------------
-echo -e "$green * (3)  -> Configuration utilisateur 'root'" 
-echo -e "$green *      -> $red Mot de passe 'root' (pas de connection SSH) : $nc"
+echo -e "$red * (3) -> Configuration utilisateur 'root'" 
+echo -e "$green *    ->$red Mot de passe 'root' (pas de connection SSH) : $nc"
 passwd
 echo -e "$green *"
 
@@ -164,11 +162,11 @@ cp $rep/tools/archbox-theme/bashrc /home/touriste/.bashrc
 chown touriste:users /home/touriste/.bashrc
 rm /home/$user/.bashrc 2>/dev/null
 cp $rep/tools/archbox-theme/bashrc /home/$user/.bashrc
-chown $user:users /home/$user/.bashrc
 cp $rep/tools/archbox-theme/bashrc /root/.bashrc
-cp -Rv "$rep/tools/archbox-theme/xfce4/" "/home/$user/.config/"
-cp -Rv "$rep/tools/archbox-theme/archbox/" "/usr/share/"
-cp -v "$rep/tools/archbox-theme/gtkrc-2.0" "/home/$user/.gtkrc-2.0"
+cp -R "$rep/tools/archbox-theme/xfce4/" "/home/$user/.config/"
+cp -R "$rep/tools/archbox-theme/archbox/" "/usr/share/"
+cp "$rep/tools/archbox-theme/gtkrc-2.0" "/home/$user/.gtkrc-2.0"
+chown -R $user:users /home/$user
 echo -e "$green * Ajout .bashrc$yellow [OK]"
 echo -e "$green * "
 
@@ -227,6 +225,18 @@ case $iemul in
 	*)
 		echo " * " ;;
 esac
+idebug="ko"
+if [ "$ixbmc" = "ok" ] || [ "$ixfce" = "ok" ] || [ "$iemul" = "ok" ] ; then
+	echo -e "$green * Installation des programmes basic $yellow [OK]"	
+else
+	read -p " * Voulez vous passer en debug (pas d'installation de logiciels) Oui ? Non ? [def:Non] : " idebug
+	case $idebug in
+		"o"|"oui"|"O"|"Oui"|"OUI"|"y"|"yes"|"Y"|"Yes"|"YES")
+			idebug="ok" ;; 
+		*)
+			echo " * " ;;
+	esac
+fi
 echo -e "$green * "
 echo -e "$green ******************************************************************************"
 ###############################################################################################
@@ -301,19 +311,21 @@ echo " "
 echo -e "$white ******************************************************************************"
 echo -e "$white * Installation des programmes basiques ..."
 echo -e " * $cyan "
-pacman -S --noconfirm yaourt yajl namcap dosfstools
-pacman -S --noconfirm xorg-server xorg-xinit xorg-utils xorg-server-utils xterm xorg-fonts-type1 numlockx colordiff
-pacman -S --noconfirm ttf-dejavu artwiz-fonts font-bh-ttf font-bitstream-speedo gsfonts sdl_ttf ttf-bitstream-vera ttf-cheapskate ttf-liberation
-pacman -S --noconfirm subversion dbus dbus-python python-cairo python2-cairo
-pacman -S --noconfirm vim ntp
-pacman -S --noconfirm openssl sshguard iptables 
-iptables -A INPUT -p tcp --dport 443 -j sshguard
-pacman -S --noconfirm libxvmc upower polkit ntfs-3g nfs-utils udisks udevil mtools # mtools=acces msdos disks
-echo -e "$yellow *"
-cat /proc/asound/cards
-echo -e " * $cyan"
-pacman -S --noconfirm alsa-utils alsa-lib alsa-oss alsa-tools alsa-plugins alsa-firmware pulseaudio pulseaudio-alsa ossp paprefs pavucontrol lib32-libpulse flac vorbis-tools
-echo -e "$white * Outils de base $yellow [OK]"
+if [ "$idebug"="ko" ] ; then
+	pacman -S --noconfirm yaourt yajl namcap
+	pacman -S --noconfirm xorg-server xorg-xinit xorg-utils xorg-server-utils xorg-fonts-type1 numlockx colordiff
+	pacman -S --noconfirm xf86-input-synaptics xf86-input-mouse xf86-input-keyboard
+	pacman -S --noconfirm ttf-dejavu artwiz-fonts font-bh-ttf font-bitstream-speedo gsfonts sdl_ttf ttf-bitstream-vera ttf-cheapskate ttf-liberation
+	pacman -S --noconfirm subversion dbus dbus-python python-cairo python2-cairo
+	pacman -S --noconfirm vim ntp screen
+	pacman -S --noconfirm openssl sshguard iptables fail2ban # Sécurité minimum
+	pacman -S --noconfirm libxvmc upower polkit ntfs-3g nfs-utils udisks udevil dosfstools exfat-utils # mtools=acces msdos disks
+	echo -e "$yellow *"
+	cat /proc/asound/cards
+	echo -e " * $cyan"
+	pacman -S --noconfirm alsa-utils alsa-lib alsa-oss alsa-tools alsa-plugins alsa-firmware pulseaudio pulseaudio-alsa ossp paprefs pavucontrol lib32-libpulse flac vorbis-tools
+	echo -e "$white * Outils de base $yellow [OK]"
+fi
 echo -e "$white ******************************************************************************"
 ###############################################################################################
 
@@ -328,7 +340,7 @@ echo -e "$white * voir : /etc/X11/xorg.conf.d/10-keyboard-layout.conf"
 #----------------------------------------------------------------
 # Config Xorg
 #----------------------------------------------------------------
-	cat <<EOF >/etc/X11/xorg.conf.d/10-keyboard-layout.conf
+cat <<EOF >/etc/X11/xorg.conf.d/10-keyboard-layout.conf
 Section "InputClass"
 	Identifier	"Keyboard Layout"
 	MatchIsKeyboard	"yes"
@@ -338,29 +350,6 @@ Section "InputClass"
 EndSection
 EOF
 echo -e "$white * Configuration XORG KEYBOARD LAYOUT $yellow [OK]"
-
-#----------------------------------------------------------------
-# Serveur de temps FR
-#----------------------------------------------------------------
-if [ ! "$archi" = "rpi" ]  ; then
-	rm /etc/ntp.conf 2>/dev/null
-	cat <<EOF >/etc/ntp.conf
-server 0.fr.pool.ntp.org iburst
-server 1.fr.pool.ntp.org iburst
-server 2.fr.pool.ntp.org iburst
-server 3.fr.pool.ntp.org iburst
-
-restrict default noquery nopeer
-restrict 127.0.0.1
-restrict ::1
-
-driftfile /var/lib/ntp/ntp.drift
-
-EOF
-	ntpd -q
-	echo -e "$white * Serveur de temps FR $yellow [OK]"
-fi
-
 #----------------------------------------------------------------
 # Config /etc/vimrc
 #----------------------------------------------------------------
@@ -412,10 +401,32 @@ echo " "
 ###############################################################################################
 echo -e "$white ******************************************************************************"
 echo "* Activation des services au démarrage ..."
-systemctl enable dbus.service
-systemctl enable ntpd.service
+if [ "$idebug"="ko" ] ; then
+	#----------------------------------------------------------------
+	# Serveur de temps FR
+	#----------------------------------------------------------------
+	if [ ! "$archi" = "rpi" ]  ; then
+		rm /etc/ntp.conf 2>/dev/null
+		cat <<EOF >/etc/ntp.conf
+server 0.fr.pool.ntp.org iburst
+server 1.fr.pool.ntp.org iburst
+server 2.fr.pool.ntp.org iburst
+server 3.fr.pool.ntp.org iburst
+
+restrict default noquery nopeer
+restrict 127.0.0.1
+restrict ::1
+
+driftfile /var/lib/ntp/ntp.drift
+
+EOF
+		ntpd -q
+		echo -e "$white * Serveur de temps FR $yellow [OK]"
+	fi
+	systemctl enable dbus.service
+	systemctl enable ntpd.service
+fi
 systemctl enable sshd.service
-systemctl enable acpid.service
 systemctl enable smbd.service nmbd.service smbnetfs.service
 echo -e "$white * Activation des services $yellow [OK]"
 echo -e "$white ******************************************************************************"
@@ -449,15 +460,17 @@ if [ "$iemul" = "ok" ] ; then
 		echo -e "$red * Le fichier archbox_4emulateur.sh n'est pas présent"
 	fi
 fi
-if [ -f $rep/archbox_5drivers.sh ] ; then
-	sh $rep/archbox_5drivers.sh "$user" "$archi"
-else
-	echo -e "$red * Le fichier archbox_5drivers.sh n'est pas présent"
-fi
-if [ -f $rep/archbox_6boot.sh ] ; then
-	sh $rep/archbox_6boot.sh "$user" "$archi"
-else
-	echo -e "$red * Le fichier archbox_6boot.sh n'est pas présent"
+if [ "$idebug"="ko" ] ; then
+	if [ -f $rep/archbox_5drivers.sh ] ; then
+		sh $rep/archbox_5drivers.sh "$user" "$archi"
+	else
+		echo -e "$red * Le fichier archbox_5drivers.sh n'est pas présent"
+	fi
+	if [ -f $rep/archbox_6boot.sh ] ; then
+		sh $rep/archbox_6boot.sh "$user" "$archi"
+	else
+		echo -e "$red * Le fichier archbox_6boot.sh n'est pas présent"
+	fi
 fi
 echo -e " * $white "
 echo -e "$green **********************************************************************************************************"

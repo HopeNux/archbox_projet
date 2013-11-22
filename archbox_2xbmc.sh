@@ -77,7 +77,7 @@ if [ -z "$2" ] ; then
 		esac
 	fi
 else
-	echo -e "$white * Tu es un RaspBerryPI"
+	echo -e "$white * Architecture $2"
 fi
 echo -e "$white * Config /etc/sudoers"
 if [[ ! $archi == "rpi" ]];then
@@ -162,7 +162,7 @@ cat <<EOF >$HOME/.bash_profile
 #[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx
 EOF
 echo -e "$white * Config .bash_profile $yellow [OK]"
-chown $user:users $HOME/*
+chown -R $user:users $HOME/
 echo -e "$white ******************************************************************************"
 ###############################################################################################
 
@@ -193,7 +193,7 @@ done
 echo -e "$white * "
 echo -e "$white * Installation XBMC $yellow [OK]"
 echo -e "$white * "
-echo -e "$white * Controle d'extinction"
+echo -e "$white * Controle d\'extinction"
 echo -e "$white * Ajout du éteindre, restart, veille, pause + télécommande $cyan"
 pacman -S --noconfirm lirc lirc-utils # télécommande
 if [ -f "/etc/polkit-1/rules.d/10-xbmc.rules" ] ; then
@@ -206,7 +206,7 @@ polkit.addRule(function(action, subject) {
 	}
 });
 EOF
-
+#
 cat <<EOF >/var/lib/polkit-1/localauthority/50-local.d/xbmc.pkla
 [Actions for $user user]
 Identity=unix-user:$user
@@ -215,7 +215,7 @@ ResultActive=yes
 ResultAny=yes
 ResultInactive=no
 EOF
-echo -e "$white * Controle d'extinction $yellow [OK]"
+echo -e "$white * Controle d\'extinction $yellow [OK]"
 echo -e "$white ******************************************************************************"
 ###############################################################################################
 

@@ -68,7 +68,7 @@ if [ -z "$2" ] ; then
 		esac
 	fi
 else
-	echo -e "$white * Tu es un RaspBerryPI"
+	echo -e "$white * Architecture $2"
 fi
 
 #----------------------------------------------------------------

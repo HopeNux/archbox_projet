@@ -64,7 +64,7 @@ export HOME="/home/$user"
 #----------------------------------------------------------------
 # Architecture (i386 - i686 - x86_64 - armv6l)
 #----------------------------------------------------------------
-if [ -z "$3" ] ; then
+if [ -z "$2" ] ; then
 	archi=`uname -m`
 	echo -e "$green * Votre architecture$yellow $archi"
 	if [ "$archi" = "armv6l" ] ; then
@@ -78,7 +78,7 @@ if [ -z "$3" ] ; then
 		esac
 	fi
 else
-	echo -e "$white * Tu es un RaspBerryPI"
+	echo -e "$white * Architecture $2"
 fi
 
 #----------------------------------------------------------------

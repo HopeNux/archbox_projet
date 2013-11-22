@@ -78,15 +78,16 @@ if [ -z "$2" ] ; then
 		esac
 	fi
 else
-	echo -e "$white * Tu es un RaspBerryPI"
+	echo -e "$white * Architecture $2"
 fi
 
 #----------------------------------------------------------------
 # Installation XFCE
 #----------------------------------------------------------------
+# A ENLEVER : nepomuk
 echo -e "$white * $cyan"
 pacman -S --noconfirm xfce4 
-pacman -S --noconfirm xfce4-goodies 
+pacman -S --noconfirm xfce4-goodies hardinfo gsmartcontrol uget wget
 pacman -S --noconfirm gvfs # montage de disque réseau avec thunar.
 pacman -S --noconfirm gvfs-smb # gestionnaire de fichier avec prise en charge réseau.
 pacman -S --noconfirm gvfs-afc # Montage smartphone
@@ -94,7 +95,7 @@ pacman -S --noconfirm gvfs-mtp # Montage tablette ou appareil photo
 pacman -S --noconfirm thunar-archive-plugin #  ajoute une entrée dans le menu contextuel (clic droit) pour créer/décompresser les archives depuis Thunar.
 pacman -S --noconfirm thunar-volman # pour activer la gestion automatique des disques et médias amovibles.
 pacman -S --noconfirm gvfs-gphoto2 gvfs-afp gvfs-goa
-pacman -S --noconfirm file-roller lrzip unace unrar wget p7zip thunar-archive-plugin # Gestionaires d'archives
+pacman -S --noconfirm file-roller lrzip unace unrar p7zip thunar-archive-plugin # Gestionaires d'archives
 pacman -S --noconfirm xdg-user-dirs lftp
 pacman -S --noconfirm acpi acpid # Gestionnaire d'energie
 pacman -S --noconfirm kde-l10n-fr # Avoir les soft kde en fr
@@ -104,17 +105,20 @@ pacman -S --noconfirm gnome-calculator # Calculatrice ( très important :p )
 pacman -S --noconfirm mupdf firestarter # Lecteur pdf simple + parfeu
 pacman -S --noconfirm faenza-icon-theme # Pack icones faenza / gstreamer0.10-base gstreamer0.10-base-plugins
 pacman -S --noconfirm firefox firefox-i18n-fr #Firefox en FR
-echo -e "$yellow * [Attention on passe au dessert(yaourt) ahah-ah...!] "
+echo -e "$yellow * [Attention on passe au dessert(yaourt) ahah-ah...!] $cyan"
 pacman -Syy
 yaourt -S --noconfirm chromium # Chromium libre
-yaourt -S --noconfirm chromium-pepper-flash-stable chromium-libpdf-stable # Chromium libre avec lecteur pdf et flash libre
-yaourt -S --noconfirm brocade-firmware # Résout l'erreur "WARNING: Possibly missing firmware for module: bfa" ---> AJOUTER COMMENTAIRE EN FIN MODULES="bna" /etc/mkcinit...conf Please add the 'bna' module to $MODULES in /etc/mkinitcpio.conf and rebuild your initcpio to complete the installation
+yaourt -S --noconfirm chromium-pepper-flash-stable # Chromium libre flash libre
+yaourt -S --noconfirm brocade-firmware # Résout l'erreur "WARNING: Possibly missing firmware for module: bfa" ---> AJOUTER COMMENTAIRE EN FIN MODULES="bna" /etc/mkcinit...conf 
+# Please add the 'bna' module to $MODULES in /etc/mkinitcpio.conf and rebuild your initcpio to complete the installation
+# execut mkinitcpio -p linux
 yaourt -S --noconfirm aic94xx-firmware # Résout l'erreur "WARNING: Possibly missing firmware for module: aic94xx"
 yaourt -S --noconfirm siano-tv-fw # Résout l'erreur "WARNING: Possibly missing firmware for module: smsmdtv"
-yaourt -S --noconfirm gtk-theme-elementary gtk-theme-numix-git numix-icon-theme-git gtk-theme-numix-blue # themes numix
-yaourt -S --noconfirm foxitreader pacmanxg-bin # lecteur pdf + gestionnaire de paquet
-echo -e "$white * "
+yaourt -S --noconfirm gtk-theme-elementary gtk-theme-numix-git numix-icon-theme-git gtk-theme-numix-blue zukitwo-themes gtk-theme-orion-git # themes numix
+yaourt -S --noconfirm foxitreader-bin pacmanxg4-bin # lecteur pdf + gestionnaire de paquet
+echo -e "$yellow * "
 chown -R $user:users /home/$user
+systemctl enable acpid.service
 echo -e "$white * Interface sur l'utilisateur $user $yellow [OK]"
 echo -e "$white ******************************************************************************"
 ###############################################################################################
