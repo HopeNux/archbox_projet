@@ -120,6 +120,11 @@ echo "nameserver 8.8.8.8" >> /etc/resolv.conf
 echo "nameserver 8.8.4.4" >> /etc/resolv.conf
 echo "nameserver "$gateway"" >> /etc/resolv.conf
 echo -e "$white * Configuration réseau$yellow [OK]"
+chmod -R 777 /media/Partage
+chown -R $user:users /media/*
+chmod -R 750 /link
+chown -R $user:users /link
+echo -e "$white * Configuration des droits$yellow [OK]"
 echo -e "$white ******************************************************************************"
 ###############################################################################################
 

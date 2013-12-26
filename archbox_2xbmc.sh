@@ -80,7 +80,7 @@ else
 	echo -e "$white * Architecture $2"
 fi
 echo -e "$white * Config /etc/sudoers"
-if [[ ! $archi == "rpi" ]];then
+if [[ ! $archi = "rpi" ]] ; then
 	sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
 fi
 
@@ -91,7 +91,7 @@ echo -e "$white * Config /home/$user/.config/user-dirs.dirs"
 mkdir $HOME/.config
 cat <<EOF >>$HOME/.config/user-dirs.dirs
 XDG_DESKTOP_DIR="$HOME/Bureau"
-XDG_PUBLICSHARE_DIR="$HOME/Partage"
+XDG_PUBLICSHARE_DIR="/media/Partage"
 XDG_DOCUMENTS_DIR="$HOME/Media"
 XDG_MUSIC_DIR="$HOME/Musique"
 XDG_PICTURES_DIR="$HOME/Image"
@@ -105,9 +105,6 @@ mkdir $HOME/Bureau
 mkdir $HOME/Musique
 mkdir $HOME/Videos
 mkdir $HOME/Image
-ln -s /link/Partage $HOME/Partage
-ln -s /link/Usb $HOME/Usb
-ln -s /link/Usb2 $HOME/Usb2
 ln -s /media $HOME/Media
 echo -e "$white * Création repertoire sur $HOME $yellow [OK]"
 
@@ -122,7 +119,7 @@ cat <<EOF >$HOME/.xsession
 #!/bin/sh
 # ~/.xsession
 # Executed by xdm/gdm/kdm at login
-/bin/bash --login -i ~/.xinitrc"
+/bin/bash --login -i ~/.xinitrc
 EOF
 echo -e "$white * Config .xsession $yellow [OK]$white"
 
@@ -162,7 +159,6 @@ cat <<EOF >$HOME/.bash_profile
 #[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx
 EOF
 echo -e "$white * Config .bash_profile $yellow [OK]"
-chown -R $user:users $HOME/
 echo -e "$white ******************************************************************************"
 ###############################################################################################
 
@@ -195,7 +191,11 @@ echo -e "$white * Installation XBMC $yellow [OK]"
 echo -e "$white * "
 echo -e "$white * Controle d\'extinction"
 echo -e "$white * Ajout du éteindre, restart, veille, pause + télécommande $cyan"
-pacman -S --noconfirm lirc lirc-utils # télécommande
+
+#----------------------------------------------------------------
+# Gestion irc + télécommande
+#----------------------------------------------------------------
+pacman -S --noconfirm lirc lirc-utils
 if [ -f "/etc/polkit-1/rules.d/10-xbmc.rules" ] ; then
 	rm /etc/polkit-1/rules.d/10-xbmc.rules
 fi
@@ -206,9 +206,9 @@ polkit.addRule(function(action, subject) {
 	}
 });
 EOF
-#
+
 cat <<EOF >/var/lib/polkit-1/localauthority/50-local.d/xbmc.pkla
-[Actions for $user user]
+[Actions \for $user user]
 Identity=unix-user:$user
 Action=org.freedesktop.devicekit.power.*;org.freedesktop.consolekit.system.*
 ResultActive=yes

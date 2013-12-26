@@ -27,7 +27,7 @@ log file = /link/Logs/log_samba.%m
 ## Videos & Games
 ##-------------------------------------------------------##
 [_BigMovies]
-path = /media/BigMovies
+path = /link/BigMovies
 read only = no
 writeable = yes
 valid users = touriste
@@ -35,7 +35,7 @@ browseable = yes
 comment = Films, HD
 
 [_LittleMovies]
-path = /media/LittleMovies
+path = /link/LittleMovies
 read only = no
 writeable = yes
 valid users = touriste
@@ -54,7 +54,7 @@ comment = Emulateurs, jeux
 ## OTHER
 ##-------------------------------------------------------##
 [_Share]
-path = /media/Partage
+path = /link/Partage
 read only = no
 writeable = yes
 valid users = touriste
@@ -62,7 +62,7 @@ browseable = yes
 comment = Dossier public de partage
 
 [_Usb]
-path = /media/Usb
+path = /link/Usb
 read only = no
 writeable = yes
 valid users = touriste 

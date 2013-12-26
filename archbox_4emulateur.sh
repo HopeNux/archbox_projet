@@ -86,6 +86,7 @@ fi
 #----------------------------------------------------------------
 echo -e "$white * $cyan"
 # A FAIRE
+mkdir /link/Emulateurs
 # A FAIRE
 echo -e "$white * Emulateur $yellow [OK]"
 echo -e "$white ******************************************************************************"

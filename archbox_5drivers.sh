@@ -81,7 +81,7 @@ if [ "$archi" == "rpi" ] ; then
 	amixer cset numid=0
 else
 	echo -e "$white * Choisissez votre drivers "
-	LISTE=(" USB/VM " " AMD/ATI " " NVIDIA " " INTEL " " MESA " " DEJA INSTALLE ")
+	LISTE=(" USB/VM (ati + nouveau + intel + vesa) " " AMD/ATI (affiches commentaires) " " NVIDIA (affiches commentaires)" " INTEL (affiches commentaires)" " MESA (install mesa)" " Deja Installé (ne fait rien) ")
 	select CHOIX in "${LISTE[@]}" ; do
 	case $REPLY in
 			1|'a')
@@ -102,7 +102,7 @@ else
 			break
 			;;
 			3|'e')
-					echo -e "$yellow" "Lancement :" "$red" " Emulateurs... $nc"
+					echo -e "$yellow" "Lancement :" "$red" " NVIDIA... $nc"
 					echo -e "$white ******************************************************************************"
 					echo -e "$white * NVIDIA"
 					echo -e "$white *  pacman -S --noconfirm nvidia nvidia-utils lib32-nvidia-utils"
@@ -120,7 +120,7 @@ else
 			break
 			;;
 			4|'r')
-					echo -e "$yellow" "Lancement :" "$red" " Emulateurs... $nc"
+					echo -e "$yellow" "Lancement :" "$red" " INTEL... $nc"
 					echo -e "$white ******************************************************************************"
 					echo -e "$white * INTEL"
 					echo -e "$white * INTEL drivers vidéos"
@@ -133,7 +133,7 @@ else
 					echo -e "$white ******************************************************************************"
 					echo -e "$white * MESA"
 					echo -e "$white * ALL drivers vidéos sans acceleration 3D"
-					echo -e "$white *  pacman -S --noconfirm xf86-video-vesa"
+					pacman -S --noconfirm xf86-video-vesa
 					echo -e "$white ******************************************************************************"
 			break
 			;;

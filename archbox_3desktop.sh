@@ -100,7 +100,7 @@ pacman -S --noconfirm xdg-user-dirs lftp
 pacman -S --noconfirm acpi acpid # Gestionnaire d'energie
 pacman -S --noconfirm kde-l10n-fr # Avoir les soft kde en fr
 pacman -S --noconfirm kdegraphics-kolourpaint # Soft très proche de MSpaint (kde)
-pacman -S --noconfirm kaffeine vlc # Lecteurs multimedias
+pacman -S --noconfirm kaffeine vlc mpv # Lecteurs multimedias
 pacman -S --noconfirm gnome-calculator # Calculatrice ( très important :p )
 pacman -S --noconfirm mupdf firestarter # Lecteur pdf simple + parfeu
 pacman -S --noconfirm faenza-icon-theme # Pack icones faenza / gstreamer0.10-base gstreamer0.10-base-plugins
@@ -114,10 +114,10 @@ yaourt -S --noconfirm brocade-firmware # Résout l'erreur "WARNING: Possibly mis
 # execut mkinitcpio -p linux
 yaourt -S --noconfirm aic94xx-firmware # Résout l'erreur "WARNING: Possibly missing firmware for module: aic94xx"
 yaourt -S --noconfirm siano-tv-fw # Résout l'erreur "WARNING: Possibly missing firmware for module: smsmdtv"
-yaourt -S --noconfirm gtk-theme-elementary gtk-theme-numix-git numix-icon-theme-git gtk-theme-numix-blue zukitwo-themes gtk-theme-orion-git # themes numix
+yaourt -S --noconfirm xfce-theme-manager ttf-roboto gtk-theme-numix-holo gtk-theme-numix-git numix-icon-theme-git gtk-theme-numix-blue gtk-theme-numix-white gtk-theme-numix-green xcursors-oxygen # themes numix
 yaourt -S --noconfirm foxitreader-bin pacmanxg4-bin # lecteur pdf + gestionnaire de paquet
 echo -e "$yellow * "
-chown -R $user:users /home/$user
+mkdir /link/Jeux
 systemctl enable acpid.service
 echo -e "$white * Interface sur l'utilisateur $user $yellow [OK]"
 echo -e "$white ******************************************************************************"

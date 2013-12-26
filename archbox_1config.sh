@@ -51,7 +51,7 @@ echo -e "$white * /etc/localtime $yellow [OK]"
 echo -e "$white * "
 
 #----------------------------------------------------------------
-# Config /etc/locale.conf
+# Edit /etc/locale.conf
 #----------------------------------------------------------------
 echo "LANG=$LANG" > /etc/locale.conf
 echo -e "$white * /etc/locale.conf $yellow [OK]"
@@ -63,9 +63,20 @@ echo -e "$white *"
 echo "Europe/Paris" > /etc/timezone
 
 #----------------------------------------------------------------
+# Edit /etc/rc.conf
+#----------------------------------------------------------------
+cat <<EOF >/etc/rc.conf
+LOCALE="fr_FR.UTF-8"
+TIMEZONE="Europe/Paris"
+KEYMAP="fr"
+USECOLOR="yes"
+@network #Démarrage du réseau en fond de tâche
+EOF
+
+#----------------------------------------------------------------
 # Config /etc/locale.gen
 #----------------------------------------------------------------
-sed -i 's/^#$LANG UTF-8/$LANG UTF-8/' /etc/locale.gen
+sed -i 's/^#fr_FR.UTF-8 UTF-8/fr_FR.UTF-8 UTF-8/' /etc/locale.gen
 sed -i 's/^#fr_FR ISO-8859-1/fr_FR ISO-8859-1/' /etc/locale.gen
 sed -i 's/^#fr_FR@euro ISO-8859-15/fr_FR@euro ISO-8859-15/' /etc/locale.gen
 locale-gen
@@ -161,6 +172,7 @@ rm /home/touriste/.bashrc 2>/dev/null
 cp $rep/tools/archbox-theme/bashrc /home/touriste/.bashrc
 chown touriste:users /home/touriste/.bashrc
 rm /home/$user/.bashrc 2>/dev/null
+
 cp $rep/tools/archbox-theme/bashrc /home/$user/.bashrc
 cp $rep/tools/archbox-theme/bashrc /root/.bashrc
 cp -R "$rep/tools/archbox-theme/xfce4/" "/home/$user/.config/"
@@ -292,11 +304,12 @@ if [ "$archi" = "i686" ] ; then
 fi
 
 #----------------------------------------------------------------
-# SI RPI
+# Raspberry PI
 #----------------------------------------------------------------
 if [ "$archi" = "rpi" ] || [ "$archi" = "armv6l" ] ; then
 	echo "Server = http://repo.archlinux.fr/arm" >> /etc/pacman.conf
 fi
+
 echo -e "$white * Ajout repo.archlinux.fr $yellow [OK]"
 echo -e "$white * $cyan "
 pacman -Syy --noconfirm
@@ -319,12 +332,14 @@ if [ "$idebug"="ko" ] ; then
 	pacman -S --noconfirm subversion dbus dbus-python python-cairo python2-cairo
 	pacman -S --noconfirm vim ntp screen
 	pacman -S --noconfirm openssl sshguard iptables fail2ban # Sécurité minimum
-	pacman -S --noconfirm libxvmc upower polkit ntfs-3g nfs-utils udisks udevil dosfstools exfat-utils # mtools=acces msdos disks
+	pacman -S --noconfirm libxvmc upower polkit ntfs-3g nfs-utils udisks udevil mtools dosfstools exfat-utils
 	echo -e "$yellow *"
 	cat /proc/asound/cards
 	echo -e " * $cyan"
 	pacman -S --noconfirm alsa-utils alsa-lib alsa-oss alsa-tools alsa-plugins alsa-firmware pulseaudio pulseaudio-alsa ossp paprefs pavucontrol lib32-libpulse flac vorbis-tools
 	echo -e "$white * Outils de base $yellow [OK]"
+else
+	echo -e "$white * Aucune installation des outils de base $yellow [KO]"	
 fi
 echo -e "$white ******************************************************************************"
 ###############################################################################################
@@ -354,7 +369,9 @@ echo -e "$white * Configuration XORG KEYBOARD LAYOUT $yellow [OK]"
 # Config /etc/vimrc
 #----------------------------------------------------------------
 touch /etc/vimrc
-sed -i 16i"syntax on" /etc/vimrc
+echo "set nu" >> /etc/vimrc
+echo "syntax on" >> /etc/vimrc
+echo "colorscheme darkblue" >> /etc/vimrc
 echo -e "$white ******************************************************************************"
 ###############################################################################################
 
@@ -364,18 +381,27 @@ echo " "
 ###############################################################################################
 echo -e "$white ******************************************************************************"
 echo -e "$white * Configuration du réseau"
-echo -e "$white * Utilisateur touriste sur /link/"
-echo -e "$white * SAMBA /link/Partage"
-echo -e "$white * SAMBA /link/Usb"
-echo -e "$white * SAMBA /link/Usb2"
-echo -e "$white * voir : /etc/samba/smb.conf"
+#----------------------------------------------------------------
+# Répertoire link
+#----------------------------------------------------------------
+echo -e "$white * Utilisateur $user sur /link/"
 mkdir /link
-mkdir /link/Partage
-mkdir /link/Usb
-mkdir /link/Usb2
-chmod -R 750 /link
-chmod -R 777 /link/Partage
-chown -R $user:users /link
+mkdir /link/Logs
+
+#----------------------------------------------------------------
+# Répertoire de samba
+#----------------------------------------------------------------
+echo -e "$white * SAMBA /media/Partage"
+echo -e "$white * SAMBA /media/Usb"
+echo -e "$white * SAMBA /media/Usb2"
+echo -e "$white * SAMBA /media/BigMovies"
+echo -e "$white * SAMBA /media/LittleMovies"
+echo -e "$white * voir : /etc/samba/smb.conf"
+mkdir /media/Partage
+mkdir /media/Usb
+mkdir /media/Usb2
+mkdir /media/BigMovies
+mkdir /media/LittleMovies
 echo -e "$white * Configuration du réseau $yellow [OK]"
 echo -e "$white ******************************************************************************"
 ###############################################################################################
@@ -403,7 +429,7 @@ echo -e "$white ****************************************************************
 echo "* Activation des services au démarrage ..."
 if [ "$idebug"="ko" ] ; then
 	#----------------------------------------------------------------
-	# Serveur de temps FR
+	# Serveur de temps FR (sauf Raspberry pi)
 	#----------------------------------------------------------------
 	if [ ! "$archi" = "rpi" ]  ; then
 		rm /etc/ntp.conf 2>/dev/null
@@ -421,10 +447,10 @@ driftfile /var/lib/ntp/ntp.drift
 
 EOF
 		ntpd -q
+		systemctl enable ntpd.service
 		echo -e "$white * Serveur de temps FR $yellow [OK]"
 	fi
 	systemctl enable dbus.service
-	systemctl enable ntpd.service
 fi
 systemctl enable sshd.service
 systemctl enable smbd.service nmbd.service smbnetfs.service
@@ -439,6 +465,10 @@ echo " "
 #----------------------------------------------------------------
 # ARCHBOX_1CONFIG.SH --> LANCEMENT DES AUTRES SCRIPTS
 #----------------------------------------------------------------
+
+#----------------------------------------------------------------
+# Lancement script XBMC
+#----------------------------------------------------------------
 if [ "$ixbmc" = "ok" ] ; then
 	if [ -f $rep/archbox_2xbmc.sh ] ; then
 		sh $rep/archbox_2xbmc.sh "$user" "$archi"
@@ -446,6 +476,9 @@ if [ "$ixbmc" = "ok" ] ; then
 		echo -e "$red * Le fichier archbox_2xbmc.sh n'est pas présent"
 	fi
 fi
+#----------------------------------------------------------------
+# Lancement script XFCE
+#----------------------------------------------------------------
 if [ "$ixfce" = "ok" ] ; then
 	if [ -f $rep/archbox_3desktop.sh ] ; then
 		sh $rep/archbox_3desktop.sh "$user" "$archi"
@@ -453,6 +486,9 @@ if [ "$ixfce" = "ok" ] ; then
 		echo -e "$red * Le fichier archbox_3desktop.sh n'est pas présent"
 	fi
 fi
+#----------------------------------------------------------------
+# Lancement script Emulateurs
+#----------------------------------------------------------------
 if [ "$iemul" = "ok" ] ; then
 	if [ -f $rep/archbox_4emulateur.sh ] ; then
 		sh $rep/archbox_4emulateur.sh "$user" "$archi"
@@ -461,11 +497,17 @@ if [ "$iemul" = "ok" ] ; then
 	fi
 fi
 if [ "$idebug"="ko" ] ; then
+	#----------------------------------------------------------------
+	# Lancement script DRIVERS
+	#----------------------------------------------------------------
 	if [ -f $rep/archbox_5drivers.sh ] ; then
 		sh $rep/archbox_5drivers.sh "$user" "$archi"
 	else
 		echo -e "$red * Le fichier archbox_5drivers.sh n'est pas présent"
 	fi
+	#----------------------------------------------------------------
+	# Lancement script BOOT
+	#----------------------------------------------------------------
 	if [ -f $rep/archbox_6boot.sh ] ; then
 		sh $rep/archbox_6boot.sh "$user" "$archi"
 	else
