@@ -41,18 +41,14 @@ echo "* Installation du paquet BASE-DEVEL et SYSLINUX [OK]"
 echo " genfstab -U = fstab par UUID"
 genfstab -U -p /mnt >> /mnt/etc/fstab
 echo "* Génération du fstab sur /mnt/etc/fstab [OK]"
-echo ""
-echo ""
 echo "arch-chroot /mnt"
-echo ""
 echo "Configurez /etc/mkinitcpio.conf et créez les ramdisk avec "
 echo " mkinitcpio -p linux"
-echo ""
 echo " syslinux-install_update -iam"
-echo ""
 echo "ATTENTION SYSLINUX SUR SDA3"
-#grub-install --no-floppy --recheck /dev/sda
-#grub-mkconfig -o /boot/grub/grub.cfg
-#pacman -S os-prober
-#nano /boot/grub/grub.cfg
-## fi
+echo "GRUB"
+echo "#grub-install --no-floppy --recheck /dev/sda"
+echo "#grub-mkconfig -o /boot/grub/grub.cfg"
+echo "Detection WINDOWS OS : pacman -S os-prober"
+echo "Modification grub : nano /boot/grub/grub.cfg"
+echo "## fi"
