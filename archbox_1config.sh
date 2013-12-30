@@ -169,15 +169,14 @@ echo -e "$green *"
 # Config root / touriste / user .bashrc
 #----------------------------------------------------------------
 rm /home/touriste/.bashrc 2>/dev/null
-cp $rep/tools/archbox-theme/bashrc /home/touriste/.bashrc
-chown touriste:users /home/touriste/.bashrc
 rm /home/$user/.bashrc 2>/dev/null
-
+cp $rep/tools/archbox-theme/bashrc /home/touriste/.bashrc
 cp $rep/tools/archbox-theme/bashrc /home/$user/.bashrc
 cp $rep/tools/archbox-theme/bashrc /root/.bashrc
 cp -R "$rep/tools/archbox-theme/xfce4/" "/home/$user/.config/"
 cp -R "$rep/tools/archbox-theme/archbox/" "/usr/share/"
 cp "$rep/tools/archbox-theme/gtkrc-2.0" "/home/$user/.gtkrc-2.0"
+chown touriste:users /home/touriste/.bashrc
 chown -R $user:users /home/$user
 echo -e "$green * Ajout .bashrc$yellow [OK]"
 echo -e "$green * "
@@ -393,15 +392,9 @@ mkdir /link/Logs
 #----------------------------------------------------------------
 echo -e "$white * SAMBA /media/Partage"
 echo -e "$white * SAMBA /media/Usb"
-echo -e "$white * SAMBA /media/Usb2"
-echo -e "$white * SAMBA /media/BigMovies"
-echo -e "$white * SAMBA /media/LittleMovies"
 echo -e "$white * voir : /etc/samba/smb.conf"
 mkdir /media/Partage
 mkdir /media/Usb
-mkdir /media/Usb2
-mkdir /media/BigMovies
-mkdir /media/LittleMovies
 echo -e "$white * Configuration du réseau $yellow [OK]"
 echo -e "$white ******************************************************************************"
 ###############################################################################################
