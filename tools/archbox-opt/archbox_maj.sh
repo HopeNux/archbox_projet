@@ -1,5 +1,4 @@
-echo -e "$white * Mise à jour arch ..."
-echo -e " * $cyan"
+echo -e "Mise à jour arch ...$cyan"
 pacman -Syy
 pacman -Suy --noconfirm
-echo -e "$white * Mise à jour$yellow [OK]"
+echo -e "$white$ok Mise à jour"
