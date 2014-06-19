@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------------
-archbox_projet
+ archbox_projet
 --------------------------------------------------------------------------------------
 
 Principe :
@@ -27,7 +27,7 @@ Les options :
     du streaming ou jeux à distance entre amis.
     
 --------------------------------------------------------------------------------------
---> archbox_1config.sh
+-- archbox_1config.sh
 --------------------------------------------------------------------------------------
 
     Script pour gérer le réseau, partage, langues, démarrage, programmes basique
@@ -36,32 +36,31 @@ Les options :
     littlemovies(a racorder sur un disque dur) / bigmovies(a racorder sur un disque dur)) [HopeNux]
     [OK] : Connection SSH + Auto PROXY [HopeNux]
     [RAF] : Création d'une version multilingue (voir AUI)
-
     Optimisation du script (+ cat)
     Partage réseau revu [HopeNux]
     Installation audio revu [DOcGui]
     Ajout d'un utilisateur personnalisé (autre que xbmc). [HopeNux]
     Copies des thèmes [Xorg] avant l'installation des fonctionnalités de montage de disque dur etc.
+    
 
 --------------------------------------------------------------------------------------
---> archbox_2xbmc.sh
+-- archbox_2xbmc.sh
 --------------------------------------------------------------------------------------
 
     Script d'installation du logiciel XBMC
     [OK] : Optimisation du logiciel XBMC pour le RPI (Gotham version)
-
     Optimisation du script (+ cat)
     Prise en compte du nouvel utilisateur [HopeNux]
 
+
 --------------------------------------------------------------------------------------
---> archbox_3desktop.sh
+-- archbox_3desktop.sh
 --------------------------------------------------------------------------------------
 
     Script d'installation d'un bureau basé sur xfce avec un thème par défaut.
     [OK] : Ajout d'un shell avec installation d'un thème personnalisé [Xorg]
     [OK] : Installation de l'interface Xfce avec logiciels de base (gparted, filezilla, 
     connexion (wifi),...) [HopeNux, DOcGui]
-
     Optimisation du script (+ cat)
     Prise en compte du nouvel utilisateur (création des répertoires en adéquation 
     avec le logiciel xbmc) [HopeNux]
@@ -76,24 +75,27 @@ Les options :
     Navigateurs (chromium fr + lecteur de flash [libre] + mozilla fr)
     Firmware pour résolution de bugs (brocade-firmware/aic94xx-firmware) + non obligatoire (siano-tv-fw).
 
+
 --------------------------------------------------------------------------------------
---> archbox_4emulateur.sh
+-- archbox_4emulateur.sh
 --------------------------------------------------------------------------------------
 
     Script d'installation d'émulateurs.
     [EN COUR] : Etude sur l'émulateur M.A.M.E / SNESX / N64 .
     Optimisation du script
 
+
 --------------------------------------------------------------------------------------
---> archbox_5drivers.sh
+-- archbox_5drivers.sh
 --------------------------------------------------------------------------------------
 
     Script uniquement d'indiquation pour installer le bon drivers vidéo.
     [RAF] : Installation automatique des drivers du RPI (ok pour la vidéo) [HopeNux, DOcGui]
     Optimisation du script
 
+
 --------------------------------------------------------------------------------------
---> archbox_6boot.sh
+-- archbox_6boot.sh
 --------------------------------------------------------------------------------------
 
     Script intégrant quelques configurations et un script de démarrage (ARCHBOXBOOT).
@@ -106,41 +108,37 @@ Les options :
     Prise en compte du nouvel utilisateur (autologin + lancement auto de archboxboot) [HopeNux]
     Démarrage du RPI pris en compte (getty.service)
 
+
 --------------------------------------------------------------------------------------
 SOUS REPERTOIRE :
 --------------------------------------------------------------------------------------
 
--------------------------------
---> archbox-boot (archboxboot) [contribution HopeNux, Xorg, DOcGui]
--------------------------------
+archbox-boot (archboxboot) [contribution HopeNux, Xorg, DOcGui]
 
     service archbox (utile si la personne ne souhaite pas d'interface de lancement)
     autologin
     démarrage et conf SSH + Proxy
     archboxboot (interface de démarrage avec sélection)
 
--------------------------------
---> archbox-network [contribution HopeNux]
--------------------------------
+
+archbox-network [contribution HopeNux]
 
     service ip fixe
     dns par défaut
     configuration samba
 
--------------------------------
---> archbox-theme [contribution Xorg]
--------------------------------
 
-    thème xfce avec barre
+archbox-theme [contribution Xorg, HopeNux(MAJ)]
 
--------------------------------
---> archbox-opt [contribution HopeNux]
--------------------------------
+    thème xfce avec barre + config par defaut
+
+
+archbox-opt [contribution HopeNux]
 
     script github download
     script mise à jour arch
     script gestion des erreurs
+    script memo installation rapide de arch (bootstrap...)
 
--------------------------------
---> archbox-img [contribution de n3os]
--------------------------------
+archbox-img [contribution de n3os]
+
