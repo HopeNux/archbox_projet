@@ -1,12 +1,14 @@
 #!/bin/bash
-###############################################################################################
-#----------------------------------------------------------------
-# ARCHBOX_1CONFIG.SH --> DEBUT
-#----------------------------------------------------------------
+################################################################################################################
+#------------------------------------------------------------------------------------------------------
+# ARCHBOX_1CONFIG.SH 
+#------------------------------------------------------------------------------------------------------
 clear
-rep=`(cd $(dirname "$0"); pwd)` 2>/dev/null
 loadkeys fr-pc
-export LANG=fr_FR.UTF-8
+archi=`uname -m`
+rep=`(cd $(dirname "$0"); pwd)` 2>/dev/null
+export LANG="fr_FR.UTF-8"
+export keymap="fr-pc"
 export blue="\\033[1;34m"
 export cyan="\\033[1;36m"
 export green="\\033[1;32m"
@@ -14,13 +16,11 @@ export nc="\\033[0;39m"
 export red="\\033[1;31m"
 export white="\\033[1;37m"
 export yellow="\\033[1;33m"
-archi=`uname -m`
-###############################################################################################
+export ok="[ $yellow OK $white ]$green"
 
 echo " "
 echo " "
 
-###############################################################################################
 echo -e "$green ******************************************************************************"
 echo -e "$green * "
 echo -e "$green * [$red ARCHBOX$green ]"									   				  
@@ -29,331 +29,341 @@ echo -e "$green * "
 echo -e "$green ******************************************************************************"
 echo " "
 echo " "
-echo -e "$white ******************************************************************************"
-echo -e "$white * Définition du répertoire source $rep "
-echo -e "$white * Configuration de la langue [FR]"
+echo -e "$green ******************************************************************************"
+echo -e "$green * Définition du répertoire source $rep "
+echo -e "$green * Configuration de la langue $LANG"
+echo -e "$green * Architecture detecte $archi"
+echo -e "$green * Installation des elements principaux d'archlinux (sans aucune interface)"
+echo -e "$yellow * Si vous avez deja lancer se script activer le mod debug !"
+echo -e "$green ******************************************************************************"
+echo " "
+read -p "Appuyer sur une touche pour continuer ..."
 
-#----------------------------------------------------------------
-# Vérification fichier lck
-#----------------------------------------------------------------
+
+################################################################################################################
+#------------------------------------------------------------------------------------------------------
+# Check lock file
+#------------------------------------------------------------------------------------------------------
 sh $rep/tools/archbox-opt/archbox_error.sh "lck" "$rep/1config.lck"
 if [ -f "$rep/1config.lck" ] ; then
 	rm $rep/1config.lck
 fi
-echo -e "$white * "
 
-#----------------------------------------------------------------
+#------------------------------------------------------------------------------------------------------
 # Config /etc/localtime
-#----------------------------------------------------------------
+#------------------------------------------------------------------------------------------------------
 rm /etc/localtime 2>/dev/null
 ln -s /usr/share/zoneinfo/Europe/Paris /etc/localtime
-echo -e "$white * /etc/localtime $yellow [OK]"
-echo -e "$white * "
+echo -e "$white$ok /etc/localtime "
 
-#----------------------------------------------------------------
-# Edit /etc/locale.conf
-#----------------------------------------------------------------
 echo "LANG=$LANG" > /etc/locale.conf
-echo -e "$white * /etc/locale.conf $yellow [OK]"
-echo -e "$white *"
+echo "LC_COLLATE=C" > /etc/locale.conf
+echo -e "$white$ok /etc/locale.conf"
 
-#----------------------------------------------------------------
-# Config /etc/timezone
-#----------------------------------------------------------------
 echo "Europe/Paris" > /etc/timezone
+echo -e "$white$ok /etc/timezone "
 
-#----------------------------------------------------------------
-# Edit /etc/rc.conf
-#----------------------------------------------------------------
 cat <<EOF >/etc/rc.conf
-LOCALE="fr_FR.UTF-8"
+LOCALE="$LANG"
 TIMEZONE="Europe/Paris"
 KEYMAP="fr"
 USECOLOR="yes"
-@network #Démarrage du réseau en fond de tâche
+@network
 EOF
+echo -e "$white$ok /etc/rc.conf"
 
-#----------------------------------------------------------------
-# Config /etc/locale.gen
-#----------------------------------------------------------------
 sed -i 's/^#fr_FR.UTF-8 UTF-8/fr_FR.UTF-8 UTF-8/' /etc/locale.gen
 sed -i 's/^#fr_FR ISO-8859-1/fr_FR ISO-8859-1/' /etc/locale.gen
 sed -i 's/^#fr_FR@euro ISO-8859-15/fr_FR@euro ISO-8859-15/' /etc/locale.gen
 locale-gen
-echo -e "$white * /etc/locale.gen $yellow [OK]"
-echo -e "$white * "
-#----------------------------------------------------------------
-# Mise à jour + Installation
-#----------------------------------------------------------------
+echo -e "$white$ok /etc/locale.gen"
+
+#------------------------------------------------------------------------------------------------------
+# Update & Install
+#------------------------------------------------------------------------------------------------------
 sh $rep/tools/archbox-opt/archbox_maj.sh
-echo -e "$white * "
-echo -e "$white * Installation : net-tools - samba - smbclient - linux-headers"
-echo -e " * $cyan"
-pacman -S --noconfirm net-tools samba smbclient smbnetfs linux-headers
+echo -e "Installation : net-tools samba smbclient ... $cyan"
+pacman -S --noconfirm net-tools samba smbclient smbnetfs
+echo -e "$white$ok Installation : net-tools samba smbclient"
 cp $rep/tools/archbox-network/smb.conf /etc/samba/
-echo -e "$white ******************************************************************************"
-###############################################################################################
+echo -e "$white$ok Copie samba config"
+################################################################################################################
 
 echo " "
 echo " "
 echo " "
 echo " "
 
-###############################################################################################
+################################################################################################################
 echo -e "$green ******************************************************************************"
 echo -e "$green * "
 echo -e "$green * [$red ARCHBOX$green ]"									   				  
 echo -e "$green * Votre console multimédia de salon" 
-echo -e "$green *$white Saisie de l'utilisateur..."
+echo -e "$green *$red Saisie de l'utilisateur ..."
 echo -e "$green * "
 echo -e "$green ******************************************************************************"
-###############################################################################################
+################################################################################################################
 
-echo " "
-echo " "
+echo -e "$red"
 
-###############################################################################################
-echo -e "$green ******************************************************************************"
-echo -e " * $red" 
-read -p " * Nom de votre machine : " nomdupc
+################################################################################################################
+#------------------------------------------------------------------------------------------------------
+# Name of the computer (which show on the network)
+#------------------------------------------------------------------------------------------------------
+read -p "Nom de votre machine (defaut ARCHBOX) : " nomdupc
 if [ -z "$nomdupc" ] ; then
     echo "ARCHBOX" > /etc/hostname
 	nomdupc="ARCHBOX"
 else
 	echo $nomdupc > /etc/hostname
 fi
-echo -e "$green *"
-#----------------------------------------------------------------
-# Config touriste
-#----------------------------------------------------------------
-echo -e "$green * (1) Installation et configuration de l'utilisateur 'touriste'"
-echo -e "$green *  -> avec le partage réseau"
-useradd -m -g users -G audio,lp,optical,storage,video,wheel,games,power -s /bin/bash touriste
-echo -e "$green *  ->$red Mot de passe 'touriste' SSH : $nc"
-passwd touriste
-echo -e "$green *"
-echo -e "$green *  ->$red Mot de passe 'touriste' SAMBA (partage réseau) : $nc"
-smbpasswd -a touriste
-echo -e "$green *"
-echo -e "$green *  -> Ajout du 'touriste' dans le groupe $white USERS : $nc"
-gpasswd -a touriste users
-echo -e "$green * "
-echo -e "$green * $red"
-#----------------------------------------------------------------
-# Config new user (defaut xbmc)
-#----------------------------------------------------------------
-groupadd xbmc
-read -p " * (2) Nouveau utilisateur : (défaut xbmc) " user
-if [ -z "$user" ] ; then
-	user="xbmc"
-fi
-echo -e "$green *  ->Installation et configuration de l'utilisateur $user"
-echo -e "$green *  -> Ajout utilisateur '$user' "
-useradd -m -g users -G audio,lp,optical,storage,video,wheel,games,power,xbmc $user
-echo -e "$green *  ->$red Ajout du mot de passe '$user' (pas de connection SSH) : $nc "
-passwd $user
-gpasswd -a $user users
-gpasswd -a touriste xbmc
-echo -e "$green * Utilisateur $user $yellow [OK]"
-echo -e "$green * "
-echo -e "$green * "
-#----------------------------------------------------------------
-# Config root
-#----------------------------------------------------------------
-echo -e "$red * (3) -> Configuration utilisateur 'root'" 
-echo -e "$green *    ->$red Mot de passe 'root' (pas de connection SSH) : $nc"
-passwd
-echo -e "$green *"
 
-#----------------------------------------------------------------
-# Config root / touriste / user .bashrc
-#----------------------------------------------------------------
-rm /home/touriste/.bashrc 2>/dev/null
-rm /home/$user/.bashrc 2>/dev/null
-cp $rep/tools/archbox-theme/bashrc /home/touriste/.bashrc
-cp $rep/tools/archbox-theme/bashrc /home/$user/.bashrc
-cp $rep/tools/archbox-theme/bashrc /root/.bashrc
-cp -R "$rep/tools/archbox-theme/xfce4/" "/home/$user/.config/"
-cp -R "$rep/tools/archbox-theme/archbox/" "/usr/share/"
-cp "$rep/tools/archbox-theme/gtkrc-2.0" "/home/$user/.gtkrc-2.0"
-chown touriste:users /home/touriste/.bashrc
-chown -R $user:users /home/$user
-echo -e "$green * Ajout .bashrc$yellow [OK]"
-echo -e "$green * "
-
-#----------------------------------------------------------------
+#------------------------------------------------------------------------------------------------------
 # Architecture (i386 - i686 - x86_64 - armv6l)
-#----------------------------------------------------------------
-echo -e "$green * Votre architecture$yellow $archi"
+#------------------------------------------------------------------------------------------------------
+echo -e "$green Votre architecture : $cyan$archi"
 if [ "$archi" = "armv6l" ] ; then
-	echo -e " * $red"
-	read -p " * Votre machine est elle un Raspberry Pi Oui ? Non ? [def:Non] : " rpi
+	echo -e "$red"
+	read -p "Votre machine est elle un Raspberry Pi Oui ? Non ? [def:Non] : " rpi
 	case $rpi in
 		"o"|"oui"|"O"|"Oui"|"OUI"|"y"|"yes"|"Y"|"Yes"|"YES")
 			archi="rpi" ;; 
 		*)
-			echo " * " ;;
+			echo "  " ;;
 	esac
 fi
-#----------------------------------------------------------------
+
+#------------------------------------------------------------------------------------------------------
 # Config /etc/vconsole.conf
-#----------------------------------------------------------------
+#------------------------------------------------------------------------------------------------------
 if [ "$archi" = "rpi" ] ; then
-	echo "KEYMAP=fr-pc" >> /etc/vconsole.conf	
+	echo "KEYMAP=$keymap" >> /etc/vconsole.conf # Attention si le script passe une deuxieme fois
 else
-	echo "KEYMAP=fr-pc" > /etc/vconsole.conf
+	echo "KEYMAP=$keymap" > /etc/vconsole.conf
 fi
 echo "FONT=" >> /etc/vconsole.conf
 echo "FONT_MAP=" >> /etc/vconsole.conf
-echo -e "$white * Mise à jour langue dans /etc/vconsole.conf $yellow [OK]"
+echo -e "$white$ok Mise à jour keymap:$keymap dans /etc/vconsole.conf $green"
 
-#----------------------------------------------------------------
-# Choix scripts d'installation
-#----------------------------------------------------------------
-echo -e "$white * $red"
+#------------------------------------------------------------------------------------------------------
+# Config user touriste
+#------------------------------------------------------------------------------------------------------
+echo -e "Installation et configuration de l'utilisateur 'touriste' avec partage réseau ...$red "
+groupadd touriste
+useradd -m -g users -G audio,lp,optical,storage,video,wheel,games,power -s /bin/bash touriste
+echo -e "Mot de passe$green 'touriste' pour connection SSH only : $red"
+passwd touriste
+echo -e "Mot de passe$green 'touriste' pour SAMBA (partage réseau) :$red"
+smbpasswd -a touriste
+gpasswd -a touriste users
+echo -e "$white$ok Utilisateur touriste configuré $green"
 
-read -p " * Voulez vous installer le logiciel XBMC Oui ? Non ? [def:Non] : " ixbmc
+#------------------------------------------------------------------------------------------------------
+# Config new user (defaut xbmc)
+#------------------------------------------------------------------------------------------------------
+echo -e "Installation et configuration du nouvel utilisateur (sans partage) ...$red"
+read -p "Entrez le nom du nouvel utilisateur (défaut xbmc) : " user
+if [ -z "$user" ] ; then
+	user="xbmc"
+fi
+export HOME="/home/$user"
+useradd -m -g users -G audio,lp,optical,storage,video,wheel,games,power,xbmc $user
+echo -e "Mot de passe$green '$user' (pas de connection SSH) : $red"
+passwd $user
+groupadd xbmc
+gpasswd -a touriste xbmc
+gpasswd -a $user users
+echo -e "$white$ok Utilisateur $user configuré $green"
+
+#------------------------------------------------------------------------------------------------------
+# Config root
+#------------------------------------------------------------------------------------------------------
+
+echo -e "Installation et configuration de l'utilisateur 'root' ... $red" 
+echo -e "Mot de passe$green 'root' (pas de connection SSH) : $red"
+passwd root
+echo -e "$white$ok Utilisateur root configuré"
+
+#------------------------------------------------------------------------------------------------------
+# Config themes root / touriste / user .bashrc
+#------------------------------------------------------------------------------------------------------
+rm /home/touriste/.bashrc 2>/dev/null
+rm /home/$user/.bashrc 2>/dev/null
+
+cp $rep/tools/archbox-theme/bashrc /root/.bashrc
+cp $rep/tools/archbox-theme/bashrc /home/touriste/.bashrc
+cp $rep/tools/archbox-theme/bashrc /home/$user/.bashrc
+
+cp $rep/tools/archbox-theme/gtkrc-2.0 /home/$user/.gtkrc-2.0
+cp -R $rep/tools/archbox-theme/xfce4 /home/$user/.config/
+cp -R $rep/tools/archbox-theme/archbox /usr/share/
+
+chown touriste:users /home/touriste/.bashrc
+chown -R $user:users /home/$user/.bashrc /home/$user/.gtkrc-2.0 /home/$user /home/$user/.config /usr/share/archbox
+chmod -R 755 /home/touriste/.bashrc /home/$user/.bashrc /home/$user/.gtkrc-2.0 /home/$user/.config /usr/share/archbox
+echo -e "$white$ok Ajout dossier $user et .bashrc $red"
+################################################################################################################
+
+
+
+################################################################################################################
+#------------------------------------------------------------------------------------------------------
+# Choice install scripts
+#------------------------------------------------------------------------------------------------------
+read -p "Voulez vous installer le logiciel XBMC Oui ? Non ? [def:Non] : " ixbmc
 case $ixbmc in
 	"o"|"oui"|"O"|"Oui"|"OUI"|"y"|"yes"|"Y"|"Yes"|"YES")
 		ixbmc="ok" ;; 
 	*)
-		echo " * " ;;
+		;;
 esac
-
-echo -e " * $red"
-read -p " * Voulez vous installer un bureau XFCE Oui ? Non ? [def:Non] : " ixfce
+read -p "Voulez vous installer le bureau XFCE/LXDE(RPI) Oui ? Non ? [def:Non] : " ixfce
 case $ixfce in
 	"o"|"oui"|"O"|"Oui"|"OUI"|"y"|"yes"|"Y"|"Yes"|"YES")
 		ixfce="ok" ;; 
 	*)
-		echo " * " ;;
+		;;
 esac
-echo -e " * $red"
-read -p " * Voulez vous installer un logiciel d'emulation Oui ? Non ? [def:Non] : " iemul
+read -p "Voulez vous installer le logiciel d'emulation Oui ? Non ? [def:Non] : " iemul
 case $iemul in
 	"o"|"oui"|"O"|"Oui"|"OUI"|"y"|"yes"|"Y"|"Yes"|"YES")
 		iemul="ok" ;; 
 	*)
-		echo " * " ;;
+		;;
 esac
+
 idebug="ko"
+
 if [ "$ixbmc" = "ok" ] || [ "$ixfce" = "ok" ] || [ "$iemul" = "ok" ] ; then
-	echo -e "$green * Installation des programmes basic $yellow [OK]"	
+	echo -e "Installation des programmes basic"	
 else
-	read -p " * Voulez vous passer en debug (pas d'installation de logiciels) Oui ? Non ? [def:Non] : " idebug
+	read -p "Voulez vous passer en debug - Oui ? Non ? [def:Non] : " idebug
 	case $idebug in
 		"o"|"oui"|"O"|"Oui"|"OUI"|"y"|"yes"|"Y"|"Yes"|"YES")
 			idebug="ok" ;; 
 		*)
-			echo " * " ;;
+			;;
 	esac
 fi
-echo -e "$green * "
-echo -e "$green ******************************************************************************"
-###############################################################################################
+################################################################################################################
 
 echo ""
 echo ""
 
-###############################################################################################
+################################################################################################################
 echo -e "$green ******************************************************************************"
 echo -e "$green * "
 echo -e "$green * [$red ARCHBOX$green ]"									   				  
 echo -e "$green * Votre console multimedia de salon" 
-echo -e "$green *$white Merci, vous pouvez aller boire un coup..."
+echo -e "$green *$cyan Merci, vous pouvez aller boire un coup..."
 echo -e "$green * "
 echo -e "$green ******************************************************************************"
-echo -e " * $red"
-read -p " * Appuyer sur une touche pour continuer ..."
-###############################################################################################
+echo " "
+read -p "Appuyer sur une touche pour continuer ..."
+################################################################################################################
 
 echo ""
-echo ""
 
-###############################################################################################
-echo -e "$white ******************************************************************************"
-echo -e "$white * Configuration des sources --> /etc.pacman.conf"
-echo -e "$white * Paquets libre et non libre + Yaourt"
-
-#----------------------------------------------------------------
-# Ajout depots
-#----------------------------------------------------------------
-sed -i 's/^SyncFirst   = pacman/SyncFirst = pacman yaourt package-query pacman-color pyalpm namcap/' /etc/pacman.conf
-sed -i 's/^#SigLevel = Optional TrustedOnly/SigLevel = Optional TrustedOnly/' /etc/pacman.conf
-echo "" >> /etc/pacman.conf
-echo "[archlinuxfr]" >> /etc/pacman.conf
-echo 'SigLevel = Optional TrustAll' >> /etc/pacman.conf
-
-#----------------------------------------------------------------
-# SI x86_64
-#----------------------------------------------------------------
-if [ "$archi" = "x86_64" ] ; then
-	echo "Server = http://repo.archlinux.fr/x86_64" >> /etc/pacman.conf
-	echo "" >> /etc/pacman.conf
-	echo '[multilib]' >> /etc/pacman.conf
-	echo 'SigLevel = PackageRequired' >> /etc/pacman.conf
-	echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
-fi
-
-#----------------------------------------------------------------
-# SI i686
-#----------------------------------------------------------------
-if [ "$archi" = "i686" ] ; then
-	echo "Server = http://repo.archlinux.fr/i686" >> /etc/pacman.conf
-fi
-
-#----------------------------------------------------------------
-# Raspberry PI
-#----------------------------------------------------------------
-if [ "$archi" = "rpi" ] || [ "$archi" = "armv6l" ] ; then
-	echo "Server = http://repo.archlinux.fr/arm" >> /etc/pacman.conf
-fi
-
-echo -e "$white * Ajout repo.archlinux.fr $yellow [OK]"
-echo -e "$white * $cyan "
-pacman -Syy --noconfirm
-echo -e "$white * Synchronisation sur$yellow $archi [OK]"
-echo -e "$white ******************************************************************************"
-###############################################################################################
-
-echo " "
-echo " "
-
-###############################################################################################
-echo -e "$white ******************************************************************************"
-echo -e "$white * Installation des programmes basiques ..."
-echo -e " * $cyan "
+################################################################################################################
+#------------------------------------------------------------------------------------------------------
+# Add some deposits
+#------------------------------------------------------------------------------------------------------
 if [ "$idebug"="ko" ] ; then
-	pacman -S --noconfirm yaourt yajl namcap
-	pacman -S --noconfirm xorg-server xorg-xinit xorg-utils xorg-server-utils xorg-fonts-type1 numlockx colordiff
-	pacman -S --noconfirm xf86-input-synaptics xf86-input-mouse xf86-input-keyboard
-	pacman -S --noconfirm ttf-dejavu artwiz-fonts font-bh-ttf font-bitstream-speedo gsfonts sdl_ttf ttf-bitstream-vera ttf-cheapskate ttf-liberation
-	pacman -S --noconfirm subversion dbus dbus-python python-cairo python2-cairo
-	pacman -S --noconfirm vim ntp screen
-	pacman -S --noconfirm openssl sshguard iptables fail2ban # Sécurité minimum
-	pacman -S --noconfirm libxvmc upower polkit ntfs-3g nfs-utils udisks udevil mtools dosfstools exfat-utils
-	echo -e "$yellow *"
-	cat /proc/asound/cards
-	echo -e " * $cyan"
-	pacman -S --noconfirm alsa-utils alsa-lib alsa-oss alsa-tools alsa-plugins alsa-firmware pulseaudio pulseaudio-alsa ossp paprefs pavucontrol lib32-libpulse flac vorbis-tools
-	echo -e "$white * Outils de base $yellow [OK]"
-else
-	echo -e "$white * Aucune installation des outils de base $yellow [KO]"	
+	sed -i 's/^SyncFirst = pacman/SyncFirst = pacman yaourt package-query pacman-color pyalpm namcap/' /etc/pacman.conf
+	sed -i 's/^#SigLevel = Optional TrustedOnly/SigLevel = Optional TrustedOnly/' /etc/pacman.conf
+
+	echo "" >> /etc/pacman.conf
+	echo "[archlinuxfr]" >> /etc/pacman.conf
+	echo 'SigLevel = Optional TrustAll' >> /etc/pacman.conf
+
+	echo -e "$white$ok Ajout des depots libre et non libre(yaourt)"
+	echo -e "$white$ok Configuration des sources /etc.pacman.conf"
+
+	if [ -z "$archi" ] ; then
+		echo "Probleme de detection d'architecture ... Veuiller vérifier : uname -m"
+		exit
+	else
+		#------------------------------------------------------------------------------------------------------
+		# if x86_64
+		#------------------------------------------------------------------------------------------------------
+		if [ "$archi" = "x86_64" ] ; then
+			echo "Server = http://repo.archlinux.fr/x86_64" >> /etc/pacman.conf
+			echo "" >> /etc/pacman.conf
+			echo '[multilib]' >> /etc/pacman.conf
+			echo 'SigLevel = PackageRequired' >> /etc/pacman.conf
+			echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
+		fi
+
+		#------------------------------------------------------------------------------------------------------
+		# if i686
+		#------------------------------------------------------------------------------------------------------
+		if [ "$archi" = "i686" ] ; then
+			echo "Server = http://repo.archlinux.fr/i686" >> /etc/pacman.conf
+		fi
+
+		#------------------------------------------------------------------------------------------------------
+		# Raspberry PI
+		#------------------------------------------------------------------------------------------------------
+		if [ "$archi" = "rpi" ] || [ "$archi" = "armv6l" ] ; then
+			echo "Server = http://repo.archlinux.fr/arm" >> /etc/pacman.conf
+		fi
+		echo -e "$white$ok Ajout $archi dans repo.archlinux.fr $cyan"
+	fi
 fi
-echo -e "$white ******************************************************************************"
-###############################################################################################
+################################################################################################################
 
-echo " "
-echo " "
 
-###############################################################################################
-echo -e "$white ******************************************************************************"
-echo -e "$white * Configuration des programmes basiques ..."
-echo -e "$white * voir : /etc/X11/xorg.conf.d/10-keyboard-layout.conf"
+################################################################################################################
+#------------------------------------------------------------------------------------------------------
+# Install basic programs for archlinux
+#------------------------------------------------------------------------------------------------------
+pacman -Syy --noconfirm
+echo -e "$white$ok Synchronisation sur $cyan$archi $green"
+echo -e "Configuration des programmes de bases ... $cyan"
+# Linux-headers - Header files and scripts for building modules for Linux kernel
+# Yaourt 		- Yet AnOther User Repository Tool
+# Yajl 			- Yet Another JSON Library.
+# Namcap 		- is a tool to check binary packages and source PKGBUILDs for common packaging mistakes
+pacman -S --noconfirm linux-headers yaourt yajl namcap 
+# xorg 			- The X.Org project provides an open source implementation of the X Window System.
+pacman -S --noconfirm xorg-server xorg-xinit xorg-utils xorg-server-utils xorg-fonts-type1
+# Drivers touchpad - mouse - keyboard + numlock
+pacman -S --noconfirm xf86-input-synaptics xf86-input-mouse xf86-input-keyboard numlockx
+# colordiff 	- The Perl script colordiff is a wrapper for 'diff' and produces the same output but with pretty 'syntax' highlighting. Colour schemes can be customized.
+pacman -S --noconfirm colordiff  gsfonts ttf-dejavu artwiz-fonts font-bh-ttf font-bitstream-speedo sdl_ttf ttf-bitstream-vera ttf-cheapskate ttf-liberation
+# Unrar Unace 	- cmd extractor
+# wget 			- cmd download manager
+pacman -S --noconfirm unrar unace wget lftp lrzip
+# Vim 			- text editor with colors
+# Ntp 			- Network Time Protocol is the most common method to synchronize the software clock of a GNU/Linux system with internet time servers. 
+# Screen 		- GNU Screen is a wrapper that allows separation between the text program and the shell from which it was launched
+pacman -S --noconfirm vim ntp screen xterm
+# OpenSSL 		- is an open-source implementation of the SSL and TLS protocols, dual-licensed under the OpenSSL and the SSLeay licenses (careful with heartbleed)
+# OpenSsh 		- remote server in SSH
+# SSHguard 		- is a daemon that protects SSH and other services against brute-force attacts, similar to fail2ban.
+# Fail2ban 		- scans various textual log files and bans IP that makes too many password failures by updating firewall rules to reject the IP address, similar to Sshguard.
+# Iptables 		- is a powerful firewall built into the Linux kernel and is part of the netfilter project.
+# Netctl 		- is a CLI-based tool used to configure and manage network connections via profiles. It is a native Arch Linux project that replaces the old netcfg utility.
+pacman -S --noconfirm openssl openssh sshguard fail2ban iptables netctl
 
-#----------------------------------------------------------------
+pacman -S --noconfirm libxvmc upower polkit ntfs-3g nfs-utils udisks udevil mtools dosfstools exfat-utils
+# Configuration AUDIO avec alsa et pulseaudio (flac=codec)
+cat /proc/asound/cards
+pacman -S --noconfirm alsa-utils alsa-lib alsa-oss alsa-tools alsa-plugins alsa-firmware pulseaudio pulseaudio-alsa flac 
+pacman -S --noconfirm lib32-libpulse
+# ossp			- OSS Proxy Daemon is a Linux userland OSS sound device (/dev/[a]dsp and /dev/mixer) implementation using CUSE. Currently it supports forwarding OSS sound streams to PulseAudio and ALSA.
+# paprefs 		- A simple GTK-based configuration dialog for PulseAudio
+# vorbis-tools 	- Vorbis audio compression
+pacman -S --noconfirm ossp paprefs vorbis-tools
+echo -e "$white$ok programmes de bases"
+################################################################################################################
+
+
+################################################################################################################
+echo -e "Configuration des programmes basiques ..."
+#------------------------------------------------------------------------------------------------------
 # Config Xorg
-#----------------------------------------------------------------
+#------------------------------------------------------------------------------------------------------
 cat <<EOF >/etc/X11/xorg.conf.d/10-keyboard-layout.conf
 Section "InputClass"
 	Identifier	"Keyboard Layout"
@@ -363,68 +373,70 @@ Section "InputClass"
 	Option	"XkbVariant"	"latin9"
 EndSection
 EOF
-echo -e "$white * Configuration XORG KEYBOARD LAYOUT $yellow [OK]"
-#----------------------------------------------------------------
+echo -e "Plus d'info voir : /etc/X11/xorg.conf.d/10-keyboard-layout.conf"
+echo -e "$white$ok Configuration XORG KEYBOARD LAYOUT"
+
+#------------------------------------------------------------------------------------------------------
 # Config /etc/vimrc
-#----------------------------------------------------------------
-touch /etc/vimrc
-echo "set nu" >> /etc/vimrc
-echo "syntax on" >> /etc/vimrc
-echo "colorscheme darkblue" >> /etc/vimrc
-echo -e "$white ******************************************************************************"
-###############################################################################################
+#------------------------------------------------------------------------------------------------------
+if [ "$idebug"="ko" ] ; then # check if vimrc are already created
+	touch /etc/vimrc
+	echo "set nu" >> /etc/vimrc
+	echo "syntax on" >> /etc/vimrc
+	echo "colorscheme darkblue" >> /etc/vimrc
+	echo -e "Plus d'info voir : /etc/vimrc"
+	echo -e "$white$ok Configuration de VIM"
+fi
 
-echo " "
-echo " "
 
-###############################################################################################
-echo -e "$white ******************************************************************************"
-echo -e "$white * Configuration du réseau"
-#----------------------------------------------------------------
-# Répertoire link
-#----------------------------------------------------------------
-echo -e "$white * Utilisateur $user sur /link/"
+################################################################################################################
+
+
+################################################################################################################
+echo -e "Configuration du réseau et du dossier /link ..."
+#------------------------------------------------------------------------------------------------------
+# Repertory of link
+#------------------------------------------------------------------------------------------------------
 mkdir /link
 mkdir /link/Logs
+chown -R $user:users /link
+echo -e "$white$ok Droits utilisateur $user sur /link"
 
-#----------------------------------------------------------------
-# Répertoire de samba
-#----------------------------------------------------------------
-echo -e "$white * SAMBA /media/Partage"
-echo -e "$white * SAMBA /media/Usb"
-echo -e "$white * voir : /etc/samba/smb.conf"
+#------------------------------------------------------------------------------------------------------
+# Repertory of samba
+#------------------------------------------------------------------------------------------------------
+echo -e "Configuration des dossiers de partage reseau ..."
 mkdir /media/Partage
 mkdir /media/Usb
-echo -e "$white * Configuration du réseau $yellow [OK]"
-echo -e "$white ******************************************************************************"
-###############################################################################################
+ln -s /media $HOME/Media
+chown -R $user:users /media/Partage /media/Usb
+echo -e "$white$ok SAMBA repertoire /media/Partage !"
+echo -e "$white$ok SAMBA repertoire /media/Usb !"
+echo -e "Plus d'info voir : /etc/samba/smb.conf $white"
+echo -e "$white$ok Configuration des dossiers de partage"
 
-echo " "
-echo " "
-
-###############################################################################################
-echo -e "$white ******************************************************************************"
-echo -e "$white * Configuration SSH "
-echo -e "$white * Port : 443 "
-echo -e "$white * Connection unique : touriste"
-echo -e "$white * Connection root : désactivé"
-echo -e "$white * Config /etc/ssh/sshd_config"
+#------------------------------------------------------------------------------------------------------
+# SSH configuration 
+#------------------------------------------------------------------------------------------------------
 cp $rep/tools/archbox-boot/sshd_config /etc/ssh/
-echo -e "$white * Configuration SSH $yellow [OK]"
-echo -e "$white ******************************************************************************"
-###############################################################################################
+echo -e "Configuration SSH ..."
+echo -e "Port : 443 "
+echo -e "Connection uniquement sur : touriste"
+echo -e "Connection désactivé sur : root & $user"
+echo -e "Plus d'info voir : /etc/ssh/sshd_config"
+echo -e "$white$ok Configuration SSH"
+################################################################################################################
 
-echo " "
-echo " "
 
-###############################################################################################
-echo -e "$white ******************************************************************************"
-echo "* Activation des services au démarrage ..."
+################################################################################################################
+echo "Activation des services au démarrage ..."
 if [ "$idebug"="ko" ] ; then
-	#----------------------------------------------------------------
+	#------------------------------------------------------------------------------------------------------
 	# Serveur de temps FR (sauf Raspberry pi)
-	#----------------------------------------------------------------
-	if [ ! "$archi" = "rpi" ]  ; then
+	#------------------------------------------------------------------------------------------------------
+	if [ "$archi" = "rpi" ] ; then
+
+	else
 		rm /etc/ntp.conf 2>/dev/null
 		cat <<EOF >/etc/ntp.conf
 server 0.fr.pool.ntp.org iburst
@@ -437,77 +449,84 @@ restrict 127.0.0.1
 restrict ::1
 
 driftfile /var/lib/ntp/ntp.drift
-
 EOF
 		ntpd -q
 		systemctl enable ntpd.service
-		echo -e "$white * Serveur de temps FR $yellow [OK]"
+		echo -e "$white$ok Serveur de temps FR"
 	fi
-	systemctl enable dbus.service
 fi
 systemctl enable sshd.service
-systemctl enable smbd.service nmbd.service smbnetfs.service
-echo -e "$white * Activation des services $yellow [OK]"
-echo -e "$white ******************************************************************************"
-###############################################################################################
+systemctl enable smbd.service
+systemctl enable nmbd.service
+systemctl enable smbnetfs.service
+echo -e "$white$ok Activation des services"
+################################################################################################################
 
-echo " "
-echo " "
 
-###############################################################################################
-#----------------------------------------------------------------
-# ARCHBOX_1CONFIG.SH --> LANCEMENT DES AUTRES SCRIPTS
-#----------------------------------------------------------------
-
-#----------------------------------------------------------------
-# Lancement script XBMC
-#----------------------------------------------------------------
+################################################################################################################
+echo -e "$white"
+#------------------------------------------------------------------------------------------------------
+# XBMC script launch
+#------------------------------------------------------------------------------------------------------
 if [ "$ixbmc" = "ok" ] ; then
 	if [ -f $rep/archbox_2xbmc.sh ] ; then
 		sh $rep/archbox_2xbmc.sh "$user" "$archi"
 	else
-		echo -e "$red * Le fichier archbox_2xbmc.sh n'est pas présent"
+		echo -e "Le fichier archbox_2xbmc.sh n'est pas présent"
 	fi
 fi
-#----------------------------------------------------------------
-# Lancement script XFCE
-#----------------------------------------------------------------
+
+#------------------------------------------------------------------------------------------------------
+# XFCE script launch
+#------------------------------------------------------------------------------------------------------
 if [ "$ixfce" = "ok" ] ; then
 	if [ -f $rep/archbox_3desktop.sh ] ; then
 		sh $rep/archbox_3desktop.sh "$user" "$archi"
 	else
-		echo -e "$red * Le fichier archbox_3desktop.sh n'est pas présent"
+		echo -e "Le fichier archbox_3desktop.sh n'est pas présent"
 	fi
 fi
-#----------------------------------------------------------------
-# Lancement script Emulateurs
-#----------------------------------------------------------------
+
+#------------------------------------------------------------------------------------------------------
+# Emulateurs script launch
+#------------------------------------------------------------------------------------------------------
 if [ "$iemul" = "ok" ] ; then
 	if [ -f $rep/archbox_4emulateur.sh ] ; then
 		sh $rep/archbox_4emulateur.sh "$user" "$archi"
 	else
-		echo -e "$red * Le fichier archbox_4emulateur.sh n'est pas présent"
+		echo -e "Le fichier archbox_4emulateur.sh n'est pas présent"
 	fi
 fi
+
+
 if [ "$idebug"="ko" ] ; then
-	#----------------------------------------------------------------
-	# Lancement script DRIVERS
-	#----------------------------------------------------------------
+	#------------------------------------------------------------------------------------------------------
+	# DRIVERS script launch
+	#------------------------------------------------------------------------------------------------------
 	if [ -f $rep/archbox_5drivers.sh ] ; then
 		sh $rep/archbox_5drivers.sh "$user" "$archi"
 	else
-		echo -e "$red * Le fichier archbox_5drivers.sh n'est pas présent"
+		echo -e "Le fichier archbox_5drivers.sh n'est pas présent"
 	fi
-	#----------------------------------------------------------------
-	# Lancement script BOOT
-	#----------------------------------------------------------------
+	#------------------------------------------------------------------------------------------------------
+	# BOOT script launch
+	#------------------------------------------------------------------------------------------------------
 	if [ -f $rep/archbox_6boot.sh ] ; then
 		sh $rep/archbox_6boot.sh "$user" "$archi"
 	else
-		echo -e "$red * Le fichier archbox_6boot.sh n'est pas présent"
+		echo -e "Le fichier archbox_6boot.sh n'est pas présent"
 	fi
 fi
-echo -e " * $white "
+
+cat <<EOF > $rep/1config.lck
+#----------------------------
+# ARCHBOX_1CONFIG.SH --> [OK]
+#----------------------------
+EOF
+################################################################################################################
+
+
+################################################################################################################
 echo -e "$green **********************************************************************************************************"
 echo -e "$green * "
 echo -e "$green * [$red ARCHBOX$green ]"									   				  
@@ -515,9 +534,4 @@ echo -e "$green * Votre console multimédia de salon"
 echo -e "$green * Installation $yellow [ARCHBOX]$red Terminé"	
 echo -e "$green * "
 echo -e "$green ********************************************************************************************************** $nc"
-cat <<EOF > $rep/1config.lck
-#----------------------------------------------------------------
-# ARCHBOX_1CONFIG.SH --> [OK]
-#----------------------------------------------------------------
-EOF
-###############################################################################################
+################################################################################################################
