@@ -18,41 +18,75 @@ echo -e "$green *                                                               
 echo -e "$green ******************************************************************************"
 ###############################################################################################
 
-echo " "
-echo " "
 
 ###############################################################################################
-echo -e "$green ******************************************************************************"
-#echo -ne "$green   Ip: $yellow" ; ifconfig -a | grep inet | grep -v '127.0.0.1' | grep -v '::' | awk '{ print $2}'
-echo -e "$green   SSH sur touriste:$yellow OK"
-echo -e "$green ******************************************************************************"
-###############################################################################################
-
-echo " "
-echo " "
-
-###############################################################################################
-echo -e "$white ******************************************************************************"
-LISTE=(" Xbmc (defaut 3sc)" " Bureau XFCE" " Emulateurs" " Eteindre l'ordinateur")
+echo -e "$yellow"
+echo -e "Choisissez votre programe : $nc"
+LISTE=(" XBMC " " Bureau XFCE" " Emulateurs" " Terminal" " Eteindre")
 select CHOIX in "${LISTE[@]}" ; do
 case $REPLY in
         1|'&')
-                echo -e "$yellow" "Lancement :" "$red" " XBMC... $nc"
+		echo -e "$yellow"
+                echo -e "Lancement :$red" "XBMC... $nc"
                 /usr/bin/xinit /usr/bin/xbmc-standalone -- :0 -nolisten tcp
         break
         ;;
         2|"é")
-                echo -e "$yellow" "Lancement :" "$red" " Bureau XFCE... $nc"
+                echo -e "$yellow"
+                echo -e "Lancement :$red" "Bureau XFCE... $nc"
                 /usr/bin/startxfce4
         break
         ;;
         3|'"')
-                echo -e "$yellow" "Lancement :" "$red" " Emulateurs... $nc"
+		echo -e "$yellow"
+		echo -e "Choisissez votre$red" "Emulateurs $nc"
+		LISTE2=(" Super Nintendo" " Nitendo64" " MegaDrive" " Steam" " Retour")
+		select CHOIXEMUL in "${LISTE2[@]}" ; do
+		case $REPLY in
+			1|'&')
+				echo -e "$yellow"
+                		echo -e "Lancement :$red" "Super Nintendo... $nc"
+				/usr/bin/xinit /usr/bin/zsnes -- :0 -nolisten tcp	
+			break
+			;;
+			2|"é")
+				echo -e "$yellow"
+                		echo -e "Lancement :$red" "Nintendo64... $nc"
+				/usr/bin/xinit /usr/bin/zsnes -- :0 -nolisten tcp
+			break
+			;;
+			3|'"')
+				echo -e "$yellow"
+                		echo -e "Lancement :$red" "MegaDrive... $nc"
+				/usr/bin/xinit /usr/bin/zsnes -- :0 -nolisten tcp
+			break
+        		;;
+			4|"'")
+				echo -e "$yellow"
+                		echo -e "Lancement :$red" "Steam... $nc"
+				/usr/bin/xinit /usr/bin/steam -- :0 -nolisten tcp
+			break
+        		;;
+			5|'(')
+				echo -e "$yellow"
+                		echo -e "$red" "Retour... $nc"
+				exec
+			break
+        		;;
+			esac
+		done
         break
         ;;
-        *|"'")
-                echo -e "$yellow" "Extinction de l'ordinateur multimedia... $nc"
-                shutdown
+	4|"'")
+                echo -e "$yellow"
+                echo -e "Lancement :$red" "Terminal... $nc"
+                /usr/bin/xinit /usr/bin/xterm -fullscreen -maximized xterm -fa "size=12:antialias=false" -rv
+        break
+        ;;
+        *|"(")
+                echo -e "$yellow"
+                echo -e "Extinction de l'ordinateur... $nc"
+                shutdown now
         break
         ;;
         esac
