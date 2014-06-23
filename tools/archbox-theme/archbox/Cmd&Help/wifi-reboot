@@ -1,0 +1,5 @@
+set reseau1=$1
+netctl stop $reseau1
+netctl list
+netctl start $reseau1
+netctl status $reseau1

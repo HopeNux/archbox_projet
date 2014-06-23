@@ -1,0 +1,1 @@
+/usr/bin/synergyc --daemon --name ORDINATEURNAME --restart 192.168.1.XXX

@@ -1,0 +1,36 @@
+#!/bin/bash
+########################################################################
+# BOX -> WIFI [Source-PC] ETHERNET -> ROUTEUR <- X-PC
+########################################################################
+set reseau1=$1
+set reseau2=$2
+
+echo "Installation netctl et iptables"
+pacman -S netctl iptables
+
+echo "Copie des configuration $reseau1 et $reseau2"
+cp netctl-config/wifi netctl-config/eth0 /etc/netctl/
+echo "IP static"
+echo "IP=static"
+echo "Address=('192.168.1.15/24')"
+echo "Gateway='192.168.1.1'"
+echo "DNS=('192.168.1.1')"
+
+echo "Autorisation de la communication entre $reseau1 et $reseau2"
+echo 1 > /proc/sys/net/ipv4/ip_forward
+echo "net.ipv4.ip_forward=1" >> /etc/sysctl.d/99-sysctl.conf
+
+echo "Configuration de l'iptables"
+echo "iptables -t nat -A POSTROUTING -o $reseau1 -j MASQUERADE"
+
+echo "Sauvegarde de l'iptable"
+iptables-save > /etc/iptables/iptables.rules
+
+echo "Activation des services iptables et netctl"
+systemctl enable iptables
+systemctl enable netctl
+#netctl enable wifi
+#netctl enable eth0
+
+
+

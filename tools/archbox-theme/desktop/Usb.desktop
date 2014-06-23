@@ -1,0 +1,7 @@
+[Desktop Entry]
+Version=1.0
+Type=Link
+Name=Usb Share
+Comment=Share your USB device by Samba
+Icon=drive-harddisk-ieee1394
+URL=/media/Usb

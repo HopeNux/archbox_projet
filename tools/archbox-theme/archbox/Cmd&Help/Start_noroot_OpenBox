@@ -1,0 +1,1 @@
+xinit /usr/bin/openbox-session -- :0 -nolisten tcp

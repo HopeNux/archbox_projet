@@ -1,0 +1,6 @@
+Exporter un base de donnée
+mysqldump -u utilisateur BASE_DE_DONNÉES > /tmp/fichier.sql
+
+Exporté un table
+mysqldump -u utilisateur BASE_DE_DONNÉES MA_TABLE > /tmp/fichier.sql
+

@@ -1,0 +1,2 @@
+#!/bin/bash
+ls -lF /dev/disk/by-uuid/

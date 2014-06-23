@@ -1,0 +1,2 @@
+xinit /usr/bin/lxsession -- :0 -nolisten tcp
+

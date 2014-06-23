@@ -1,0 +1,4 @@
+modprobe bcm2835-v4l2
+systemctl stop motion
+ls -ltr /dev/video*
+systemctl start motion
