@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------------------
- archbox_projet
+# archbox_projet
 --------------------------------------------------------------------------------------
 
 Principe :
@@ -27,7 +27,7 @@ Les options :
     du streaming ou jeux à distance entre amis.
     
 --------------------------------------------------------------------------------------
--- archbox_1config.sh
+## archbox_1config.sh
 --------------------------------------------------------------------------------------
 
     Script pour gérer le réseau, partage, langues, démarrage, programmes basique
@@ -44,7 +44,7 @@ Les options :
     
 
 --------------------------------------------------------------------------------------
--- archbox_2xbmc.sh
+## archbox_2xbmc.sh
 --------------------------------------------------------------------------------------
 
     Script d'installation du logiciel XBMC
@@ -54,7 +54,7 @@ Les options :
 
 
 --------------------------------------------------------------------------------------
--- archbox_3desktop.sh
+## archbox_3desktop.sh
 --------------------------------------------------------------------------------------
 
     Script d'installation d'un bureau basé sur xfce avec un thème par défaut.
@@ -77,7 +77,7 @@ Les options :
 
 
 --------------------------------------------------------------------------------------
--- archbox_4emulateur.sh
+## archbox_4emulateur.sh
 --------------------------------------------------------------------------------------
 
     Script d'installation d'émulateurs.
@@ -86,7 +86,7 @@ Les options :
 
 
 --------------------------------------------------------------------------------------
--- archbox_5drivers.sh
+## archbox_5drivers.sh
 --------------------------------------------------------------------------------------
 
     Script uniquement d'indiquation pour installer le bon drivers vidéo.
@@ -95,7 +95,7 @@ Les options :
 
 
 --------------------------------------------------------------------------------------
--- archbox_6boot.sh
+## archbox_6boot.sh
 --------------------------------------------------------------------------------------
 
     Script intégrant quelques configurations et un script de démarrage (ARCHBOXBOOT).
@@ -110,7 +110,7 @@ Les options :
 
 
 --------------------------------------------------------------------------------------
-SOUS REPERTOIRE :
+## SOUS REPERTOIRE :
 --------------------------------------------------------------------------------------
 
 archbox-boot (archboxboot) [contribution HopeNux, Xorg, DOcGui]
