@@ -1,6 +1,4 @@
---------------------------------------------------------------------------------------
 # archbox_projet
---------------------------------------------------------------------------------------
 
 Principe :
 
@@ -26,9 +24,9 @@ Les options :
     convivialité, y intégré un service SSH et pourquoi pas VPN pour envisager 
     du streaming ou jeux à distance entre amis.
     
---------------------------------------------------------------------------------------
+
 ## archbox_1config.sh
---------------------------------------------------------------------------------------
+
 
     Script pour gérer le réseau, partage, langues, démarrage, programmes basique
     (audio,xorg,ssh,...) tout cela par défaut. [OK]
@@ -43,9 +41,9 @@ Les options :
     Copies des thèmes [Xorg] avant l'installation des fonctionnalités de montage de disque dur etc.
     
 
---------------------------------------------------------------------------------------
+
 ## archbox_2xbmc.sh
---------------------------------------------------------------------------------------
+
 
     Script d'installation du logiciel XBMC
     [OK] : Optimisation du logiciel XBMC pour le RPI (Gotham version)
@@ -53,9 +51,9 @@ Les options :
     Prise en compte du nouvel utilisateur [HopeNux]
 
 
---------------------------------------------------------------------------------------
+
 ## archbox_3desktop.sh
---------------------------------------------------------------------------------------
+
 
     Script d'installation d'un bureau basé sur xfce avec un thème par défaut.
     [OK] : Ajout d'un shell avec installation d'un thème personnalisé [Xorg]
@@ -76,27 +74,27 @@ Les options :
     Firmware pour résolution de bugs (brocade-firmware/aic94xx-firmware) + non obligatoire (siano-tv-fw).
 
 
---------------------------------------------------------------------------------------
+
 ## archbox_4emulateur.sh
---------------------------------------------------------------------------------------
+
 
     Script d'installation d'émulateurs.
     [EN COUR] : Etude sur l'émulateur M.A.M.E / SNESX / N64 .
     Optimisation du script
 
 
---------------------------------------------------------------------------------------
+
 ## archbox_5drivers.sh
---------------------------------------------------------------------------------------
+
 
     Script uniquement d'indiquation pour installer le bon drivers vidéo.
     [RAF] : Installation automatique des drivers du RPI (ok pour la vidéo) [HopeNux, DOcGui]
     Optimisation du script
 
 
---------------------------------------------------------------------------------------
+
 ## archbox_6boot.sh
---------------------------------------------------------------------------------------
+
 
     Script intégrant quelques configurations et un script de démarrage (ARCHBOXBOOT).
     [OK] : Configurration Ip fixe ou dhcp + DNS
@@ -109,9 +107,9 @@ Les options :
     Démarrage du RPI pris en compte (getty.service)
 
 
---------------------------------------------------------------------------------------
+
 ## SOUS REPERTOIRE :
---------------------------------------------------------------------------------------
+
 
 archbox-boot (archboxboot) [contribution HopeNux, Xorg, DOcGui]
 
