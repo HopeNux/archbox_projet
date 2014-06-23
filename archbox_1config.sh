@@ -337,7 +337,7 @@ pacman -S --noconfirm unrar unace wget lftp lrzip
 # Vim 			- text editor with colors
 # Ntp 			- Network Time Protocol is the most common method to synchronize the software clock of a GNU/Linux system with internet time servers. 
 # Screen 		- GNU Screen is a wrapper that allows separation between the text program and the shell from which it was launched
-pacman -S --noconfirm vim ntp screen xterm
+pacman -S --noconfirm vim ntp screen
 # OpenSSL 		- is an open-source implementation of the SSL and TLS protocols, dual-licensed under the OpenSSL and the SSLeay licenses (careful with heartbleed)
 # OpenSsh 		- remote server in SSH
 # SSHguard 		- is a daemon that protects SSH and other services against brute-force attacts, similar to fail2ban.
@@ -399,6 +399,7 @@ echo -e "Configuration du réseau et du dossier /link ..."
 #------------------------------------------------------------------------------------------------------
 mkdir /link
 mkdir /link/Logs
+cp -R $rep/tools/archbox-theme/ArchBox /link/
 chown -R $user:users /link
 echo -e "$white$ok Droits utilisateur $user sur /link"
 

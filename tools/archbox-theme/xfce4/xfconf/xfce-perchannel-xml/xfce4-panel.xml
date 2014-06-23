@@ -15,16 +15,22 @@
       <property name="background-style" type="uint" value="2"/>
       <property name="plugin-ids" type="array">
         <value type="int" value="1"/>
-        <value type="int" value="6"/>
-        <value type="int" value="2"/>
         <value type="int" value="5"/>
-        <value type="int" value="3"/>
+        <value type="int" value="6"/>
+        <value type="int" value="8"/>
+        <value type="int" value="9"/>
+        <value type="int" value="2"/>
+        <value type="int" value="10"/>
+        <value type="int" value="11"/>
         <value type="int" value="4"/>
+        <value type="int" value="3"/>
+        <value type="int" value="7"/>
       </property>
       <property name="background-image" type="string" value="/usr/share/archbox/Panel_background.png"/>
-      <property name="size" type="uint" value="32"/>
+      <property name="size" type="uint" value="30"/>
       <property name="enter-opacity" type="uint" value="100"/>
       <property name="leave-opacity" type="uint" value="100"/>
+      <property name="background-alpha" type="uint" value="100"/>
     </property>
   </property>
   <property name="plugins" type="empty">
@@ -33,18 +39,65 @@
       <property name="button-icon" type="string" value="/usr/share/archbox/ArchLinux_logo.png"/>
       <property name="show-menu-icons" type="bool" value="true"/>
       <property name="show-generic-names" type="bool" value="false"/>
+      <property name="custom-menu" type="bool" value="false"/>
+      <property name="show-tooltips" type="bool" value="true"/>
     </property>
-    <property name="plugin-3" type="string" value="xfce4-clipman-plugin"/>
     <property name="plugin-4" type="string" value="xfce4-orageclock-plugin"/>
-    <property name="plugin-5" type="string" value="wavelan"/>
     <property name="plugin-6" type="string" value="separator">
       <property name="style" type="uint" value="0"/>
       <property name="expand" type="bool" value="true"/>
     </property>
     <property name="plugin-2" type="string" value="mixer">
-      <property name="sound-card" type="string" value=""/>
       <property name="track" type="string" value="Volume général"/>
       <property name="command" type="string" value="xfce4-mixer"/>
     </property>
+    <property name="plugin-3" type="string" value="showdesktop"/>
+    <property name="plugin-5" type="string" value="tasklist">
+      <property name="flat-buttons" type="bool" value="true"/>
+      <property name="include-all-workspaces" type="bool" value="false"/>
+      <property name="show-handle" type="bool" value="true"/>
+      <property name="sort-order" type="uint" value="1"/>
+      <property name="grouping" type="uint" value="1"/>
+      <property name="window-scrolling" type="bool" value="false"/>
+      <property name="include-all-monitors" type="bool" value="true"/>
+      <property name="show-labels" type="bool" value="true"/>
+    </property>
+    <property name="plugin-8" type="string" value="systray">
+      <property name="names-visible" type="array">
+        <value type="string" value="vlc"/>
+        <value type="string" value="uget-gtk"/>
+        <value type="string" value="thunar"/>
+        <value type="string" value="systray icon"/>
+        <value type="string" value="wicd-client.py"/>
+        <value type="string" value="kaffeine"/>
+        <value type="string" value="applet networkmanager"/>
+        <value type="string" value="xfce4-power-manager"/>
+        <value type="string" value="notes"/>
+      </property>
+      <property name="show-frame" type="bool" value="false"/>
+      <property name="size-max" type="uint" value="20"/>
+    </property>
+    <property name="plugin-9" type="string" value="launcher">
+      <property name="items" type="array">
+        <value type="string" value="13906566521.desktop"/>
+      </property>
+      <property name="show-label" type="bool" value="false"/>
+      <property name="disable-tooltips" type="bool" value="false"/>
+    </property>
+    <property name="notes" type="empty">
+      <property name="global" type="empty">
+        <property name="background-color" type="string" value="GTK+"/>
+        <property name="tabs-position" type="int" value="1"/>
+        <property name="font-description" type="string" value="Roboto Light 10"/>
+        <property name="skip-taskbar-hint" type="bool" value="true"/>
+      </property>
+      <property name="new-window" type="empty">
+        <property name="width" type="int" value="270"/>
+        <property name="height" type="int" value="337"/>
+      </property>
+    </property>
+    <property name="plugin-7" type="string" value="actions"/>
+    <property name="plugin-10" type="string" value="wavelan"/>
+    <property name="plugin-11" type="string" value="netload"/>
   </property>
 </channel>

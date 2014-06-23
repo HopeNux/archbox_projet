@@ -80,10 +80,12 @@ case $REPLY in
 	4|"'")
                 echo -e "$yellow"
                 echo -e "Lancement :$red" "Terminal... $nc"
-                /usr/bin/xinit /usr/bin/xterm -fullscreen -maximized xterm -fa "size=12:antialias=false" -rv
+                screen -dmS terminal
+		screen -r terminal
+		screen -S terminal -X quit
         break
         ;;
-        *|"(")
+        *)
                 echo -e "$yellow"
                 echo -e "Extinction de l'ordinateur... $nc"
                 shutdown now
@@ -93,4 +95,5 @@ case $REPLY in
 done
 echo -e "$white ******************************************************************************"
 ###############################################################################################
+
 

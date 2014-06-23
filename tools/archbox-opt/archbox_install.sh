@@ -19,16 +19,16 @@ echo "***************************************************************"
 echo "* Partionnement du disque dur (sdaX)"
 echo "***************************************************************"
 fdisk -l
-mkfs.ext4 /dev/sda1
+mkfs.ext3 /dev/sda2
 echo "* Formatage ext3 de sda1 en boot [OK]"
-mkfs.ext4 /dev/sda3
-echo "* Formatage ext3 de sda3 en racine [OK]"
-mkswap /dev/sda2
+#mkfs.ext4 /dev/sda3
+#echo "* Formatage ext3 de sda3 en racine [OK]"
+mkswap /dev/sda1
 echo "* Formatage swap de sda2 en swap [OK]"
-mount /dev/sda3 /mnt
-mkdir /mnt/boot
-mount /dev/sda1 /mnt/boot
-swapon /dev/sda2
+mount /dev/sda2 /mnt
+#mkdir /mnt/boot
+#mount /dev/sda1 /mnt/boot
+swapon /dev/sda1
 echo "* Montage des partitions [OK]"
 echo ""
 echo "***************************************************************"
@@ -41,14 +41,18 @@ echo "* Installation du paquet BASE-DEVEL et SYSLINUX [OK]"
 echo " genfstab -U = fstab par UUID"
 genfstab -U -p /mnt >> /mnt/etc/fstab
 echo "* Génération du fstab sur /mnt/etc/fstab [OK]"
+echo "***************************************************************"
 echo "arch-chroot /mnt"
 echo "Configurez /etc/mkinitcpio.conf et créez les ramdisk avec "
-echo " mkinitcpio -p linux"
-echo " syslinux-install_update -iam"
+echo "mkinitcpio -p linux"
+echo "***************************************************************"
+echo "syslinux-install_update -iam"
 echo "ATTENTION SYSLINUX SUR SDA3"
+echo "***************************************************************"
 echo "GRUB"
 echo "#grub-install --no-floppy --recheck /dev/sda"
 echo "#grub-mkconfig -o /boot/grub/grub.cfg"
 echo "Detection WINDOWS OS : pacman -S os-prober"
 echo "Modification grub : nano /boot/grub/grub.cfg"
 echo "## fi"
+echo "***************************************************************"

@@ -24,10 +24,14 @@
       <property name="&lt;Alt&gt;F1" type="string" value="xfce4-popup-applicationsmenu"/>
       <property name="&lt;Control&gt;&lt;Alt&gt;Delete" type="string" value="xflock4"/>
       <property name="XF86Mail" type="string" value="exo-open --launch MailReader"/>
-      <property name="XF86Display" type="string" value="xfce4-display-settings --minimal"/>
       <property name="XF86WWW" type="string" value="exo-open --launch WebBrowser"/>
       <property name="&lt;Super&gt;p" type="string" value="xfce4-display-settings --minimal"/>
       <property name="override" type="bool" value="true"/>
+      <property name="&lt;Super&gt;e" type="string" value="/usr/bin/Thunar"/>
+      <property name="&lt;Super&gt;t" type="string" value="/usr/bin/xfce4-terminal">
+        <property name="startup-notify" type="bool" value="true"/>
+      </property>
+      <property name="&lt;Super&gt;m" type="string" value="/usr/bin/pacmanxg"/>
     </property>
   </property>
   <property name="xfwm4" type="empty">
@@ -96,7 +100,6 @@
       <property name="&lt;Alt&gt;Tab" type="string" value="cycle_windows_key"/>
       <property name="&lt;Control&gt;&lt;Alt&gt;Right" type="string" value="right_workspace_key"/>
       <property name="Left" type="string" value="left_key"/>
-      <property name="&lt;Control&gt;&lt;Alt&gt;d" type="string" value="show_desktop_key"/>
       <property name="&lt;Control&gt;&lt;Shift&gt;&lt;Alt&gt;Left" type="string" value="move_window_left_key"/>
       <property name="&lt;Control&gt;&lt;Shift&gt;&lt;Alt&gt;Right" type="string" value="move_window_right_key"/>
       <property name="Up" type="string" value="up_key"/>
@@ -139,6 +142,7 @@
       <property name="&lt;Control&gt;F1" type="string" value="workspace_1_key"/>
       <property name="&lt;Control&gt;F11" type="string" value="workspace_11_key"/>
       <property name="override" type="bool" value="true"/>
+      <property name="&lt;Super&gt;d" type="string" value="show_desktop_key"/>
     </property>
   </property>
   <property name="providers" type="array">

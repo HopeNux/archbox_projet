@@ -3,12 +3,11 @@ fg_set=false
 bg_set=false
 timezone=
 width_set=false
-height_set=true
-height=16
+height_set=false
 data0=%R
 font0=
-data1=%F
-font1=
-tooltip=%d %B %Y
+tooltip=%A %d %B %Y/%V
 hib_timing=false
+data1=%x
+font1=
 
