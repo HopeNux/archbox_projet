@@ -167,10 +167,10 @@ if [ -z "$user" ] ; then
 	user="xbmc"
 fi
 export HOME="/home/$user"
+groupadd xbmc
 useradd -m -g users -G audio,lp,optical,storage,video,wheel,games,power,xbmc $user
 echo -e "Mot de passe$green '$user' (pas de connection SSH) : $red"
 passwd $user
-groupadd xbmc
 gpasswd -a touriste xbmc
 gpasswd -a $user users
 echo -e "$white$ok Utilisateur $user configuré $green"
@@ -399,7 +399,7 @@ echo -e "Configuration du réseau et du dossier /link ..."
 #------------------------------------------------------------------------------------------------------
 mkdir /link
 mkdir /link/Logs
-cp -R $rep/tools/archbox-theme/ArchBox /link/
+cp -R $rep/tools/archbox-theme/archbox_tools /link/
 chown -R $user:users /link
 echo -e "$white$ok Droits utilisateur $user sur /link"
 
@@ -435,9 +435,7 @@ if [ "$idebug"="ko" ] ; then
 	#------------------------------------------------------------------------------------------------------
 	# Serveur de temps FR (sauf Raspberry pi)
 	#------------------------------------------------------------------------------------------------------
-	if [ "$archi" = "rpi" ] ; then
-
-	else
+	if [ "$archi" <> "rpi" ] ; then
 		rm /etc/ntp.conf 2>/dev/null
 		cat <<EOF >/etc/ntp.conf
 server 0.fr.pool.ntp.org iburst

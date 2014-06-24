@@ -132,7 +132,7 @@ echo -e "$white$ok Configuration réseau & dns"
 #------------------------------------------------------------------------------------------------------
 echo -e "Configuration par defaut de netctl : /etc/netctl/"
 cp $rep/tools/archbox-network/netctl-wifi $rep/tools/archbox-network/netctl-ethernet /etc/netctl/
-cho -e "$white$ok Configuration netctl"
+echo -e "$white$ok Configuration netctl"
 
 ################################################################################################################
 
@@ -195,7 +195,7 @@ Alias=getty.target.wants/getty@tty1.service
 EOF
 cp $rep/tools/archbox-boot/autologin@.service /usr/lib/systemd/system/getty@.service
 cp $rep/tools/archbox-boot/autologin@.service /etc/systemd/system/
-cho -e "$white$ok Autologin sur $user"
+echo -e "$white$ok Autologin sur $user"
 
 #------------------------------------------------------------------------------------------------------
 # Install splash screen
@@ -251,7 +251,7 @@ cat <<EOF >$HOME/.bash_profile
 #[[ -f ~/.bashrc ]] && . ~/.bashrc
 #[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx
 EOF
-echo "sh /usr/bin/archboxboot" >> /home/$user/.bash_profile
+echo "exec /usr/bin/archboxboot" >> /home/$user/.bash_profile
 echo -e "$white$ok Config .bash_profile (ajout de script archboxboot au demarrage) "
 
 #------------------------------------------------------------------------------------------------------

@@ -22,7 +22,7 @@ echo -e "$green ****************************************************************
 ###############################################################################################
 echo -e "$yellow"
 echo -e "Choisissez votre programe : $nc"
-LISTE=(" XBMC " " Bureau XFCE" " Emulateurs" " Terminal" " Eteindre")
+LISTE=(" XBMC (Gotham v13) " " Bureau XFCE / RPI(LXDE) " " Emulateurs (Nitendo, MegaDrive, Steam) " " Terminal (ctrl+a > d pour quitter) " " Eteindre l'ordinateur ")
 select CHOIX in "${LISTE[@]}" ; do
 case $REPLY in
         1|'&')
@@ -52,13 +52,13 @@ case $REPLY in
 			2|"é")
 				echo -e "$yellow"
                 		echo -e "Lancement :$red" "Nintendo64... $nc"
-				/usr/bin/xinit /usr/bin/zsnes -- :0 -nolisten tcp
+				/usr/bin/xinit /usr/bin/mupen64lib -- :0 -nolisten tcp
 			break
 			;;
 			3|'"')
 				echo -e "$yellow"
                 		echo -e "Lancement :$red" "MegaDrive... $nc"
-				/usr/bin/xinit /usr/bin/zsnes -- :0 -nolisten tcp
+				/usr/bin/xinit /usr/bin/gens -- :0 -nolisten tcp
 			break
         		;;
 			4|"'")
@@ -78,20 +78,20 @@ case $REPLY in
         break
         ;;
 	4|"'")
-                echo -e "$yellow"
-                echo -e "Lancement :$red" "Terminal... $nc"
-                screen -dmS terminal
+		echo -e "$yellow"
+        echo -e "Lancement :$red" "Terminal... $nc"
+        screen -dmS terminal
 		screen -r terminal
 		screen -S terminal -X quit
         break
-        ;;
-        *)
-                echo -e "$yellow"
-                echo -e "Extinction de l'ordinateur... $nc"
-                shutdown now
-        break
-        ;;
-        esac
+	;;
+	*)
+			echo -e "$yellow"
+			echo -e "Extinction de l'ordinateur... $nc"
+			shutdown now
+	break
+	;;
+	esac
 done
 echo -e "$white ******************************************************************************"
 ###############################################################################################

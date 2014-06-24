@@ -82,13 +82,16 @@ echo " "
 #----------------------------------------------------------------
 echo -e "Installation et configuration de l'emulateur Super Nintendo, Nitendo64, Megadrive ... $cyan"
 pacman -S --noconfirm zsnes gens mupen64plus 
-cp -R $rep/tools/archbox-emul/zsnes $HOME/.zsnes
+mkdir $HOME/.zsnes
+cp -R $rep/tools/archbox-emul/zsnes/* $HOME/.zsnes/
 echo -e "$white$ok Emulateur Super Nintendo, Nitendo64, Megadrive  $cyan"
 echo -e "Installation drivers manettes xbox ... $cyan"
 yaourt -S --noconfirm xboxdrv
 echo -e "$white$ok Drivers manettes xbox  $cyan"
 mkdir /link/Emulateurs
 mkdir /link/Jeux
+chown -R $user:users $HOME/.zsnes
+chown -R $user:users /link/
 echo -e "$white$ok Création des dossiers (Emulateurs et Jeux) dans /link  $cyan"
 cat <<EOF > $rep/4emulateur.lck
 #-------------------------------
