@@ -3,112 +3,117 @@
 Principe :
 
     L’installation ce présente sous formes de scripts, utilisant les dépôts officiels et 
-    communautaires (AUR), les scripts pourront être lancés indépendamment les un des autres,
-    ou exécuté à la suite par un script de configuration.
+    communautaires (AUR), les scripts pourront être lancés indépendamments les un des autres,
+    ou exécutés à la suite par un script de configuration.
 
-    L’installation peut être exécutée sur un système Archlinux préalablement installé 
-    ou sur une nouvelle installation (après avoir configurer les partitions, le réseau
-    et le chargeur d’amorçage).
+    Attention : L’installation doit être exécutée sur un système Archlinux préalablement installé 
+    ou sur une nouvelle installation (après la configuration des partitions, du réseau
+    et du chargeur d’amorçage).
 
-    Une fois l’installation correctement effectuée, L’ordinateur démarrera sur un menu 
-    de sélection qui vous proposera (suivant les installations effectué précédemment) 
-    de démarrer sur XBMC, une interface graphique standard (XFCE) ou un gestionnaire 
-    d’émulateur (si l'utilisateur ne fait rien, XBMC se lancera par défaut).
+    Une fois l’installation "archbox" effectuée, L’ordinateur démarrera sur un "menu"
+    de sélection qui vous proposera de démarrer sur differentes platformes :
+    1 - [XBMC]
+    2 - [XFCE ou LXDE(pour le raspberry pi)]
+    3 - [Steam (interface console)]
+    4 - [Emulateur (Super Nintendo, N64, MegaDrive)]
+    5 - [Terminal]
+    6 - [Eteindre votre ordinateur]
+    
+    Toutes les selections sont compatibles avec une telecommande.
 
 
 Les options :
 
-    Cette Ordinateur pourra être utilisé comme serveur multimédia pour stocker sur le
-    réseau vos films musique images. Je souhaite également y intégré des mini jeux 
-    par des émulateurs (nintendo, sega,...) relié par une manette pour plus de 
-    convivialité, y intégré un service SSH et pourquoi pas VPN pour envisager 
-    du streaming ou jeux à distance entre amis.
+    Serveur Multimedia (stockage de films, series, clips, musiques, ...) - [Disponible]
+    Bureau classique avec XFCE ou LXDE et une interface base sur "Numix"  - [Disponible]
+    Emulateurs (Super Nintendo, N64, MegaDrive)  - [SuperNintendo Disponible]
+    Steam - [En cour de tests...]
+    Autres : SSH, Partage reseau, SFTP, Drivers manette XBOX, telecommande IR...
     
 
 ## archbox_1config.sh
 
 
-    Script pour gérer le réseau, partage, langues, démarrage, programmes basique
-    (audio,xorg,ssh,...) tout cela par défaut. [OK]
-    [OK] : Partage réseau samba (Dossiers par défaut : partage / usb / usb2 /
-    littlemovies(a racorder sur un disque dur) / bigmovies(a racorder sur un disque dur)) [HopeNux]
+    #### Script pour gérer le réseau, langues, démarrage, programmes basique (xorg,ssh,...)
+    
+    [OK] : Partage réseau samba (Dossiers par défaut : partage / usb [HopeNux]
     [OK] : Connection SSH + Auto PROXY [HopeNux]
-    [RAF] : Création d'une version multilingue (voir AUI)
-    Optimisation du script (+ cat)
-    Partage réseau revu [HopeNux]
-    Installation audio revu [DOcGui]
-    Ajout d'un utilisateur personnalisé (autre que xbmc). [HopeNux]
+    [OK] : Optimisation du script (+ cat + design).
+    [OK] : Partage réseau revu [HopeNux]
+    [OK] : Installation audio revu (PulseAudio) [DOcGui]
+    [OK] : Ajout d'un utilisateur personnalisé (autre que xbmc). [HopeNux]
+    [RAF] : Création d'une version multilingue (voir AUI).
     Copies des thèmes [Xorg] avant l'installation des fonctionnalités de montage de disque dur etc.
     
-
 
 ## archbox_2xbmc.sh
 
 
-    Script d'installation du logiciel XBMC
-    [OK] : Optimisation du logiciel XBMC pour le RPI (Gotham version)
-    Optimisation du script (+ cat)
-    Prise en compte du nouvel utilisateur [HopeNux]
-
+    #### Script d'installation du logiciel XBMC
+    
+    [OK] : Optimisation du logiciel XBMC pour le RPI (Gotham version 13).
+    [OK] : Optimisation du script (+ cat + design).
+    [OK] : Prise en compte du nouvel utilisateur [HopeNux]
 
 
 ## archbox_3desktop.sh
 
 
-    Script d'installation d'un bureau basé sur xfce avec un thème par défaut.
+    #### Script d'installation d'un bureau basé sur xfce avec un thème par défaut.
+    
     [OK] : Ajout d'un shell avec installation d'un thème personnalisé [Xorg]
-    [OK] : Installation de l'interface Xfce avec logiciels de base (gparted, filezilla, 
-    connexion (wifi),...) [HopeNux, DOcGui]
-    Optimisation du script (+ cat)
-    Prise en compte du nouvel utilisateur (création des répertoires en adéquation 
-    avec le logiciel xbmc) [HopeNux]
-    Nouveau thème [NUMIX]
-    Gestion de l'accès réseau par gvfs via thunar
-    Gestion de l'accès aux smartphone via thunar
-    Gestion des archives (7zip + autres)
-    Lecteurs de PDF (mupdf + firestarter)
-    Calculatrice + Paint + Gestionnaire d'images
-    Lecteurs multimédias (kaffeine fr + vlc)
-    Interface pour parfeu (firestarter)
-    Navigateurs (chromium fr + lecteur de flash [libre] + mozilla fr)
-    Firmware pour résolution de bugs (brocade-firmware/aic94xx-firmware) + non obligatoire (siano-tv-fw).
-
+    [OK] : Installation de logiciels de base (gparted, filezilla,...) [HopeNux, DOcGui]
+    [OK] : Optimisation du script (+ cat + design)
+    [OK] : Prise en compte du nouvel utilisateur [HopeNux]
+    [OK] : Nouveau thème [NUMIX]
+    [OK] : Gestion de l'accès réseau par gvfs via thunar
+    [OK] : Gestion de l'accès aux smartphone via thunar
+    [OK] : Gestion des archives (7zip + autres)
+    [OK] : Lecteurs de PDF (mupdf + firestarter)
+    [OK] : Calculatrice + Paint + Gestionnaire d'images
+    [OK] : Lecteurs multimédias (kaffeine fr + vlc)
+    [OK] : Interface pour parfeu (firestarter)
+    [OK] : Navigateurs (firefox fr + lecteur de flash [libre])
+    [OK] : Firmware (brocade-firmware/aic94xx-firmware) + (siano-tv-fw).
 
 
 ## archbox_4emulateur.sh
 
 
-    Script d'installation d'émulateurs.
-    [EN COUR] : Etude sur l'émulateur M.A.M.E / SNESX / N64 .
-    Optimisation du script
-
+    #### Script d'installation d'émulateurs + Steam.
+    
+    [EN COUR] : Etude sur l'émulateur M.A.M.E / N64 / MegaDrive.
+    [OK] : Optimisation du script (+ cat + design).
+    [OK] : Emulateur SuperNintendo via zsnes + config par defaut
+    [EN COUR] : Etude sur steam
 
 
 ## archbox_5drivers.sh
 
 
-    Script uniquement d'indiquation pour installer le bon drivers vidéo.
-    [RAF] : Installation automatique des drivers du RPI (ok pour la vidéo) [HopeNux, DOcGui]
-    Optimisation du script
-
+    #### Script uniquement d'indiquation pour installer le bon drivers vidéo.
+    
+    [OK] : Installation automatique des drivers du RPI [HopeNux, DOcGui]
+    [OK] : Optimisation du script (+ cat + design).
+    [OK] : Drivers pour lancer le script sur des machines virtuels.
 
 
 ## archbox_6boot.sh
 
 
-    Script intégrant quelques configurations et un script de démarrage (ARCHBOXBOOT).
+    #### Script intégrant quelques configurations et un script de démarrage (ARCHBOXBOOT).
+    
     [OK] : Configurration Ip fixe ou dhcp + DNS
     [OK] : Démarrage automatique (autologin, upower, devmon)
-    [OK] : ARCHBOXBOOT --> Compatible télécommande
-    A.1) Choix [1:XBMC 2:Desktop (xfce) 3:Emulateur 4:Eteindre]
-    A.2) Lorsque 1 ou 2 ou 3 est fermé retour à l'interface de démarrage.
-    Optimisation du script (+ cat)
-    Prise en compte du nouvel utilisateur (autologin + lancement auto de archboxboot) [HopeNux]
-    Démarrage du RPI pris en compte (getty.service)
+    [OK] : ARCHBOXBOOT / Compatible télécommande
+    [OK] : Archboxboot automatiquement lance
+    [OK] : Optimisation du script (+ cat + design)
+    [OK] : Prise en compte du nouvel utilisateur (autologin) [HopeNux]
+    [OK] : Démarrage du RPI pris en compte (getty.service)
+    [OK] : Démarrage du RPI pris en compte (getty.service)
 
 
-
-## SOUS REPERTOIRE :
+## SOUS REPERTOIRES :
 
 
 archbox-boot (archboxboot) [contribution HopeNux, Xorg, DOcGui]
@@ -124,6 +129,7 @@ archbox-network [contribution HopeNux]
     service ip fixe
     dns par défaut
     configuration samba
+    netctl configuration par defatu
 
 
 archbox-theme [contribution Xorg, HopeNux(MAJ)]
@@ -139,4 +145,6 @@ archbox-opt [contribution HopeNux]
     script memo installation rapide de arch (bootstrap...)
 
 archbox-img [contribution de n3os]
+
+    images de fond d'ecran par defaut
 
