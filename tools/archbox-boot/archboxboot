@@ -22,7 +22,7 @@ echo -e "$green ****************************************************************
 ###############################################################################################
 echo -e "$yellow"
 echo -e "Choisissez votre programe : $nc"
-LISTE=(" XBMC (Gotham v13) " " Bureau XFCE / RPI(LXDE) " " Emulateurs (Nitendo, MegaDrive, Steam) " " Terminal (ctrl+a > d pour quitter) " " Eteindre l'ordinateur ")
+LISTE=(" XBMC (Gotham v13) " " Bureau XFCE / RPI(LXDE) " " Steam (Interface pour manettes) " " Emulateurs (Nitendo, MegaDrive) " " Terminal (ctrl+a > d pour quitter) " " Eteindre l'ordinateur ")
 select CHOIX in "${LISTE[@]}" ; do
 case $REPLY in
         1|'&')
@@ -38,6 +38,12 @@ case $REPLY in
         break
         ;;
         3|'"')
+		echo -e "$yellow"
+		echo -e "Lancement :$red" "Steam... $nc"
+		/usr/bin/xinit /usr/bin/steam -- :0 -nolisten tcp
+	break
+	;;
+        4|"'")
 		echo -e "$yellow"
 		echo -e "Choisissez votre$red" "Emulateurs $nc"
 		LISTE2=(" Super Nintendo" " Nitendo64" " MegaDrive" " Steam" " Retour")
@@ -61,12 +67,6 @@ case $REPLY in
 				/usr/bin/xinit /usr/bin/gens -- :0 -nolisten tcp
 			break
         		;;
-			4|"'")
-				echo -e "$yellow"
-                		echo -e "Lancement :$red" "Steam... $nc"
-				/usr/bin/xinit /usr/bin/steam -- :0 -nolisten tcp
-			break
-        		;;
 			5|'(')
 				echo -e "$yellow"
                 		echo -e "$red" "Retour... $nc"
@@ -77,7 +77,7 @@ case $REPLY in
 		done
         break
         ;;
-	4|"'")
+	5|'(')
 		echo -e "$yellow"
         echo -e "Lancement :$red" "Terminal... $nc"
         screen -dmS terminal
