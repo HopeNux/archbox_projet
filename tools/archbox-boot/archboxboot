@@ -22,7 +22,7 @@ echo -e "$green ****************************************************************
 ###############################################################################################
 echo -e "$yellow"
 echo -e "Choisissez votre programe : $nc"
-LISTE=(" XBMC (Gotham v13) " " Bureau XFCE / RPI(LXDE) " " Steam (Interface pour manettes) " " Emulateurs (Nitendo, MegaDrive) " " Terminal (ctrl+a > d pour quitter) " " Eteindre l'ordinateur ")
+LISTE=(" XBMC (Gotham v13) " " Bureau XFCE / RPI(LXDE) " " Steam (Interface pour manettes) " " Emulateurs (Nitendo, Sega) " " Terminal (ctrl+a > d pour quitter) " " Eteindre l'ordinateur ")
 select CHOIX in "${LISTE[@]}" ; do
 case $REPLY in
         1|'&')
@@ -46,7 +46,7 @@ case $REPLY in
         4|"'")
 		echo -e "$yellow"
 		echo -e "Choisissez votre$red" "Emulateurs $nc"
-		LISTE2=(" Super Nintendo" " Nitendo64" " MegaDrive" " Steam" " Retour")
+		LISTE2=(" Super Nintendo" " Nitendo64" " MegaDrive" "Retour")
 		select CHOIXEMUL in "${LISTE2[@]}" ; do
 		case $REPLY in
 			1|'&')
