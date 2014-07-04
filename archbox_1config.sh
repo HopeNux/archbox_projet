@@ -333,7 +333,7 @@ pacman -S --noconfirm xf86-input-synaptics xf86-input-mouse xf86-input-keyboard 
 pacman -S --noconfirm colordiff  gsfonts ttf-dejavu artwiz-fonts font-bh-ttf font-bitstream-speedo sdl_ttf ttf-bitstream-vera ttf-cheapskate ttf-liberation
 # Unrar Unace 	- cmd extractor
 # wget 			- cmd download manager
-pacman -S --noconfirm unrar unace wget lftp lrzip
+pacman -S --noconfirm unzip unrar unace wget lftp lrzip
 # Vim 			- text editor with colors
 # Ntp 			- Network Time Protocol is the most common method to synchronize the software clock of a GNU/Linux system with internet time servers. 
 # Screen 		- GNU Screen is a wrapper that allows separation between the text program and the shell from which it was launched
