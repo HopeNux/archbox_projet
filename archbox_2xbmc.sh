@@ -79,16 +79,22 @@ echo -e "$green ****************************************************************
 echo -e "$green * Installation XBMC"
 echo -e "$green ******************************************************************************"
 echo -e "$red * Information : XBMC classique ou PVR(avec tuner tv) ?"
-LISTE=(" * Classique" " * PVR")
+LISTE=(" * Xbmc Classique" " Kodi " " * Xbmc PVR")
 select CHOIX in "${LISTE[@]}" ; do
 case $REPLY in
 	1)
 		echo -e "$white$ok Installation XBMC sans PVR $cyan"
-		pacman -Su --noconfirm xbmc 
+		pacman -S --noconfirm xbmc
 		echo -e "$white$ok Installation XBMC "
 	break
 	;;
 	2)
+		echo -e "$white$ok Installation XBMC sans PVR $cyan"
+		yaourt -S --noconfirm kodi-devel
+		echo -e "$white$ok Installation XBMC "
+	break
+	;;	
+	3)
 		echo -e "$white$ok Installation :" "$nc" " XBMC PVR $cyan"
 		yaourt -S --noconfirm xbmc-eden-pvr-git tvheadend-git linuxtv-dvb-apps w_scan
 		systemctl enable tvheadend.service
