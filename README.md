@@ -15,7 +15,7 @@ Principe :
     1 - [XBMC]
     2 - [XFCE ou LXDE(pour le raspberry pi)]
     3 - [Steam (interface console)]
-    4 - [Emulateur (Super Nintendo, N64, MegaDrive)]
+    4 - [Emulateur (Super Nintendo, MegaDrive)]
     5 - [Terminal]
     6 - [Eteindre votre ordinateur]
     
@@ -26,7 +26,7 @@ Les options :
 
     Serveur Multimedia (stockage de films, series, clips, musiques, ...) - [Disponible]
     Bureau classique avec XFCE ou LXDE et une interface base sur "Numix"  - [Disponible]
-    Emulateurs (Super Nintendo, N64, MegaDrive)  - [SuperNintendo Disponible]
+    Emulateurs (Super Nintendo, MegaDrive)  - [SuperNintendo Disponible]
     Steam - [En cour de tests...]
     Autres : SSH, Partage reseau, SFTP, Drivers manette XBOX, telecommande IR...
     
@@ -82,7 +82,7 @@ Les options :
 
     #### Script d'installation d'émulateurs + Steam.
     
-    [EN COUR] : Etude sur l'émulateur M.A.M.E / N64 / MegaDrive.
+    [OK] : SuperNintendo (+configuration manette xbox) / MegaDrive.
     [OK] : Optimisation du script (+ cat + design).
     [OK] : Emulateur SuperNintendo via zsnes + config par defaut
     [EN COUR] : Etude sur steam
