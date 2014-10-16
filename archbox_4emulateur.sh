@@ -81,7 +81,7 @@ echo " "
 # Installation Emulateur
 #----------------------------------------------------------------
 echo -e "Installation et configuration de l'emulateur Super Nintendo, Nitendo64, Megadrive ... $cyan"
-pacman -S --noconfirm zsnes gens mupen64plus 
+pacman -S --noconfirm zsnes gens 
 mkdir $HOME/.zsnes
 cp -R $rep/tools/archbox-emul/zsnes/* $HOME/.zsnes/
 echo -e "$white$ok Emulateur Super Nintendo, Nitendo64, Megadrive  $cyan"
