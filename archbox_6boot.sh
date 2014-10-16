@@ -110,7 +110,7 @@ case $REP in
 		echo -e "$white$ok Configuration ip fixe";;
 	*)		
 		if [ -z "$cartereseau" ] ; then
-			systemctl enable dhcpcd.service			
+			systemctl enable dhcpcd.service		
 		else
 			systemctl enable dhcpcd@$cartereseau.service
 		fi
@@ -120,9 +120,9 @@ esac
 cp $rep/tools/archbox-network/network.service /etc/systemd/system/
 
 echo "# ARCHBOX " > /etc/resolv.conf
-echo "# Configuration DNS [1-8.8.8.8 / 2-8.8.4.4]" >> /etc/resolv.conf
-echo "nameserver 8.8.8.8" >> /etc/resolv.conf
-echo "nameserver 8.8.4.4" >> /etc/resolv.conf
+echo "# Configuration DNS sur Open Nic [1-188.165.91.48 / 2-87.98.175.85]" >> /etc/resolv.conf
+echo "nameserver 188.165.91.48" >> /etc/resolv.conf
+echo "nameserver 87.98.175.85" >> /etc/resolv.conf
 echo "nameserver "$gateway"" >> /etc/resolv.conf
 
 echo -e "$white$ok Configuration réseau & dns"
@@ -212,7 +212,6 @@ fi
 #------------------------------------------------------------------------------------------------------
 cp $rep/tools/archbox-boot/archboxboot /usr/bin/
 echo -e "Copie /usr/bin/archboxboot ..."
-cp $rep/tools/archbox-boot/archboxboot /usr/bin/
 chmod 755 /usr/bin/archboxboot
 echo -e "Copie /etc/systemd/system/archbox.service ..."
 cp $rep/tools/archbox-boot/archbox@.service /etc/systemd/system/
@@ -224,7 +223,7 @@ echo -e "$white$ok ARCHBOX Service (voir /usr/bin/archboxboot pour le script de 
 if [ -f "$HOME/.xinitrc" ] ; then
 	rm $HOME/.xinitrc
 fi
-cat <<EOF >$HOME/.xinitrc
+cat <<EOF > $HOME/.xinitrc
 #!/bin/sh
 # ~/.xinitrc
 # Executed by startx (run your window manager from here)
@@ -245,7 +244,7 @@ echo -e "$white$ok Config .xinitrc "
 if [ -f "$HOME/.bash_profile" ] ; then
 	rm $HOME/.bash_profile
 fi
-cat <<EOF >$HOME/.bash_profile
+cat <<EOF > $HOME/.bash_profile
 # ~/.bash_profile
 #
 #[[ -f ~/.bashrc ]] && . ~/.bashrc
@@ -260,7 +259,7 @@ echo -e "$white$ok Config .bash_profile (ajout de script archboxboot au demarrag
 if [ -f "$HOME/.xsession" ] ; then
 	rm $HOME/.xsession
 fi
-cat <<EOF >$HOME/.xsession
+cat <<EOF > $HOME/.xsession
 #!/bin/sh
 # ~/.xsession
 # Executed by xdm/gdm/kdm at login
