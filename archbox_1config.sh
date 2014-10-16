@@ -151,9 +151,10 @@ echo -e "$white$ok Mise à jour keymap:$keymap dans /etc/vconsole.conf $green"
 echo -e "Installation et configuration de l'utilisateur 'touriste' avec partage réseau ...$red "
 groupadd touriste
 useradd -m -g users -G audio,lp,optical,storage,video,wheel,games,power -s /bin/bash touriste
-echo -e "Mot de passe$green 'touriste' pour connection SSH only : $red"
+echo -e "Mot de passe 'touriste' pour connection SSH only : $red"
 passwd touriste
-echo -e "Mot de passe$green 'touriste' pour SAMBA (partage réseau) :$red"
+echo -e "$green"
+echo -e "Mot de passe 'touriste' pour SAMBA (partage réseau) :$red"
 smbpasswd -a touriste
 gpasswd -a touriste users
 echo -e "$white$ok Utilisateur touriste configuré $green"
@@ -169,7 +170,8 @@ fi
 export HOME="/home/$user"
 groupadd xbmc
 useradd -m -g users -G audio,lp,optical,storage,video,wheel,games,power,xbmc $user
-echo -e "Mot de passe$green '$user' (pas de connection SSH) : $red"
+echo -e "$green"
+echo -e "Mot de passe '$user' (pas de connection SSH) : $red"
 passwd $user
 gpasswd -a touriste xbmc
 gpasswd -a $user users
@@ -179,8 +181,8 @@ echo -e "$white$ok Utilisateur $user configuré $green"
 # Config root
 #------------------------------------------------------------------------------------------------------
 
-echo -e "Installation et configuration de l'utilisateur 'root' ... $red" 
-echo -e "Mot de passe$green 'root' (pas de connection SSH) : $red"
+echo -e "Installation et configuration de l'utilisateur 'root' ... " 
+echo -e "Mot de passe 'root' (pas de connection SSH) : $red"
 passwd root
 echo -e "$white$ok Utilisateur root configuré"
 
@@ -348,9 +350,13 @@ pacman -S --noconfirm openssl openssh sshguard fail2ban iptables netctl
 
 pacman -S --noconfirm libxvmc upower polkit ntfs-3g nfs-utils udisks udevil mtools dosfstools exfat-utils
 # Configuration AUDIO avec alsa et pulseaudio (flac=codec)
+echo -e "$yellow"
 cat /proc/asound/cards
+echo -e "$cyan"
 pacman -S --noconfirm alsa-utils alsa-lib alsa-oss alsa-tools alsa-plugins alsa-firmware pulseaudio pulseaudio-alsa flac 
-pacman -S --noconfirm lib32-libpulse
+if [ "$archi" = "x86_64" ] ; then
+	pacman -S --noconfirm lib32-libpulse
+fi
 # ossp			- OSS Proxy Daemon is a Linux userland OSS sound device (/dev/[a]dsp and /dev/mixer) implementation using CUSE. Currently it supports forwarding OSS sound streams to PulseAudio and ALSA.
 # paprefs 		- A simple GTK-based configuration dialog for PulseAudio
 # vorbis-tools 	- Vorbis audio compression
