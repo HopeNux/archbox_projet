@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+#!/bin/bash
 ################################################################################################################
 #----------------------------------------------------------------
 # ARCHBOX_3DESKTOP.SH --> DEBUT
@@ -82,7 +82,8 @@ echo " "
 #----------------------------------------------------------------
 echo -e "Installation et configuration de XFCE ... $cyan"
 pacman -S --noconfirm xfce4 
-pacman -S --noconfirm xfce4-goodies hardinfo gsmartcontrol uget pavucontrol xfce-theme-manager
+pacman -S --noconfirm xfce4-goodies 
+pacman -S --noconfirm hardinfo gsmartcontrol uget pavucontrol
 pacman -S --noconfirm faenza-icon-theme # Pack icones faenza / gstreamer0.10-base gstreamer0.10-base-plugins
 echo -e "$white$ok Interface XFCE $cyan"
 
@@ -99,7 +100,7 @@ pacman -S --noconfirm gvfs gvfs-smb gvfs-afc gvfs-mtp gvfs-gphoto2 gvfs-afp gvfs
 pacman -S --noconfirm thunar-archive-plugin thunar-volman
 echo -e "$white$ok Thunar et plugins $cyan" 
 
-pacman -S --noconfirm p7zip # Gestionaires d'archives
+pacman -S --noconfirm p7zip wxgtk2.8 # Gestionaires d'archives
 echo -e "$white$ok Gestionaire d'archive $cyan"
 
 # Avoir les soft kde en fr
@@ -112,7 +113,8 @@ echo -e "$white$ok Paint - Lecteur video/musique - calculatrice $cyan"
 pacman -S --noconfirm firefox firefox-i18n-fr subversion midori
 echo -e "$white$ok Navigateur $cyan"
 
-pacman -S --noconfirm firestarter acpi acpid # Gestionnaire d'energie
+pacman -S --noconfirm acpi acpid # Gestionnaire d'energie
+yaourt -S --noconfirm firestarter
 echo -e "$white$ok Parfeu (firestarter) et Gestionnaire d'energie $cyan"
 
 # D-Bus			- D-bux is a message bus system that provides an easy way for inter-process communication. / D-Bus is enabled automatically when using systemd because dbus is a dependency of systemd.
@@ -122,8 +124,9 @@ echo -e "$white$ok Gestionnaire d'energie - dbus - python $yellow"
 
 echo -e "[Attention on passe au dessert(yaourt) ahah-ah...!] $cyan"
 yaourt -Syy
-yaourt -S --noconfirm foxitreader-bin pacmanxg4-bin # lecteur pdf + gestionnaire de paquet
-echo -e "$white$ok foxitreader pacmanxg4(interface de mise a jour) $cyan"
+yaourt -S --noconfirm pacmanxg4-bin # lecteur pdf + gestionnaire de paquet
+pacman -S --noconfirm mupdf
+echo -e "$white$ok mupdf pacmanxg4(interface de mise a jour) $cyan"
 #----------------------------------------------------------------
 # Installation des firmware
 #----------------------------------------------------------------
