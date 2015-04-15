@@ -80,8 +80,9 @@ echo -e "Reglage de la carte reseau... $cyan"
 ifconfig -a | more
 
 echo -e "$red"
-read -p "Veuillez saisir le nom de votre carte réseau (eth0) : " cartereseau
+
 read -p "Souhaitez-vous definir une adresse IP fixe  Oui ? Non ? [Non] : " REP
+read -p "Veuillez saisir le nom de votre carte réseau (defaut aucune) : " cartereseau
 
 case $REP in
 	"o"|"oui"|"O"|"Oui"|"OUI"|"y"|"yes"|"Y"|"Yes"|"YES")
