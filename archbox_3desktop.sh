@@ -149,6 +149,7 @@ echo -e "$white$ok brocade aic94xx siano-tv (mkinitcpio) $cyan"
 # Installation themes pour XFCE
 #----------------------------------------------------------------
 yaourt -S --noconfirm numix-icon-theme-git 
+yaourt -S --noconfirm numix-themes
 yaourt -S --noconfirm xcursors-oxygen 
 yaourt -S --noconfirm gtk-theme-boje 
 yaourt -S --noconfirm xfce-theme-numix-extra-colors 
