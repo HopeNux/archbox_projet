@@ -57,7 +57,7 @@ ln -s /usr/share/zoneinfo/Europe/Paris /etc/localtime
 echo -e "$white$ok /etc/localtime "
 
 echo "LANG=$LANG" > /etc/locale.conf
-echo "LC_COLLATE=C" > /etc/locale.conf
+echo "LC_COLLATE=C" >> /etc/locale.conf
 echo -e "$white$ok /etc/locale.conf"
 
 echo "Europe/Paris" > /etc/timezone
@@ -319,36 +319,61 @@ fi
 #------------------------------------------------------------------------------------------------------
 # Install basic programs for archlinux
 #------------------------------------------------------------------------------------------------------
-pacman -Syy --noconfirm
+pacman -Syy
 echo -e "$white$ok Synchronisation sur $cyan$archi $green"
 echo -e "Configuration des programmes de bases ... $cyan"
 # Linux-headers - Header files and scripts for building modules for Linux kernel
 # Yaourt 		- Yet AnOther User Repository Tool
 # Yajl 			- Yet Another JSON Library.
 # Namcap 		- is a tool to check binary packages and source PKGBUILDs for common packaging mistakes
-pacman -S --noconfirm linux-headers yaourt yajl namcap 
+pacman -S --noconfirm linux-headers 
+pacman -S --noconfirm yajl 
+pacman -S --noconfirm namcap 
 # xorg 			- The X.Org project provides an open source implementation of the X Window System.
-pacman -S --noconfirm xorg-server xorg-xinit xorg-utils xorg-server-utils xorg-fonts-type1
+pacman -S --noconfirm xorg-server xorg-xinit 
+pacman -S --noconfirm xorg-utils xorg-server-utils 
+pacman -S --noconfirm xorg-fonts-type1
 # Drivers touchpad - mouse - keyboard + numlock
 pacman -S --noconfirm xf86-input-synaptics xf86-input-mouse xf86-input-keyboard numlockx
 # colordiff 	- The Perl script colordiff is a wrapper for 'diff' and produces the same output but with pretty 'syntax' highlighting. Colour schemes can be customized.
-pacman -S --noconfirm colordiff  gsfonts ttf-dejavu artwiz-fonts font-bh-ttf font-bitstream-speedo sdl_ttf ttf-bitstream-vera ttf-cheapskate ttf-liberation
+pacman -S --noconfirm colordiff 
+pacman -S --noconfirm gsfonts
 # Unrar Unace 	- cmd extractor
 # wget 			- cmd download manager
-pacman -S --noconfirm unzip unrar unace wget lftp lrzip
+pacman -S --noconfirm unzip 
+pacman -S --noconfirm unrar 
+pacman -S --noconfirm unace 
+pacman -S --noconfirm wget 
+pacman -S --noconfirm lftp 
+pacman -S --noconfirm lrzip
 # Vim 			- text editor with colors
 # Ntp 			- Network Time Protocol is the most common method to synchronize the software clock of a GNU/Linux system with internet time servers. 
 # Screen 		- GNU Screen is a wrapper that allows separation between the text program and the shell from which it was launched
-pacman -S --noconfirm vim ntp screen
+pacman -S --noconfirm vim 
+pacman -S --noconfirm ntp 
+pacman -S --noconfirm screen
 # OpenSSL 		- is an open-source implementation of the SSL and TLS protocols, dual-licensed under the OpenSSL and the SSLeay licenses (careful with heartbleed)
 # OpenSsh 		- remote server in SSH
 # SSHguard 		- is a daemon that protects SSH and other services against brute-force attacts, similar to fail2ban.
 # Fail2ban 		- scans various textual log files and bans IP that makes too many password failures by updating firewall rules to reject the IP address, similar to Sshguard.
 # Iptables 		- is a powerful firewall built into the Linux kernel and is part of the netfilter project.
 # Netctl 		- is a CLI-based tool used to configure and manage network connections via profiles. It is a native Arch Linux project that replaces the old netcfg utility.
-pacman -S --noconfirm openssl openssh sshguard fail2ban iptables netctl
-
-pacman -S --noconfirm libxvmc upower polkit ntfs-3g nfs-utils udisks udevil mtools dosfstools exfat-utils
+pacman -S --noconfirm openssl 
+pacman -S --noconfirm openssh 
+pacman -S --noconfirm sshguard 
+pacman -S --noconfirm fail2ban 
+pacman -S --noconfirm iptables 
+pacman -S --noconfirm netctl
+pacman -S --noconfirm libxvmc
+pacman -S --noconfirm upower
+pacman -S --noconfirm polkit
+pacman -S --noconfirm ntfs-3g
+pacman -S --noconfirm nfs-utils 
+pacman -S --noconfirm udisks 
+pacman -S --noconfirm udevil
+pacman -S --noconfirm mtools 
+pacman -S --noconfirm dosfstools 
+pacman -S --noconfirm exfat-utils
 # Configuration AUDIO avec alsa et pulseaudio (flac=codec)
 echo -e "$yellow"
 cat /proc/asound/cards
@@ -361,6 +386,7 @@ fi
 # paprefs 		- A simple GTK-based configuration dialog for PulseAudio
 # vorbis-tools 	- Vorbis audio compression
 pacman -S --noconfirm ossp paprefs vorbis-tools
+pacman -S --noconfirm yaourt # Peut provoquer quelques bugs
 echo -e "$white$ok programmes de bases"
 ################################################################################################################
 
