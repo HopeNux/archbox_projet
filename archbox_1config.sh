@@ -148,21 +148,21 @@ echo -e "$white$ok Mise à jour keymap:$keymap dans /etc/vconsole.conf $green"
 #------------------------------------------------------------------------------------------------------
 # Config user touriste
 #------------------------------------------------------------------------------------------------------
-echo -e "Installation et configuration de l'utilisateur 'touriste' avec partage réseau ...$red "
+echo -e "Configuration de l'utilisateur 'touriste' pour le partage réseau ...$red "
 groupadd touriste
 useradd -m -g users -G audio,lp,optical,storage,video,wheel,games,power -s /bin/bash touriste
-echo -e "Mot de passe 'touriste' pour connection SSH only : $red"
+echo -e "Mot de passe 'touriste' pour la connection SSH : $red"
 passwd touriste
 echo -e "$green"
-echo -e "Mot de passe 'touriste' pour SAMBA (partage réseau) :$red"
+echo -e "Mot de passe 'touriste' pour le partage réseau (SAMBA) :$red"
 smbpasswd -a touriste
 gpasswd -a touriste users
-echo -e "$white$ok Utilisateur touriste configuré $green"
+echo -e "$white$ok Utilisateur touriste $green"
 
 #------------------------------------------------------------------------------------------------------
 # Config new user (defaut xbmc)
 #------------------------------------------------------------------------------------------------------
-echo -e "Installation et configuration du nouvel utilisateur (sans partage) ...$red"
+echo -e "Configuration du nouvel utilisateur (sans partage) ...$red"
 read -p "Entrez le nom du nouvel utilisateur (défaut xbmc) : " user
 if [ -z "$user" ] ; then
 	user="xbmc"
@@ -175,7 +175,7 @@ echo -e "Mot de passe '$user' (pas de connection SSH) : $red"
 passwd $user
 gpasswd -a touriste xbmc
 gpasswd -a $user users
-echo -e "$white$ok Utilisateur $user configuré $green"
+echo -e "$white$ok Utilisateur $user $green"
 
 #------------------------------------------------------------------------------------------------------
 # Config root
@@ -193,8 +193,8 @@ rm /home/touriste/.bashrc 2>/dev/null
 rm /home/$user/.bashrc 2>/dev/null
 
 cp $rep/tools/archbox-theme/bashrc /root/.bashrc
-cp $rep/tools/archbox-theme/bashrc /home/touriste/.bashrc
-cp $rep/tools/archbox-theme/bashrc /home/$user/.bashrc
+cp /root/.bashrc /home/touriste/.bashrc
+cp /root/.bashrc /home/$user/.bashrc
 
 cp $rep/tools/archbox-theme/gtkrc-2.0 /home/$user/.gtkrc-2.0
 cp -R $rep/tools/archbox-theme/xfce4 /home/$user/.config/
@@ -343,7 +343,7 @@ pacman -S --noconfirm gsfonts
 pacman -S --noconfirm unzip 
 pacman -S --noconfirm unrar 
 pacman -S --noconfirm unace 
-pacman -S --noconfirm wget 
+pacman -S --noconfirm wget
 pacman -S --noconfirm lftp 
 pacman -S --noconfirm lrzip
 # Vim 			- text editor with colors
@@ -378,14 +378,18 @@ pacman -S --noconfirm exfat-utils
 echo -e "$yellow"
 cat /proc/asound/cards
 echo -e "$cyan"
-pacman -S --noconfirm alsa-utils alsa-lib alsa-oss alsa-tools alsa-plugins alsa-firmware pulseaudio pulseaudio-alsa flac 
+pacman -S --noconfirm alsa-utils alsa-lib alsa-oss alsa-tools alsa-plugins alsa-firmware 
+pacman -S --noconfirm pulseaudio pulseaudio-alsa 
+pacman -S --noconfirm flac # CODEC
 if [ "$archi" = "x86_64" ] ; then
 	pacman -S --noconfirm lib32-libpulse
 fi
 # ossp			- OSS Proxy Daemon is a Linux userland OSS sound device (/dev/[a]dsp and /dev/mixer) implementation using CUSE. Currently it supports forwarding OSS sound streams to PulseAudio and ALSA.
 # paprefs 		- A simple GTK-based configuration dialog for PulseAudio
 # vorbis-tools 	- Vorbis audio compression
-pacman -S --noconfirm ossp paprefs vorbis-tools
+pacman -S --noconfirm ossp 
+pacman -S --noconfirm paprefs 
+pacman -S --noconfirm vorbis-tools
 pacman -S --noconfirm yaourt # Peut provoquer quelques bugs
 echo -e "$white$ok programmes de bases"
 ################################################################################################################
@@ -440,9 +444,8 @@ echo -e "$white$ok Droits utilisateur $user sur /link"
 #------------------------------------------------------------------------------------------------------
 echo -e "Configuration des dossiers de partage reseau ..."
 mkdir /media/Partage
-mkdir /media/Usb
 ln -s /media $HOME/Media
-chown -R $user:users /media/Partage /media/Usb
+chown -R touriste:users /media/Partage
 echo -e "$white$ok SAMBA repertoire /media/Partage !"
 echo -e "$white$ok SAMBA repertoire /media/Usb !"
 echo -e "Plus d'info voir : /etc/samba/smb.conf $white"
@@ -457,7 +460,7 @@ echo -e "Port : 443 "
 echo -e "Connection uniquement sur : touriste"
 echo -e "Connection désactivé sur : root & $user"
 echo -e "Plus d'info voir : /etc/ssh/sshd_config"
-echo -e "$white$ok Configuration SSH"
+echo -e "$white$ok Configuration SSH - PORT 443 avec TOURISTE"
 ################################################################################################################
 
 
@@ -483,14 +486,14 @@ driftfile /var/lib/ntp/ntp.drift
 EOF
 		ntpd -q
 		systemctl enable ntpd.service
-		echo -e "$white$ok Serveur de temps FR"
+		echo -e "$white$ok Serveur de temps FR - ntpd"
 	fi
 fi
 systemctl enable sshd.service
 systemctl enable smbd.service
 systemctl enable nmbd.service
 systemctl enable smbnetfs.service
-echo -e "$white$ok Activation des services"
+echo -e "$white$ok Activation des services sshd / smbd / nmbd / smbnetfs"
 ################################################################################################################
 
 
