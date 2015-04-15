@@ -82,8 +82,10 @@ echo " "
 #----------------------------------------------------------------
 echo -e "Installation et configuration de XFCE ... $cyan"
 pacman -S --noconfirm xfce4 
-pacman -S --noconfirm xfce4-goodies 
-pacman -S --noconfirm hardinfo gsmartcontrol uget pavucontrol
+pacman -S --noconfirm xfce4-goodies
+pacman -S --noconfirm hardinfo 
+pacman -S --noconfirm gsmartcontrol 
+pacman -S --noconfirm pavucontrol
 pacman -S --noconfirm faenza-icon-theme # Pack icones faenza / gstreamer0.10-base gstreamer0.10-base-plugins
 pacman -S --noconfirm ttf-dejavu artwiz-fonts font-bh-ttf font-bitstream-speedo sdl_ttf ttf-bitstream-vera ttf-cheapskate ttf-liberation
 echo -e "$white$ok Interface XFCE $cyan"
@@ -101,7 +103,8 @@ pacman -S --noconfirm gvfs gvfs-smb gvfs-afc gvfs-mtp gvfs-gphoto2 gvfs-afp gvfs
 pacman -S --noconfirm thunar-archive-plugin thunar-volman
 echo -e "$white$ok Thunar et plugins $cyan" 
 
-pacman -S --noconfirm p7zip wxgtk2.8 # Gestionaires d'archives
+pacman -S --noconfirm p7zip 
+pacman -S --noconfirm wxgtk2.8 # Gestionaires d'archives
 echo -e "$white$ok Gestionaire d'archive $cyan"
 
 # Avoir les soft kde en fr
@@ -115,14 +118,12 @@ pacman -S --noconfirm mousepad
 echo -e "$white$ok Paint - Lecteur video/musique - calculatrice $cyan"
 
 pacman -S --noconfirm firefox 
-pacman -S --noconfirm firefox-i18n-fr 
-pacman -S --noconfirm subversion 
+pacman -S --noconfirm firefox-i18n-fr
 pacman -S --noconfirm midori
 echo -e "$white$ok Navigateur $cyan"
 
 pacman -S --noconfirm acpi acpid # Gestionnaire d'energie
-yaourt -S --noconfirm firestarter
-echo -e "$white$ok Parfeu (firestarter) et Gestionnaire d'energie $cyan"
+echo -e "$white$ok Gestionnaire d'energie $cyan"
 
 # D-Bus			- D-bux is a message bus system that provides an easy way for inter-process communication. / D-Bus is enabled automatically when using systemd because dbus is a dependency of systemd.
 # Python/2		- Python/2 bindings for the cairo graphics library
